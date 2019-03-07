@@ -22,7 +22,6 @@ import com.generalbytes.batm.common.currencies.FiatCurrency;
 import com.generalbytes.batm.server.extensions.*;
 import com.generalbytes.batm.server.extensions.FixPriceRateSource;
 import com.generalbytes.batm.server.extensions.extra.anker.sources.luno.LunoRateSource;
-import com.generalbytes.batm.server.extensions.extra.anker.wallets.ankerd.AnkerRPCWallet;
 import com.generalbytes.batm.server.extensions.extra.anker.exchanges.luno.LunoExchange;
 
 import java.math.BigDecimal;
@@ -34,44 +33,6 @@ public class AnkerExtension extends AbstractExtension {
         return "BATM Anker extra extension";
     }
 
-    @Override
-    public IWallet createWallet(String walletLogin) {
-        if (walletLogin != null && !walletLogin.trim().isEmpty()) {
-            StringTokenizer st = new StringTokenizer(walletLogin, ":");
-            String walletType = st.nextToken();
-
-            if ("ankerd".equalsIgnoreCase(walletType)) {
-                String protocol = st.nextToken();
-                String username = st.nextToken();
-                String password = st.nextToken();
-                String hostname = st.nextToken();
-                String port = st.nextToken();
-                String accountName = "";
-                if (st.hasMoreTokens()) {
-                    accountName = st.nextToken();
-                }
-
-
-                if (protocol != null && username != null && password != null && hostname != null && port != null && accountName != null) {
-                    String rpcURL = protocol + "://" + username + ":" + password + "@" + hostname + ":" + port;
-                    return new AnkerRPCWallet(rpcURL, accountName);
-                }
-            }
-            if ("ankerdemo".equalsIgnoreCase(walletType)) {
-
-                String fiatCurrency = st.nextToken();
-                String walletAddress = "";
-                if (st.hasMoreTokens()) {
-                    walletAddress = st.nextToken();
-                }
-
-                if (fiatCurrency != null && walletAddress != null) {
-                    return new DummyExchangeAndWalletAndSource(fiatCurrency, CryptoCurrency.ANK.getCode(), walletAddress);
-                }
-            }
-        }
-        return null;
-    }
 
     @Override
     public IExchange createExchange(String sourceLogin) {
@@ -93,33 +54,11 @@ public class AnkerExtension extends AbstractExtension {
     }
 
     @Override
-    public ICryptoAddressValidator createAddressValidator(String cryptoCurrency) {
-        if (CryptoCurrency.ANK.getCode().equalsIgnoreCase(cryptoCurrency)) {
-            return new AnkerAddressValidator();
-        }
-        return null;
-    }
-
-    @Override
     public IRateSource createRateSource(String sourceLogin) {
         if (sourceLogin != null && !sourceLogin.trim().isEmpty()) {
             StringTokenizer st = new StringTokenizer(sourceLogin, ":");
             String exchangeType = st.nextToken();
-            if ("ankFix".equalsIgnoreCase(exchangeType)) {
-                BigDecimal rate = BigDecimal.ZERO;
-                if (st.hasMoreTokens()) {
-                    try {
-                        rate = new BigDecimal(st.nextToken());
-                    } catch (Throwable e) {
-                    }
-                }
-                String preferedFiatCurrency = FiatCurrency.ZAR.getCode();
-                if (st.hasMoreTokens()) {
-                    preferedFiatCurrency = st.nextToken().toUpperCase();
-                }
-                return new FixPriceRateSource(rate, preferedFiatCurrency);
-            }
-            else if ("lunoRateSource".equalsIgnoreCase(exchangeType)) {
+            if ("lunoRateSource".equalsIgnoreCase(exchangeType)) {
                 String preferedFiatCurrency = FiatCurrency.ZAR.getCode();
                 return new LunoRateSource(preferedFiatCurrency);
             }
@@ -130,7 +69,7 @@ public class AnkerExtension extends AbstractExtension {
     @Override
     public Set<String> getSupportedCryptoCurrencies() {
         Set<String> result = new HashSet<String>();
-        result.add(CryptoCurrency.ANK.getCode());
+        result.add(CryptoCurrency.BTC.getCode());
         return result;
     }
 

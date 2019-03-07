@@ -136,7 +136,6 @@
                 <cryptocurrency>ANON</cryptocurrency>
                 <cryptocurrency>USDT</cryptocurrency>
                 <cryptocurrency>XZC</cryptocurrency>
-                <cryptocurrency>ANK</cryptocurrency>
                 <help>USD is default fiat currency.</help>
             </ratesource>
             <paymentprocessor prefix="bitcoinpay" name="BitcoinPay.com" >
@@ -1012,24 +1011,6 @@
         <cryptologo cryptocurrency="LSK" file="lisk.svg"/>
     </extension>
     <extension class="com.generalbytes.batm.server.extensions.extra.anker.AnkerExtension" >
-        <wallet prefix="ankerd" name="Ankerd">
-            <param name="protocol" />
-            <param name="user" />
-            <param name="password" />
-            <param name="host" />
-            <param name="port" />
-            <param name="accountname" />
-            <cryptocurrency>ANK</cryptocurrency>
-        </wallet>
-        <wallet prefix="ankerdemo" name="Anker Demo Wallet">
-            <param name="fiatCurrency" />
-            <param name="walletAddress" />
-            <cryptocurrency>ANK</cryptocurrency>
-        </wallet>
-        <ratesource prefix="ankFix" name ="Fix Anker Price" >
-            <param name="price" />
-            <cryptocurrency>ANK</cryptocurrency>
-        </ratesource>
         <ratesource prefix="lunoRateSource" name ="Luno Rate Source" >
             <param name="fiatCurrency" />
             <cryptocurrency>BTC</cryptocurrency>
@@ -1042,8 +1023,6 @@
             <help>Typeorders can be limit or market</help>
             <cryptocurrency>BTC</cryptocurrency>
         </exchange>
-        <cryptologo cryptocurrency="ANK" file="anker.png"/>
-        <cryptologo cryptocurrency="ANK" file="anker.svg"/>
     </extension>
     <extension class="com.generalbytes.batm.server.extensions.extra.ethereum.EthereumExtension" >
         <wallet prefix="infura" name="infura.io wallet">
