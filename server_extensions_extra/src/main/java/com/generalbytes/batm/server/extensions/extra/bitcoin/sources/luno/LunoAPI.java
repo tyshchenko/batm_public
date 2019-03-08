@@ -1,5 +1,5 @@
 /*************************************************************************************
- * Copyright (C) 2014-2016 GENERAL BYTES s.r.o. All rights reserved.
+ * Copyright (C) 2014-2018 GENERAL BYTES s.r.o. All rights reserved.
  *
  * This software may be distributed and modified under the terms of the GNU
  * General Public License version 2 (GPL2) as published by the Free Software
@@ -15,23 +15,14 @@
  * Web      :  http://www.generalbytes.com
  *
  ************************************************************************************/
-package com.generalbytes.batm.server.extensions.extra.anker;
+package com.generalbytes.batm.server.extensions.extra.bitcoin.sources.luno;
 
-import com.generalbytes.batm.server.extensions.ICryptoAddressValidator;
-
-public class AnkerAddressValidator implements ICryptoAddressValidator {
-    @Override
-    public boolean isAddressValid(String address) {
-        return true;
-    }
-    
-    @Override
-    public boolean isPaperWalletSupported() {
-        return false;
-    }
-
-    @Override
-    public boolean mustBeBase58Address() {
-        return true;
-    }
+import javax.ws.rs.*; 
+import javax.ws.rs.core.MediaType; 
+@Path("api/1") 
+@Produces(MediaType.APPLICATION_JSON)
+public interface LunoAPI {
+    @GET
+    @Path("/ticker")
+    LunoTickerData getTicker(@QueryParam("pair") String symbol);
 }

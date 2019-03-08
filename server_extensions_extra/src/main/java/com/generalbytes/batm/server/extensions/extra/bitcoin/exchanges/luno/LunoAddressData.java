@@ -15,7 +15,7 @@
  * Web      :  http://www.generalbytes.com
  *
  ************************************************************************************/
-package com.generalbytes.batm.server.extensions.extra.anker.exchanges.luno;
+package com.generalbytes.batm.server.extensions.extra.bitcoin.exchanges.luno;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 

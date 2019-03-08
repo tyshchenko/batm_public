@@ -1,4 +1,4 @@
-package com.generalbytes.batm.server.extensions.extra.anker.exchanges.luno;
+package com.generalbytes.batm.server.extensions.extra.bitcoin.exchanges.luno;
 
 import com.generalbytes.batm.common.currencies.CryptoCurrency;
 import com.generalbytes.batm.common.currencies.FiatCurrency;

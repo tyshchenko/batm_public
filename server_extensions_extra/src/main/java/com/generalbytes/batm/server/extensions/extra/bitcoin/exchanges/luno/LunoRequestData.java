@@ -15,14 +15,19 @@
  * Web      :  http://www.generalbytes.com
  *
  ************************************************************************************/
-package com.generalbytes.batm.server.extensions.extra.anker.sources.luno;
+package com.generalbytes.batm.server.extensions.extra.bitcoin.exchanges.luno;
 
-import javax.ws.rs.*; 
-import javax.ws.rs.core.MediaType; 
-@Path("api/1") 
-@Produces(MediaType.APPLICATION_JSON)
-public interface LunoAPI {
-    @GET
-    @Path("/ticker")
-    LunoTickerData getTicker(@QueryParam("pair") String symbol);
+import com.fasterxml.jackson.annotation.JsonProperty;
+
+import java.util.List;
+import java.math.BigDecimal; 
+
+public class LunoRequestData {
+
+    @JsonProperty("success")
+    private String success;
+
+    public String getResult() {
+        return success;
+    }
 }

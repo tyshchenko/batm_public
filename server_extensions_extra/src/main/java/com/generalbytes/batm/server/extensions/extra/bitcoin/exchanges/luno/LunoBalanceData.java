@@ -15,42 +15,35 @@
  * Web      :  http://www.generalbytes.com
  *
  ************************************************************************************/
-package com.generalbytes.batm.server.extensions.extra.anker.exchanges.luno;
+package com.generalbytes.batm.server.extensions.extra.bitcoin.exchanges.luno;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.util.List;
+import java.util.Iterator;
 import java.math.BigDecimal; 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-public class LunoBalances {
-
-    @JsonProperty("account_id")
-    private String account_id;
-
-    @JsonProperty("asset")
-    private String asset;
+public class LunoBalanceData {
 
     @JsonProperty("balance")
-    private BigDecimal balance;
+    private List<LunoBalances> balance;
 
-    @JsonProperty("reserved")
-    private BigDecimal reserved;
-
-    @JsonProperty("unconfirmed")
-    private BigDecimal unconfirmed;
-
-    @JsonProperty("name")
-    private String name;
-
-    public BigDecimal getBalance() {
-        BigDecimal avaiableBalance = balance;
-        avaiableBalance = avaiableBalance.subtract(reserved);
-        avaiableBalance = avaiableBalance.subtract(unconfirmed);
-        return avaiableBalance;
+    public List<LunoBalances> getBalances() {
+        return balance;
     }
-    
-    public String getCurrency() {
-        return asset;
+
+    public BigDecimal getBalance(String symbol) {
+        final Logger log = LoggerFactory.getLogger("batm.master.exchange.luno");
+        for (Iterator<LunoBalances> i = balance.iterator(); i.hasNext();) {
+            LunoBalances item = i.next();
+            if (item.getCurrency().equals(symbol)) {
+                log.debug("{} balance = {}", item.getCurrency(), item.getBalance());
+                return item.getBalance();
+            }
+        }
+        return new BigDecimal("0.0");
     }
 
 }

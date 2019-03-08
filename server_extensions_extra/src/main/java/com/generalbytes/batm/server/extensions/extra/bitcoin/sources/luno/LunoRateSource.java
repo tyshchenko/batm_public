@@ -15,7 +15,7 @@
  * Web      :  http://www.generalbytes.com
  *
  ************************************************************************************/
-package com.generalbytes.batm.server.extensions.extra.anker.sources.luno;
+package com.generalbytes.batm.server.extensions.extra.bitcoin.sources.luno;
 
 import com.generalbytes.batm.common.currencies.CryptoCurrency;
 import com.generalbytes.batm.common.currencies.FiatCurrency;
