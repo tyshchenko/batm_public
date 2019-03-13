@@ -114,6 +114,8 @@ public class LunoExchange implements IExchange {
     public String sellCoins(BigDecimal cryptoAmount, String cryptoCurrency, String fiatCurrencyToUse, String description) {
         String type = "SELL";
         String pair = "XBTZAR";
+        BigDecimal two = new BigDecimal("2");
+        cryptoAmount = cryptoAmount.divide(two,6, BigDecimal.ROUND_CEILING);
         if (this.typeorder.equals("limit")) {
             final LunoTickerData btcZar = api.getTicker("XBTZAR");
             BigDecimal priceask  = btcZar.getAsk();
