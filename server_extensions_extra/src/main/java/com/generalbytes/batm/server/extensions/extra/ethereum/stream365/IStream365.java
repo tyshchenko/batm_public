@@ -1,5 +1,5 @@
 /*************************************************************************************
- * Copyright (C) 2014-2018 GENERAL BYTES s.r.o. All rights reserved.
+ * Copyright (C) 2014-2019 GENERAL BYTES s.r.o. All rights reserved.
  *
  * This software may be distributed and modified under the terms of the GNU
  * General Public License version 2 (GPL2) as published by the Free Software
@@ -15,27 +15,20 @@
  * Web      :  http://www.generalbytes.com
  *
  ************************************************************************************/
-package com.generalbytes.batm.server.extensions.extra.lisk.wallets.liskbinancewallet;
+package com.generalbytes.batm.server.extensions.extra.ethereum.stream365;
 
-import java.math.BigDecimal;
+import javax.ws.rs.GET;
+import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
+import javax.ws.rs.Produces;
+import javax.ws.rs.core.MediaType;
 
-public class LskBinanceAssetData {
-    private String asset;
-    private BigDecimal free;
+@Path("/")
+@Produces(MediaType.APPLICATION_JSON)
+public interface IStream365 {
 
-    public String getAsset() {
-        return asset;
-    }
+    @GET
+    @Path("market/{pair}")
+    MarketData getMarketData(@PathParam("pair") String pair);
 
-    public void setAsset(String asset) {
-        this.asset = asset;
-    }
-
-    public BigDecimal getFree() {
-        return free;
-    }
-
-    public void setFree(BigDecimal free) {
-        this.free = free;
-    }
 }

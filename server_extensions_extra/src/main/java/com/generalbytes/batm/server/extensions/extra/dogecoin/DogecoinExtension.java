@@ -1,5 +1,5 @@
 /*************************************************************************************
- * Copyright (C) 2014-2016 GENERAL BYTES s.r.o. All rights reserved.
+ * Copyright (C) 2014-2019 GENERAL BYTES s.r.o. All rights reserved.
  *
  * This software may be distributed and modified under the terms of the GNU
  * General Public License version 2 (GPL2) as published by the Free Software
@@ -23,6 +23,7 @@ import com.generalbytes.batm.server.extensions.*;
 import com.generalbytes.batm.server.extensions.FixPriceRateSource;
 import com.generalbytes.batm.server.extensions.extra.dogecoin.sources.chainso.ChainSoRateSource;
 import com.generalbytes.batm.server.extensions.extra.dogecoin.wallets.blockio.BlockIOWallet;
+import com.generalbytes.batm.server.extensions.extra.dogecoin.wallets.blockio.BlockIOWalletWithClientSideSigning;
 import com.generalbytes.batm.server.extensions.extra.dogecoin.wallets.dogecoind.DogecoindRPCWallet;
 
 import java.math.BigDecimal;
@@ -48,7 +49,7 @@ public class DogecoinExtension extends AbstractExtension{
                 if (st.hasMoreTokens()) {
                     priority = st.nextToken();
                 }
-                return new BlockIOWallet(apikey,pin, priority);
+                return new BlockIOWalletWithClientSideSigning(apikey,pin, priority);
 
             }else if ("dogecoind".equalsIgnoreCase(walletType)) {
                 //"dogecoind:protocol:user:password:ip:port:accountname"
