@@ -82,15 +82,18 @@ public class CoinmarketcapRateSource implements IRateSource {
         result.add(CryptoCurrency.ECA.getCode());
         result.add(CryptoCurrency.EFL.getCode());
         result.add(CryptoCurrency.ETH.getCode());
+        result.add(CryptoCurrency.EURS.getCode());
         result.add(CryptoCurrency.FLASH.getCode());
         result.add(CryptoCurrency.LSK.getCode());
         result.add(CryptoCurrency.LTC.getCode());
         result.add(CryptoCurrency.MEC.getCode());
         result.add(CryptoCurrency.MKR.getCode());
+        result.add(CryptoCurrency.MUE.getCode());
         result.add(CryptoCurrency.PAC.getCode());
         result.add(CryptoCurrency.POT.getCode());
         result.add(CryptoCurrency.REP.getCode());
         result.add(CryptoCurrency.SYS.getCode());
+        result.add(CryptoCurrency.USDS.getCode());
         result.add(CryptoCurrency.USDT.getCode());
         result.add(CryptoCurrency.XMR.getCode());
         result.add(CryptoCurrency.XZC.getCode());

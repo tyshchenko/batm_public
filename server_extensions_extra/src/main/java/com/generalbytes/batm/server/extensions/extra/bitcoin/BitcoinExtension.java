@@ -37,8 +37,10 @@ import com.generalbytes.batm.server.extensions.extra.bitcoin.sources.coingecko.C
 import com.generalbytes.batm.server.extensions.extra.bitcoin.sources.coinpaprika.CoinPaprikaRateSource;
 import com.generalbytes.batm.server.extensions.extra.bitcoin.sources.mrcoin.MrCoinRateSource;
 import com.generalbytes.batm.server.extensions.extra.bitcoin.wallets.bitcoind.BATMBitcoindRPCWallet;
+import com.generalbytes.batm.server.extensions.extra.bitcoin.wallets.bitcoind.BATMBitcoindRPCWalletWithUniqueAddresses;
 import com.generalbytes.batm.server.extensions.extra.bitcoin.wallets.bitcore.BitcoreWallet;
 import com.generalbytes.batm.server.extensions.extra.bitcoin.wallets.bitgo.v2.BitgoWallet;
+import com.generalbytes.batm.server.extensions.extra.bitcoin.wallets.bitgo.v2.BitgoWalletWithUniqueAddresses;
 import com.generalbytes.batm.server.extensions.watchlist.IWatchList;
 
 import java.math.BigDecimal;
@@ -149,7 +151,8 @@ public class BitcoinExtension extends AbstractExtension{
         if (walletLogin !=null && !walletLogin.trim().isEmpty()) {
             StringTokenizer st = new StringTokenizer(walletLogin,":");
             String walletType = st.nextToken();
-            if ("bitcoind".equalsIgnoreCase(walletType)) {
+            if ("bitcoind".equalsIgnoreCase(walletType)
+                || "bitcoindnoforward".equalsIgnoreCase(walletType)) {
                 //"bitcoind:protocol:user:password:ip:port:accountname"
 
                 String protocol = st.nextToken();
@@ -157,15 +160,16 @@ public class BitcoinExtension extends AbstractExtension{
                 String password = st.nextToken();
                 String hostname = st.nextToken();
                 String port = st.nextToken();
-                String accountName = "";
                 if (st.hasMoreTokens()) {
-                    accountName = st.nextToken();
+                    st.nextToken(); // accountName - support removed in v0.18, parameter not used
                 }
 
-
-                if (protocol != null && username != null && password != null && hostname != null && port != null && accountName != null) {
+                if (protocol != null && username != null && password != null && hostname != null && port != null) {
                     String rpcURL = protocol + "://" + username + ":" + password + "@" + hostname + ":" + port;
-                    return new BATMBitcoindRPCWallet(rpcURL, accountName, CryptoCurrency.BTC.getCode());
+                    if ("bitcoindnoforward".equalsIgnoreCase(walletType)) {
+                        return new BATMBitcoindRPCWalletWithUniqueAddresses(rpcURL, CryptoCurrency.BTC.getCode());
+                    }
+                    return new BATMBitcoindRPCWallet(rpcURL, CryptoCurrency.BTC.getCode());
                 }
             }else if ("bitcore".equalsIgnoreCase(walletType)) { //bitcore:apiKey:proxyUrl
                 String apiKey = st.nextToken();
@@ -173,7 +177,8 @@ public class BitcoinExtension extends AbstractExtension{
                 // instead use \n and then remove the leading :
                 String proxyUrl = st.nextToken("\n").replaceFirst(":", "");
                 return new BitcoreWallet(apiKey, proxyUrl);
-            }else if ("bitgo".equalsIgnoreCase(walletType)) { //bitgo:host:port:token:wallet_address:wallet_passphrase
+            } else if ("bitgo".equalsIgnoreCase(walletType)
+                || "bitgonoforward".equalsIgnoreCase(walletType)) { //bitgo:host:port:token:wallet_address:wallet_passphrase
                 String first = st.nextToken();
                 String protocol = "";
                 String host = "";
@@ -198,6 +203,9 @@ public class BitcoinExtension extends AbstractExtension{
                 }
                 String walletAddress = st.nextToken();
                 String walletPassphrase = st.nextToken();
+                if ("bitgonoforward".equalsIgnoreCase(walletType)) {
+                    return new BitgoWalletWithUniqueAddresses(fullHost, port, token, walletAddress, walletPassphrase);
+                }
                 return new BitgoWallet(fullHost, port, token, walletAddress, walletPassphrase);
             }
         }
