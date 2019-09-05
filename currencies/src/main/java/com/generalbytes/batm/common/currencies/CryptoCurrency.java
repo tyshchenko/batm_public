@@ -37,6 +37,7 @@ public enum CryptoCurrency {
 
     ANON("ANON"),
     ANK("Anker Coin"),
+    AQUA("Aquachain"),
     ANT("Aragon Network Token"),
     BAT("Basic Attention Token"),
     BCH("Bitcoin Cash"),
@@ -91,6 +92,7 @@ public enum CryptoCurrency {
     VOLTZ("VOLTZ"),
     WDC("WorldCoin"),
     XMR("Monero"),
+    XORI("CHFToken"),
     XSG("SnowGem"),
     XZC("Zcoin"),
     BAY("BitBayCoin"),

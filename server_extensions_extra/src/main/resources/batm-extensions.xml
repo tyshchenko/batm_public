@@ -183,6 +183,26 @@
                 <param name="fiatCurrency" />
                 <cryptocurrency>BTC</cryptocurrency>
             </ratesource>
+            <ratesource prefix="bitflyer" name="BitFlyer.jp Rate Source" >
+                <param name="fiatcurrency" />
+                <cryptocurrency>BTC</cryptocurrency>
+            </ratesource>
+            <ratesource prefix="bitflyer.com" name="BitFlyer.com Rate Source" >
+                <param name="fiatcurrency" />
+                <cryptocurrency>BTC</cryptocurrency>
+            </ratesource>
+            <exchange prefix="bitflyer" name="BitFlyer.jp Exchange">
+                <param name="fiatcurrency" />
+                <param name="key" />
+                <param name="secret" />
+                <cryptocurrency>BTC</cryptocurrency>
+            </exchange>
+            <exchange prefix="bitflyer.com" name="BitFlyer.com Exchange">
+                <param name="fiatcurrency" />
+                <param name="key" />
+                <param name="secret" />
+                <cryptocurrency>BTC</cryptocurrency>
+            </exchange>
             <paymentprocessor prefix="bitcoinpay" name="BitcoinPay.com" >
                 <param name="apikey" />
                 <cryptocurrency>BTC</cryptocurrency>
@@ -1440,6 +1460,7 @@
         <!-- ADD your ERC20 tokens here. And don't forget to add cryptologos. -->
     </extension>
     <!--<extension class="com.generalbytes.batm.server.extensions.extra.examples.TransactionExtension" />-->
+    <!-- <extension class="com.generalbytes.batm.server.extensions.extra.watchlists.WatchlistExtension" />-->
     <!--<extension class="com.generalbytes.batm.server.extensions.extra.examples.rest.RESTExampleExtension" />-->
     <extension class="com.generalbytes.batm.server.extensions.extra.examples.chat.ChatBotExtensionExample" />
     <extension class="com.generalbytes.batm.server.extensions.extra.nuls.NulsExtension" >
