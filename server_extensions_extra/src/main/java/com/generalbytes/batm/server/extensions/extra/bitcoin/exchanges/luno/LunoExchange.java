@@ -55,10 +55,11 @@ public class LunoExchange implements IExchange {
     @Override
     public BigDecimal getCryptoBalance(String cryptoCurrency) {
         final LunoBalanceData balance = api.getBalance();
+        BigDecimal cryptoballance;
         if (cryptoCurrency.equals("BTC")) {
-            final BigDecimal cryptoballance = balance.getBalance("XBT");
+            cryptoballance = balance.getBalance("XBT");
         } else {
-            final BigDecimal cryptoballance = balance.getBalance(cryptoCurrency);
+            cryptoballance = balance.getBalance(cryptoCurrency);
         }
         log.debug("{} exbalance = {}", cryptoCurrency, cryptoballance);
         return cryptoballance;
@@ -93,10 +94,11 @@ public class LunoExchange implements IExchange {
     @Override
     public String purchaseCoins(BigDecimal amount, String cryptoCurrency, String fiatCurrencyToUse, String description) {
         String type = "BUY";
+        String pair;
         if (cryptoCurrency.equals("BTC")) {
-            String pair = "XBTZAR";
+            pair = "XBTZAR";
         } else {
-            String pair = cryptoCurrency.toUpperCase() + "ZAR";
+            pair = cryptoCurrency.toUpperCase() + "ZAR";
         }
         
         final LunoTickerData cryptoToZar = api.getTicker(pair);

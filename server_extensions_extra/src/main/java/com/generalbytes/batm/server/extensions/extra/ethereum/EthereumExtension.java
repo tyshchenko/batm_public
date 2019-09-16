@@ -20,6 +20,7 @@ package com.generalbytes.batm.server.extensions.extra.ethereum;
 import com.generalbytes.batm.server.extensions.AbstractExtension;
 import com.generalbytes.batm.common.currencies.CryptoCurrency;
 import com.generalbytes.batm.server.extensions.CryptoCurrencyDefinition;
+import com.generalbytes.batm.common.currencies.FiatCurrency;
 import com.generalbytes.batm.server.extensions.ICryptoAddressValidator;
 import com.generalbytes.batm.server.extensions.ICryptoCurrencyDefinition;
 import com.generalbytes.batm.server.extensions.IRateSource;
@@ -28,6 +29,8 @@ import com.generalbytes.batm.server.extensions.extra.ethereum.erc20.ERC20Wallet;
 import com.generalbytes.batm.server.extensions.extra.ethereum.erc20.dai.DaiDefinition;
 import com.generalbytes.batm.server.extensions.extra.ethereum.sources.stasis.StasisTickerRateSource;
 import com.generalbytes.batm.server.extensions.extra.ethereum.stream365.Stream365;
+import com.generalbytes.batm.server.extensions.extra.bitcoin.exchanges.luno.LunoExchange;
+import com.generalbytes.batm.server.extensions.extra.bitcoin.sources.luno.LunoRateSource;
 
 import java.math.BigInteger;
 import java.util.HashSet;
