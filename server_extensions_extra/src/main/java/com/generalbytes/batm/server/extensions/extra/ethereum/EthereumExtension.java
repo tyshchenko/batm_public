@@ -99,6 +99,9 @@ public class EthereumExtension extends AbstractExtension{
                 return new Stream365();
             } else if (sourceLogin.startsWith("stasis")) {
                 return new StasisTickerRateSource();
+            } else if (sourceLogin.startsWith("lunoRateSource")) {
+                String preferedFiatCurrency = FiatCurrency.ZAR.getCode();
+                return new LunoRateSource(preferedFiatCurrency);
             }
         }
         return null;
