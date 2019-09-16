@@ -125,10 +125,11 @@ public class LunoExchange implements IExchange {
     @Override
     public String sellCoins(BigDecimal cryptoAmount, String cryptoCurrency, String fiatCurrencyToUse, String description) {
         String type = "SELL";
+        String pair;
         if (cryptoCurrency.equals("BTC")) {
-            String pair = "XBTZAR";
+            pair = "XBTZAR";
         } else {
-            String pair = cryptoCurrency.toUpperCase() + "ZAR";
+            pair = cryptoCurrency.toUpperCase() + "ZAR";
         }
         if (this.typeorder.equals("limit")) {
             final LunoTickerData cryptoToZar = api.getTicker(pair);
