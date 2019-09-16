@@ -182,6 +182,7 @@
             <ratesource prefix="lunoRateSource" name ="Luno Rate Source" >
                 <param name="fiatCurrency" />
                 <cryptocurrency>BTC</cryptocurrency>
+                <cryptocurrency>ETH</cryptocurrency>
             </ratesource>
             <ratesource prefix="bitflyer" name="BitFlyer.jp Rate Source" >
                 <param name="fiatcurrency" />
@@ -219,6 +220,7 @@
                 <param name="fiatcurrency" />
                 <help>Typeorders can be limit or market</help>
                 <cryptocurrency>BTC</cryptocurrency>
+                <cryptocurrency>ETH</cryptocurrency>
             </exchange>
             <exchange prefix="bitfinex" name="Bitfinex.com Exchange">
                 <param name="apikey" />
