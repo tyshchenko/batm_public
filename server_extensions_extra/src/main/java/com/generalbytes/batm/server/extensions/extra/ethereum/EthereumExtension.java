@@ -39,6 +39,7 @@ import java.util.StringTokenizer;
 
 public class EthereumExtension extends AbstractExtension{
     private static final CryptoCurrencyDefinition DAI_CRYPTOCURRENCY_DEFINITION = new DaiDefinition();
+    private static final CryptoCurrencyDefinition DEFINITION = new EtherDefinition();
 
     @Override
     public String getName() {
@@ -141,6 +142,7 @@ public class EthereumExtension extends AbstractExtension{
     public Set<ICryptoCurrencyDefinition> getCryptoCurrencyDefinitions() {
         Set<ICryptoCurrencyDefinition> result = new HashSet<>();
         result.add(DAI_CRYPTOCURRENCY_DEFINITION);
+        result.add(DEFINITION);
         return result;
     }
 
