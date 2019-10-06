@@ -18,127 +18,135 @@
 package com.generalbytes.batm.server.extensions.extra.ethereum;
 
 import com.generalbytes.batm.common.currencies.CryptoCurrency;
-import com.generalbytes.batm.server.extensions.ICryptoAddressValidator;
-import com.generalbytes.batm.server.extensions.extra.bitcoincash.test.PRS;
-import com.generalbytes.batm.server.extensions.extra.common.AbstractRPCPaymentSupport;
-import com.generalbytes.batm.server.extensions.extra.common.RPCClient;
+import com.generalbytes.batm.server.extensions.IExtensionContext;
+import com.generalbytes.batm.server.extensions.IWallet;
+import com.generalbytes.batm.server.extensions.extra.ethereum.etherscan.EtherScan;
 import com.generalbytes.batm.server.extensions.payment.IPaymentRequestListener;
+import com.generalbytes.batm.server.extensions.payment.IPaymentRequestSpecification;
+import com.generalbytes.batm.server.extensions.payment.IPaymentSupport;
+import com.generalbytes.batm.server.extensions.payment.PaymentReceipt;
 import com.generalbytes.batm.server.extensions.payment.PaymentRequest;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.math.BigDecimal;
-import java.math.RoundingMode;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
 
-import wf.bitcoin.javabitcoindrpcclient.BitcoinRPCException;
+public class EtherPaymentSupport implements IPaymentSupport {
+    private static final Logger log = LoggerFactory.getLogger(EtherPaymentSupport.class);
+    private final Map<String, PaymentRequest> requests = new ConcurrentHashMap<>();
 
-public class EtherPaymentSupport extends AbstractRPCPaymentSupport {
-    private EtherAddressValidator addressValidator = new EtherAddressValidator();
+    private final ScheduledExecutorService executorService = Executors.newSingleThreadScheduledExecutor();
 
-    private static final long MAXIMUM_WAIT_FOR_POSSIBLE_REFUND_MILLIS = TimeUnit.DAYS.toMillis(3); // 3 days
-    private static final long MAXIMUM_WATCHING_TIME_MILLIS = TimeUnit.DAYS.toMillis(3); // 3 days (exactly plus Sell Offer Expiration 5-120 minutes)
-    private static final BigDecimal TOLERANCE = new BigDecimal("0.0002"); // Received amount should be  cryptoTotalToSend +- tolerance
+    protected EtherScan etherScan = new EtherScan();
 
     @Override
-    public String getCurrency() {
-        return CryptoCurrency.ETH.getCode();
+    public boolean init(IExtensionContext context) {
+        return true;
     }
 
     @Override
-    public long getMaximumWatchingTimeMillis() {
-        return MAXIMUM_WATCHING_TIME_MILLIS;
-    }
+    public PaymentRequest createPaymentRequest(IPaymentRequestSpecification spec) {
+        IWallet wallet = spec.getWallet();
 
-    @Override
-    public long getMaximumWaitForPossibleRefundInMillis() {
-        return MAXIMUM_WAIT_FOR_POSSIBLE_REFUND_MILLIS;
-    }
-
-    @Override
-    public BigDecimal getTolerance() {
-        return TOLERANCE;
-    }
-
-    @Override
-    public BigDecimal getMinimumNetworkFee(RPCClient client) {
-        return client.getNetworkInfo().relayFee();
-    }
-
-    @Override
-    public ICryptoAddressValidator getAddressValidator() {
-        return addressValidator;
-    }
-
-    @Override
-    public int calculateTransactionSize(int numberOfInputs, int numberOfOutputs) {
-        return (numberOfInputs * 149) + (numberOfOutputs * 34) + 10;
-    }
-
-    @Override
-    public BigDecimal calculateTxFee(int numberOfInputs, int numberOfOutputs, RPCClient client) {
-        final int transactionSize = calculateTransactionSize(numberOfInputs, numberOfOutputs);
-        try {
-            BigDecimal estimate = new BigDecimal(client.getEstimateFee(2));
-            if (BigDecimal.ZERO.compareTo(estimate) == 0 || estimate.compareTo(new BigDecimal("-1")) == 0 ) {
-                //bitcoind is clueless
-                return getMinimumNetworkFee(client);
-            }
-            return estimate.divide(new BigDecimal("1000"), RoundingMode.UP).multiply(new BigDecimal(transactionSize));
-        } catch (BitcoinRPCException e) {
-            e.printStackTrace();
+        if (spec.getOutputs().size() != 1) {
+            throw new IllegalStateException("Only 1 output supported");
         }
-        return null;
+        String address = spec.getOutputs().get(0).getAddress();
+
+        long validTillMillis = System.currentTimeMillis() + (spec.getValidInSeconds() * 1000);
+
+        PaymentRequest request = new PaymentRequest(spec.getCryptoCurrency(), spec.getDescription(), validTillMillis,
+            address, spec.getTotal(), BigDecimal.ZERO, spec.getRemoveAfterNumberOfConfirmationsOfIncomingTransaction(),
+            spec.getRemoveAfterNumberOfConfirmationsOfOutgoingTransaction(), wallet);
+
+        ScheduledFuture<?> scheduledFuture = executorService.scheduleAtFixedRate(() -> {
+            try {
+                EtherScan.AddressBalance addressBalance = etherScan.getEthAddressBalance(address, spec.getCryptoCurrency());
+
+                if (addressBalance.receivedAmount.compareTo(BigDecimal.ZERO) > 0) {
+                    log.info("Received: {}, Requested: {}, {}", addressBalance.receivedAmount, spec.getTotal(), request);
+                    if (addressBalance.receivedAmount.compareTo(spec.getTotal()) == 0) {
+                        if(request.getState() == PaymentRequest.STATE_NEW) {
+                            log.info("Amounts matches {}", request);
+                            setState(request, PaymentRequest.STATE_SEEN_TRANSACTION);
+                        }
+                        if (addressBalance.confirmations > 0) {
+                            if (request.getState() == PaymentRequest.STATE_SEEN_TRANSACTION) {
+                                setState(request, PaymentRequest.STATE_SEEN_IN_BLOCK_CHAIN);
+                            }
+                            log.info("{} confirmations for {}", addressBalance.confirmations, request);
+                            fireNumberOfConfirmationsChanged(request, addressBalance.confirmations);
+                        }
+                    } else if (request.getState() != PaymentRequest.STATE_TRANSACTION_INVALID) {
+                        log.info("Received amount does not match the requested amount");
+                        setState(request, PaymentRequest.STATE_TRANSACTION_INVALID);
+                    }
+                }
+
+            } catch (Exception e) {
+                log.error("", e);
+            }
+
+        }, 15, 5, TimeUnit.SECONDS);
+
+        executorService.schedule(() -> {
+            try {
+                scheduledFuture.cancel(false);
+                if (request.getState() != PaymentRequest.STATE_SEEN_IN_BLOCK_CHAIN) {
+                    log.info("Cancelling {}", request);
+                    setState(request, PaymentRequest.STATE_TRANSACTION_TIMED_OUT);
+                }
+            } catch (Throwable t) {
+                log.error("", t);
+            }
+        }, spec.getValidInSeconds(), TimeUnit.SECONDS);
+
+        requests.entrySet().removeIf(e -> e.getValue().getValidTill() <  System.currentTimeMillis());
+        requests.put(address, request);
+        return request;
+    }
+
+
+    @Override
+    public boolean isPaymentReceived(String paymentAddress) {
+        PaymentRequest paymentRequest = requests.get(paymentAddress);
+        return paymentRequest != null && paymentRequest.getState() == PaymentRequest.STATE_SEEN_IN_BLOCK_CHAIN;
     }
 
     @Override
-    public String getSigHashType() {
-        return "ALL";
+    public PaymentReceipt getPaymentReceipt(String paymentAddress) {
+        PaymentReceipt result = new PaymentReceipt(CryptoCurrency.ETH.getCode(), paymentAddress);
+        PaymentRequest paymentRequest = requests.get(paymentAddress);
+        if (paymentRequest != null && paymentRequest.getState() == PaymentRequest.STATE_SEEN_IN_BLOCK_CHAIN) {
+            result.setStatus(PaymentReceipt.STATUS_PAID);
+            result.setConfidence(PaymentReceipt.CONFIDENCE_SURE);
+            result.setAmount(paymentRequest.getAmount());
+            result.setTransactionId(paymentRequest.getIncomingTransactionHash());
+        }
+        return result;
     }
 
-//    public static void main(String[] args) {
-//        //You need to have node running: i.e.:  bitcoind -rpcuser=rpcuser -rpcpassword=rpcpassword -rpcport=8332
-//
-//        BitcoinCashRPCWallet wallet = new BitcoinCashRPCWallet("http://rpcuser:rpcpassword@localhost:8332", "");
-//        BitcoinCashPaymentSupport ps = new BitcoinCashPaymentSupport();
-//        ps.init(null);
-//        PRS spec = new PRS(
-//            ps.getCurrency(),
-//            "Just a test",
-//            60 * 15, //15 min
-//            3,
-//            false,
-//            false,
-//            new BigDecimal("7"),
-//            new BigDecimal("10"),
-//            wallet
-//        );
-//        spec.addOutput("qpqkqq2uy6v044yjqsec0cprunecwcf9dqtc5ler86", new BigDecimal("0.0017"));
-//
-//        PaymentRequest pr = ps.createPaymentRequest(spec);
-//        System.out.println(pr);
-//        pr.setListener(new IPaymentRequestListener() {
-//            @Override
-//            public void stateChanged(PaymentRequest request, int previousState, int newState) {
-//                System.out.println("stateChanged = " + request + " previousState: " + previousState + " newState: " + newState);
-//            }
-//
-//            @Override
-//            public void numberOfConfirmationsChanged(PaymentRequest request, int numberOfConfirmations, Direction direction) {
-//                System.out.println("numberOfConfirmationsChanged = " + request + " numberOfConfirmations: " + numberOfConfirmations + " direction: " + direction);
-//            }
-//
-//            @Override
-//            public void refundSent(PaymentRequest request, String toAddress, String cryptoCurrency, BigDecimal amount) {
-//                System.out.println("refundSent = " + request + " toAddress: " + toAddress +" cryptoCurrency: " + cryptoCurrency + " " + amount);
-//            }
-//        });
-//        System.out.println("Waiting for transfer");
-//        try {
-//            Thread.sleep(20 * 60 * 1000);
-//        } catch (InterruptedException e) {
-//            e.printStackTrace();
-//        }
-//    }
+    private void fireNumberOfConfirmationsChanged(PaymentRequest request, int numberOfConfirmations) {
+        IPaymentRequestListener listener = request.getListener();
+        if (listener != null) {
+            listener.numberOfConfirmationsChanged(request, numberOfConfirmations, IPaymentRequestListener.Direction.INCOMING);
+        }
+    }
 
+    private void setState(PaymentRequest request, int newState) {
+        int previousState = request.getState();
+        request.setState(newState);
+        log.debug("Transaction state changed: {} -> {} {}", previousState, newState, request);
 
-
+        IPaymentRequestListener listener = request.getListener();
+        if (listener != null) {
+            listener.stateChanged(request, previousState, request.getState());
+        }
+    }
 }

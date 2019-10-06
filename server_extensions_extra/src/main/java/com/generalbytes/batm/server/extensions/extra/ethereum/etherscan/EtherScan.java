@@ -26,6 +26,23 @@ public class EtherScan {
         return new AddressBalance(receivedAmount, confirmations);
     }
 
+    public AddressBalance getEthAddressBalance(String address, String cryptoCurrency) {
+
+        GetEthTxListResponse ethTxLists = etherScanApi.getEthTxList("account", "txlist", address);
+
+        BigDecimal receivedAmount = ethTxLists.result.stream()
+            .filter(tx -> tx.isError.equals("0"))
+            .map(tx -> new BigDecimal(tx.value).movePointLeft(Integer.parseInt("18")))
+            .reduce(BigDecimal.ZERO, BigDecimal::add);
+
+        int confirmations = ethTxLists.result.stream()
+            .mapToInt(tx -> Integer.parseInt(tx.confirmations))
+            .min()
+            .orElse(0);
+
+        return new AddressBalance(receivedAmount, confirmations);
+    }
+
     public class AddressBalance {
         public final BigDecimal receivedAmount;
         public final int confirmations;

@@ -16,4 +16,12 @@ public interface IEtherscanAPI {
     @Path("/api")
     GetTokenTransactionsResponse getTokenTransactions(@QueryParam("module") String module, @QueryParam("action") String action, @QueryParam("address") String address);
 
+    @GET
+    @Path("/api")
+    GetEthBalanceResponse getEthBalance(@QueryParam("module") String module, @QueryParam("action") String action, @QueryParam("address") String address);
+
+    @GET
+    @Path("/api")
+    GetEthTxListResponse getEthTxList(@QueryParam("module") String module, @QueryParam("action") String action, @QueryParam("address") String address);
+
 }
