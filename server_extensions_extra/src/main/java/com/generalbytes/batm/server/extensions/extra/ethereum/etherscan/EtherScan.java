@@ -1,6 +1,8 @@
 package com.generalbytes.batm.server.extensions.extra.ethereum.etherscan;
 
 import com.generalbytes.batm.server.extensions.extra.ethereum.etherscan.dto.GetTokenTransactionsResponse;
+import com.generalbytes.batm.server.extensions.extra.ethereum.etherscan.dto.GetEthBalanceResponse;
+import com.generalbytes.batm.server.extensions.extra.ethereum.etherscan.dto.GetEthTxListResponse;
 import si.mazi.rescu.RestProxyFactory;
 
 import java.math.BigDecimal;
