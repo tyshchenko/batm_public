@@ -15,25 +15,39 @@
  * Web      :  http://www.generalbytes.com
  *
  ************************************************************************************/
-package com.generalbytes.batm.server.extensions.extra.examples.chat;
+package com.generalbytes.batm.server.extensions.extra.examples.identity;
 
 import com.generalbytes.batm.server.extensions.AbstractExtension;
+import com.generalbytes.batm.server.extensions.IExtensionContext;
+import com.generalbytes.batm.server.extensions.IRestService;
 
 import java.util.HashSet;
 import java.util.Set;
 
-public class ChatBotExtensionExample extends AbstractExtension {
+// uncomment in batm-extensions.xml
+public class IdentityExampleExtension extends AbstractExtension {
+    private static IExtensionContext ctx;
+
     @Override
-    public String getName() {
-        return  "BATM Example extension that demonstrates how to write ChatBot commands";
+    public void init(IExtensionContext ctx) {
+        super.init(ctx);
+        this.ctx = ctx;
     }
 
     @Override
-    public Set<Class> getChatCommands() {
-        Set<Class> result = new HashSet<>();
-        result.add(VersionCommand.class);
-        result.add(InfoCommand.class);
-        result.add(LightningCommand.class);
-        return result;
+    public String getName() {
+        return "Identity Extension (example)";
     }
+
+    @Override
+    public Set<IRestService> getRestServices() {
+        HashSet<IRestService> services = new HashSet<>();
+        services.add(new IdentityExampleIRestService());
+        return services;
+    }
+
+    public static IExtensionContext getExtensionContext() {
+        return ctx;
+    }
+
 }
