@@ -61,9 +61,9 @@ public class EtherPaymentSupport implements IPaymentSupport {
         String address = null;
         String destinationAddress = spec.getOutputs().get(0).getAddress();
         if (spec.isDoNotForward()) {
-            address = destinationAddress;
+            final address = destinationAddress;
         } else {
-            address = wallet.getCryptoAddress(spec.getCryptoCurrency());
+            final address = wallet.getCryptoAddress(spec.getCryptoCurrency());
         }
         long validTillMillis = System.currentTimeMillis() + (spec.getValidInSeconds() * 1000);
 
