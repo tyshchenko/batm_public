@@ -29,6 +29,7 @@ import com.generalbytes.batm.server.extensions.payment.PaymentRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+
 import java.math.BigDecimal;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -57,8 +58,13 @@ public class EtherPaymentSupport implements IPaymentSupport {
         if (spec.getOutputs().size() != 1) {
             throw new IllegalStateException("Only 1 output supported");
         }
-        String address = spec.getOutputs().get(0).getAddress();
-
+        String address = null;
+        String destinationAddress = spec.getOutputs().get(0).getAddress();
+        if (spec.isDoNotForward()) {
+            address = destinationAddress;
+        } else {
+            address = wallet.getCryptoAddress(spec.getCryptoCurrency());
+        }
         long validTillMillis = System.currentTimeMillis() + (spec.getValidInSeconds() * 1000);
 
         PaymentRequest request = new PaymentRequest(spec.getCryptoCurrency(), spec.getDescription(), validTillMillis,
@@ -69,23 +75,35 @@ public class EtherPaymentSupport implements IPaymentSupport {
             try {
                 EtherScan.AddressBalance addressBalance = etherScan.getEthAddressBalance(address, spec.getCryptoCurrency());
 
-                if (addressBalance.receivedAmount.compareTo(BigDecimal.ZERO) > 0) {
+                if ((addressBalance.receivedAmount.compareTo(BigDecimal.ZERO) > 0) && (request.getState() == PaymentRequest.STATE_NEW)) {
                     log.info("Received: {}, Requested: {}, {}", addressBalance.receivedAmount, spec.getTotal(), request);
                     if (addressBalance.receivedAmount.compareTo(spec.getTotal()) == 0) {
-                        if(request.getState() == PaymentRequest.STATE_NEW) {
+                        if (spec.isDoNotForward()) {
+                            log.info("Amounts matches {} do not forward", request);
+                            setState(request, PaymentRequest.STATE_SEEN_TRANSACTION);
+                        } else {
                             log.info("Amounts matches {}", request);
                             setState(request, PaymentRequest.STATE_SEEN_TRANSACTION);
-                        }
-                        if (addressBalance.confirmations > 0) {
-                            if (request.getState() == PaymentRequest.STATE_SEEN_TRANSACTION) {
-                                setState(request, PaymentRequest.STATE_SEEN_IN_BLOCK_CHAIN);
-                            }
-                            log.info("{} confirmations for {}", addressBalance.confirmations, request);
-                            fireNumberOfConfirmationsChanged(request, addressBalance.confirmations);
+                            
+                            String forwardingState = wallet.sendCoins(destinationAddress, spec.getTotal(), spec.getCryptoCurrency(), "");
+                            log.info("Transaction forwarded {}", forwardingState);
                         }
                     } else if (request.getState() != PaymentRequest.STATE_TRANSACTION_INVALID) {
                         log.info("Received amount does not match the requested amount");
                         setState(request, PaymentRequest.STATE_TRANSACTION_INVALID);
+                    }
+                }
+                if ((request.getState() == PaymentRequest.STATE_SEEN_TRANSACTION) || (request.getState() == PaymentRequest.STATE_SEEN_IN_BLOCK_CHAIN)) {
+                    if (addressBalance.confirmations > 0) {
+                        log.info("Received: {}, Confirmations: {} for {}", addressBalance.receivedAmount, addressBalance.confirmations, request);
+                        if (request.getState() == PaymentRequest.STATE_SEEN_TRANSACTION) {
+                            setState(request, PaymentRequest.STATE_SEEN_IN_BLOCK_CHAIN);
+                        }
+
+                        fireNumberOfConfirmationsChanged(request, addressBalance.confirmations);
+                        if (addressBalance.receivedAmount.compareTo(spec.getTotal()) < 0) {
+                            fireNumberOfOutConfirmationsChanged(request, addressBalance.confirmations);
+                        }
                     }
                 }
 
@@ -136,6 +154,13 @@ public class EtherPaymentSupport implements IPaymentSupport {
         IPaymentRequestListener listener = request.getListener();
         if (listener != null) {
             listener.numberOfConfirmationsChanged(request, numberOfConfirmations, IPaymentRequestListener.Direction.INCOMING);
+        }
+    }
+
+    private void fireNumberOfOutConfirmationsChanged(PaymentRequest request, int numberOfConfirmations) {
+        IPaymentRequestListener listener = request.getListener();
+        if (listener != null) {
+            listener.numberOfConfirmationsChanged(request, numberOfConfirmations, IPaymentRequestListener.Direction.OUTGOING);
         }
     }
 
