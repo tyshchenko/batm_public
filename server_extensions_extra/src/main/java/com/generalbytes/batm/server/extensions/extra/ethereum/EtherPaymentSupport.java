@@ -58,12 +58,12 @@ public class EtherPaymentSupport implements IPaymentSupport {
         if (spec.getOutputs().size() != 1) {
             throw new IllegalStateException("Only 1 output supported");
         }
-        String address = null;
+        final String address = null;
         String destinationAddress = spec.getOutputs().get(0).getAddress();
         if (spec.isDoNotForward()) {
-            final address = destinationAddress;
+            address = destinationAddress;
         } else {
-            final address = wallet.getCryptoAddress(spec.getCryptoCurrency());
+            address = wallet.getCryptoAddress(spec.getCryptoCurrency());
         }
         long validTillMillis = System.currentTimeMillis() + (spec.getValidInSeconds() * 1000);
 
