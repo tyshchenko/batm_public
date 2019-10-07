@@ -116,7 +116,7 @@ public class InfuraWallet implements IWallet{
         try {
             log.info("InfuraWallet sending coins from " + credentials.getAddress() + " to: " + destinationAddress + " " + amount + " " + cryptoCurrency);
             final BigInteger gasPrice = w.ethGasPrice().send().getGasPrice();
-            final BigDecimal transactionFee = new BigDecimal(gasPrice.multiply(BigInteger.valueOf(48000)).movePointLeft(18) ;
+            final BigDecimal transactionFee = new BigDecimal(gasPrice.multiply(BigInteger.valueOf(48000))).movePointLeft(18);
 
 
             CompletableFuture<TransactionReceipt> future = Transfer.sendFunds(
