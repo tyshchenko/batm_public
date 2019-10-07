@@ -34,7 +34,7 @@ public class EtherScan {
 
         BigDecimal receivedAmount = ethTxLists.result.stream()
             .filter(tx -> tx.isError.equals("0"))
-            .map(tx -> new BigDecimal(tx.value).movePointLeft(Integer.parseInt("18")))
+            .map(tx -> new BigDecimal(tx.value).movePointLeft(18))
             .reduce(BigDecimal.ZERO, BigDecimal::add);
 
         int confirmations = ethTxLists.result.stream()
