@@ -15,25 +15,29 @@
  * Web      :  http://www.generalbytes.com
  *
  ************************************************************************************/
-package com.generalbytes.batm.server.extensions.extra.examples.chat;
+package com.generalbytes.batm.server.extensions.extra.examples.identity;
 
-import com.generalbytes.batm.server.extensions.AbstractExtension;
+import com.generalbytes.batm.server.extensions.ILimit;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.math.BigDecimal;
 
-public class ChatBotExtensionExample extends AbstractExtension {
-    @Override
-    public String getName() {
-        return  "BATM Example extension that demonstrates how to write ChatBot commands";
+class LimitExample implements ILimit {
+    private final String fiatCurrency;
+    private final BigDecimal amount;
+
+    public LimitExample(String fiatCurrency, BigDecimal amount) {
+        this.fiatCurrency = fiatCurrency;
+        this.amount = amount;
     }
 
     @Override
-    public Set<Class> getChatCommands() {
-        Set<Class> result = new HashSet<>();
-        result.add(VersionCommand.class);
-        result.add(InfoCommand.class);
-        result.add(LightningCommand.class);
-        return result;
+    public String getCurrency() {
+        return fiatCurrency;
     }
+
+    @Override
+    public BigDecimal getAmount() {
+        return amount;
+    }
+
 }
