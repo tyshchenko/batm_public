@@ -114,8 +114,8 @@ public class ValrExchange implements IExchange {
     public BigDecimal getCryptoBalance(String cryptoCurrency) {
         String timestamp = String.valueOf(System.currentTimeMillis());
         String signature = signRequest(clientSecret, timestamp, "GET", "/v1/account/balances", "");
-        final ValrBalanceData balance = api.getBalance(clientKey, signature, timestamp);
         try {
+            final ValrBalanceData balance = api.getBalance(clientKey, signature, timestamp);
             BigDecimal cryptoballance;
             cryptoballance = balance.getBalance(cryptoCurrency);
             log.debug("{} exbalance = {}", cryptoCurrency, cryptoballance);
