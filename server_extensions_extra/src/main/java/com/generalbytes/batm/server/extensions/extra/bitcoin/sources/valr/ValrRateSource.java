@@ -66,12 +66,12 @@ public class ValrRateSource implements IRateSource {
             return null;
         }
         if (CryptoCurrency.BTC.getCode().equalsIgnoreCase(cryptoCurrency)) {
-            final ValrTickerData btcZar = api.getAskPrice("BTCZAR");
-            BigDecimal lastBtcPriceInZar = btcZar.getPrice();
+            final ValrTickerData btcZar = api.getTicker("BTCZAR");
+            BigDecimal lastBtcPriceInZar = btcZar.getAskPrice();
             return lastBtcPriceInZar;
         } else if (CryptoCurrency.ETH.getCode().equalsIgnoreCase(cryptoCurrency)) {
-            final ValrTickerData ethZar = api.getAskPrice("ETHZAR");
-            BigDecimal lastEthPriceInZar = ethZar.getPrice();
+            final ValrTickerData ethZar = api.getTicker("ETHZAR");
+            BigDecimal lastEthPriceInZar = ethZar.getAskPrice();
             return lastEthPriceInZar;
         }
         return null;
@@ -83,12 +83,12 @@ public class ValrRateSource implements IRateSource {
             return null;
         }
         if (CryptoCurrency.BTC.getCode().equalsIgnoreCase(cryptoCurrency)) {
-            final ValrTickerData btcZar = api.getAskPrice("BTCZAR");
-            BigDecimal lastBtcPriceInZar = btcZar.getPrice();
+            final ValrTickerData btcZar = api.getTicker("BTCZAR");
+            BigDecimal lastBtcPriceInZar = btcZar.getAskPrice();
             return lastBtcPriceInZar;
         } else if (CryptoCurrency.ETH.getCode().equalsIgnoreCase(cryptoCurrency)) {
-            final ValrTickerData ethZar = api.getAskPrice("ETHZAR");
-            BigDecimal lastEthPriceInZar = ethZar.getPrice();
+            final ValrTickerData ethZar = api.getTicker("ETHZAR");
+            BigDecimal lastEthPriceInZar = ethZar.getAskPrice();
             return lastEthPriceInZar;
         }
         return null;
