@@ -98,9 +98,7 @@ public class ValrExchange implements IExchange {
     @Override
     public BigDecimal getFiatBalance(String fiatCurrency) {
         String timestamp = String.valueOf(System.currentTimeMillis());
-        log.debug("timestamp {}", timestamp);
         String signature = signRequest(clientSecret, timestamp, "GET", "/v1/account/balances", "");
-        log.debug("signature {}", signature);
         try {
             final ValrBalanceData balance = api.getBalance(clientKey, signature, timestamp);
             final BigDecimal fiatballance = balance.getBalance("ZAR");
@@ -115,10 +113,7 @@ public class ValrExchange implements IExchange {
     @Override
     public BigDecimal getCryptoBalance(String cryptoCurrency) {
         String timestamp = String.valueOf(System.currentTimeMillis());
-        log.debug("timestamp {}", timestamp);
         String signature = signRequest(clientSecret, timestamp, "GET", "/v1/account/balances", "");
-        String testsignature = signRequest("4961b74efac86b25cce8fbe4c9811c4c7a787b7a5996660afcc2e287ad864363", "1558014486185", "GET", "/v1/account/balances", "");
-        log.debug("testsignature {}", testsignature);
         try {
             final ValrBalanceData balance = api.getBalance(clientKey, signature, timestamp);
             BigDecimal cryptoballance;
