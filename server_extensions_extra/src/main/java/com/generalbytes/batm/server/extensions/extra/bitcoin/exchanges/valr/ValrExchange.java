@@ -36,9 +36,8 @@ public class ValrExchange implements IExchange {
         this.clientSecret = clientSecret;
         this.typeorder = typeorder;
         log = LoggerFactory.getLogger("batm.master.exchange.valr");
-        final ClientConfig config = new ClientConfig();
-        ClientConfigUtil.addBasicAuthCredentials(config, clientKey, clientSecret);
-        api = RestProxyFactory.createProxy(ValrExchangeAPI.class, "https://api.valr.com", config);
+
+        api = RestProxyFactory.createProxy(ValrExchangeAPI.class, "https://api.valr.com");
     }
 
 
