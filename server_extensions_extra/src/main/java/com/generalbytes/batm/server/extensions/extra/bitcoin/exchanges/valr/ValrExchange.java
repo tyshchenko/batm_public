@@ -98,10 +98,15 @@ public class ValrExchange implements IExchange {
     public BigDecimal getFiatBalance(String fiatCurrency) {
         String timestamp = String.valueOf(System.currentTimeMillis());
         String signature = signRequest(clientSecret, timestamp, "GET", "/v1/account/balances", "");
-        final ValrBalanceData balance = api.getBalance(clientKey, signature, timestamp);
-        final BigDecimal fiatballance = balance.getBalance("ZAR");
-        log.debug("{} exbalance = {}", fiatCurrency, fiatballance);
-        return fiatballance;
+        try {
+            final ValrBalanceData balance = api.getBalance(clientKey, signature, timestamp);
+            final BigDecimal fiatballance = balance.getBalance("ZAR");
+            log.debug("{} exbalance = {}", fiatCurrency, fiatballance);
+            return fiatballance;
+        } catch (HttpStatusIOException e) {
+            log.error("Error {}", e.getHttpBody());
+            return null;
+        }
     }
 
     @Override
@@ -109,10 +114,15 @@ public class ValrExchange implements IExchange {
         String timestamp = String.valueOf(System.currentTimeMillis());
         String signature = signRequest(clientSecret, timestamp, "GET", "/v1/account/balances", "");
         final ValrBalanceData balance = api.getBalance(clientKey, signature, timestamp);
-        BigDecimal cryptoballance;
-        cryptoballance = balance.getBalance(cryptoCurrency);
-        log.debug("{} exbalance = {}", cryptoCurrency, cryptoballance);
-        return cryptoballance;
+        try {
+            BigDecimal cryptoballance;
+            cryptoballance = balance.getBalance(cryptoCurrency);
+            log.debug("{} exbalance = {}", cryptoCurrency, cryptoballance);
+            return cryptoballance;
+        } catch (HttpStatusIOException e) {
+            log.error("Error {}", e.getHttpBody());
+            return null;
+        }
     }
 
     @Override

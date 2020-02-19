@@ -27,7 +27,7 @@ import javax.ws.rs.core.MediaType;
 public interface ValrExchangeAPI {
     @GET
     @Path("/account/balances")
-    ValrBalanceData getBalance(@HeaderParam("X-VALR-API-KEY") String apiKey, @HeaderParam("X-VALR-SIGNATURE") String signature, @HeaderParam("X-VALR-TIMESTAMP") String timestamp);
+    ValrBalanceData getBalance(@HeaderParam("X-VALR-API-KEY") String apiKey, @HeaderParam("X-VALR-SIGNATURE") String signature, @HeaderParam("X-VALR-TIMESTAMP") String timestamp) throws HttpStatusIOException;
 
     @GET
     @Path("/account/balances")
