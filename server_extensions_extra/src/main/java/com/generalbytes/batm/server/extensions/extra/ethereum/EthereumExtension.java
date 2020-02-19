@@ -31,6 +31,8 @@ import com.generalbytes.batm.server.extensions.extra.ethereum.sources.stasis.Sta
 import com.generalbytes.batm.server.extensions.extra.ethereum.stream365.Stream365;
 import com.generalbytes.batm.server.extensions.extra.bitcoin.exchanges.luno.LunoExchange;
 import com.generalbytes.batm.server.extensions.extra.bitcoin.sources.luno.LunoRateSource;
+import com.generalbytes.batm.server.extensions.extra.bitcoin.exchanges.valr.ValrExchange;
+import com.generalbytes.batm.server.extensions.extra.bitcoin.sources.valr.ValrRateSource;
 
 import java.math.BigInteger;
 import java.util.HashSet;
@@ -106,6 +108,9 @@ public class EthereumExtension extends AbstractExtension{
             } else if (sourceLogin.startsWith("lunoRateSource")) {
                 String preferedFiatCurrency = FiatCurrency.ZAR.getCode();
                 return new LunoRateSource(preferedFiatCurrency);
+            } else if (sourceLogin.startsWith("valrRateSource")) {
+                String preferedFiatCurrency = FiatCurrency.ZAR.getCode();
+                return new ValrRateSource(preferedFiatCurrency);
             }
         }
         return null;

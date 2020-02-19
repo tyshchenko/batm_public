@@ -188,6 +188,11 @@
                 <cryptocurrency>BTC</cryptocurrency>
                 <cryptocurrency>ETH</cryptocurrency>
             </ratesource>
+            <ratesource prefix="valrRateSource" name ="VALR Rate Source" >
+                <param name="fiatCurrency" />
+                <cryptocurrency>BTC</cryptocurrency>
+                <cryptocurrency>ETH</cryptocurrency>
+            </ratesource>
             <ratesource prefix="bitflyer" name="BitFlyer.jp Rate Source" >
                 <param name="fiatcurrency" />
                 <cryptocurrency>BTC</cryptocurrency>
@@ -218,6 +223,15 @@
                 <cryptocurrency>BTC</cryptocurrency>
             </paymentprocessor>
             <exchange prefix="lunoexchange" name="Luno.com Exchange">
+                <param name="apikey" />
+                <param name="apisecret" />
+                <param name="typeorders" />
+                <param name="fiatcurrency" />
+                <help>Typeorders can be limit or market</help>
+                <cryptocurrency>BTC</cryptocurrency>
+                <cryptocurrency>ETH</cryptocurrency>
+            </exchange>
+            <exchange prefix="valrexchange" name="VALR Exchange">
                 <param name="apikey" />
                 <param name="apisecret" />
                 <param name="typeorders" />
