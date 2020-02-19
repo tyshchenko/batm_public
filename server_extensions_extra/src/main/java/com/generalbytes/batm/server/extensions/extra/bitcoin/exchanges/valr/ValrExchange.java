@@ -11,6 +11,7 @@ import java.util.Set;
 import si.mazi.rescu.RestProxyFactory;
 import si.mazi.rescu.ClientConfig;
 import si.mazi.rescu.ClientConfigUtil;
+import si.mazi.rescu.HttpStatusIOException;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
