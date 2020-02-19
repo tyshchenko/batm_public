@@ -21,6 +21,9 @@ import java.math.BigDecimal;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
+
+import si.mazi.rescu.HttpStatusIOException;
+
 @Path("v1")
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
