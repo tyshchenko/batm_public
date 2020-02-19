@@ -20,13 +20,14 @@ package com.generalbytes.batm.server.extensions.extra.bitcoin.sources.valr;
 import com.generalbytes.batm.common.currencies.CryptoCurrency;
 import com.generalbytes.batm.common.currencies.FiatCurrency;
 import com.generalbytes.batm.server.extensions.IRateSource;
+import com.generalbytes.batm.server.extensions.IRateSourceAdvanced;
 
 import si.mazi.rescu.RestProxyFactory;
 
 import java.math.BigDecimal;
 import java.util.*;
 
-public class ValrRateSource implements IRateSource {
+public class ValrRateSource implements IRateSourceAdvanced {
 
     private ValrAPI api;
     private String preferredFiatCurrency = FiatCurrency.ZAR.getCode();
@@ -107,6 +108,23 @@ public class ValrRateSource implements IRateSource {
             final ValrTickerData ethZar = api.getTicker("ETHZAR");
             BigDecimal lastEthPriceInZar = ethZar.getPrice();
             return lastEthPriceInZar;
+        }
+        return null;
+    }
+    @Override
+    public BigDecimal calculateBuyPrice(String cryptoCurrency, String fiatCurrency, BigDecimal cryptoAmount) {
+        final BigDecimal rate = getExchangeRateForBuy(cryptoCurrency, fiatCurrency);
+        if (rate != null) {
+            return rate.multiply(cryptoAmount);
+        }
+        return null;
+    }
+
+    @Override
+    public BigDecimal calculateSellPrice(String cryptoCurrency, String fiatCurrency, BigDecimal cryptoAmount) {
+        final BigDecimal rate = getExchangeRateForSell(cryptoCurrency, fiatCurrency);
+        if (rate != null) {
+            return rate.multiply(cryptoAmount);
         }
         return null;
     }
