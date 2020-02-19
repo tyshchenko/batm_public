@@ -15,6 +15,11 @@ import si.mazi.rescu.ClientConfigUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import javax.crypto.Mac;
+import javax.crypto.spec.SecretKeySpec;
+import java.security.InvalidKeyException;
+import java.security.NoSuchAlgorithmException;
+import java.time.Clock;
 
 public class ValrExchange implements IExchange {
 
