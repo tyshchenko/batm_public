@@ -7,6 +7,7 @@ import com.generalbytes.batm.server.extensions.*;
 import java.math.BigDecimal;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.List;
 
 import si.mazi.rescu.RestProxyFactory;
 import si.mazi.rescu.ClientConfig;

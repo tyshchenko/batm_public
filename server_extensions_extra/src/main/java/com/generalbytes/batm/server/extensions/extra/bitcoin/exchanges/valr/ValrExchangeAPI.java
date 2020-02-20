@@ -18,6 +18,7 @@
 package com.generalbytes.batm.server.extensions.extra.bitcoin.exchanges.valr;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
