@@ -27,7 +27,6 @@ import org.slf4j.LoggerFactory;
 
 public class ValrBalanceData {
 
-    @JsonProperty("balance")
     private List<ValrBalances> balance;
 
     public List<ValrBalances> getBalances() {
