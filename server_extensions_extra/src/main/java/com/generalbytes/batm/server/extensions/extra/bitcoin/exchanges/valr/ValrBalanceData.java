@@ -27,6 +27,7 @@ import org.slf4j.LoggerFactory;
 
 public class ValrBalanceData {
 
+    @JsonAnyGetter
     private List<ValrBalances> balance;
 
     public List<ValrBalances> getBalances() {
