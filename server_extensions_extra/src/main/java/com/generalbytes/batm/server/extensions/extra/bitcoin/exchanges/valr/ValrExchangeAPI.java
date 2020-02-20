@@ -30,7 +30,7 @@ import si.mazi.rescu.HttpStatusIOException;
 public interface ValrExchangeAPI {
     @GET
     @Path("/account/balances")
-    ValrBalanceData getBalance(@HeaderParam("X-VALR-API-KEY") String apiKey, @HeaderParam("X-VALR-SIGNATURE") String signature, @HeaderParam("X-VALR-TIMESTAMP") String timestamp) throws HttpStatusIOException;
+    List<ValrBalances> getBalance(@HeaderParam("X-VALR-API-KEY") String apiKey, @HeaderParam("X-VALR-SIGNATURE") String signature, @HeaderParam("X-VALR-TIMESTAMP") String timestamp) throws HttpStatusIOException;
 
     @GET
     @Path("/account/balances")

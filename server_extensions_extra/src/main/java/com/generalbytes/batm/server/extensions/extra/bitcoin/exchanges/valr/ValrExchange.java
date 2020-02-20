@@ -86,6 +86,17 @@ public class ValrExchange implements IExchange {
         return sb.toString();
     }
 
+    public BigDecimal getBalance(String symbol, List<ValrBalances> balance) {
+        for (Iterator<ValrBalances> i = balance.iterator(); i.hasNext();) {
+            ValrBalances item = i.next();
+            if (item.getCurrency().equals(symbol)) {
+                log.debug("{} balance = {}", item.getCurrency(), item.getBalance());
+                return item.getBalance();
+            }
+        }
+        return new BigDecimal("0.0");
+    }
+
     @Override
     public String getDepositAddress(String cryptoCurrency) {
         String timestamp = String.valueOf(System.currentTimeMillis());
@@ -100,8 +111,8 @@ public class ValrExchange implements IExchange {
         String timestamp = String.valueOf(System.currentTimeMillis());
         String signature = signRequest(clientSecret, timestamp, "GET", "/v1/account/balances", "");
         try {
-            final ValrBalanceData balance = api.getBalance(clientKey, signature, timestamp);
-            final BigDecimal fiatballance = balance.getBalance("ZAR");
+            final List<ValrBalances> balance = api.getBalance(clientKey, signature, timestamp);
+            final BigDecimal fiatballance = getBalance("ZAR",balance);
             log.debug("{} exbalance = {}", fiatCurrency, fiatballance);
             return fiatballance;
         } catch (HttpStatusIOException e) {
@@ -115,9 +126,9 @@ public class ValrExchange implements IExchange {
         String timestamp = String.valueOf(System.currentTimeMillis());
         String signature = signRequest(clientSecret, timestamp, "GET", "/v1/account/balances", "");
         try {
-            final ValrBalanceData balance = api.getBalance(clientKey, signature, timestamp);
+            final List<ValrBalances> balance = api.getBalance(clientKey, signature, timestamp);
             BigDecimal cryptoballance;
-            cryptoballance = balance.getBalance(cryptoCurrency);
+            cryptoballance = getBalance(cryptoCurrency,balance);
             log.debug("{} exbalance = {}", cryptoCurrency, cryptoballance);
             return cryptoballance;
         } catch (HttpStatusIOException e) {
