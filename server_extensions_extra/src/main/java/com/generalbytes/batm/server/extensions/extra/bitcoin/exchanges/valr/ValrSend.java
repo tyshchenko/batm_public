@@ -18,7 +18,7 @@ public class ValrSend {
     }
 
     public void setAmount(String amount) {
-        this.baseAmount = amount;
+        this.amount = amount;
     }
 
 }
