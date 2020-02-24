@@ -11,7 +11,7 @@ public class ValrLimitSellOrder {
     private String pair;
 
     @JsonProperty("side")
-    private BigDecimal side;
+    private String side;
 
     @JsonProperty("volume")
     private String volume;

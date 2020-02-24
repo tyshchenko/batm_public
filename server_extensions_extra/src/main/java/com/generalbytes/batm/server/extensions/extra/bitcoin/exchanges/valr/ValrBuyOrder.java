@@ -11,7 +11,7 @@ public class ValrBuyOrder {
     private String pair;
 
     @JsonProperty("side")
-    private BigDecimal side;
+    private String side;
 
     @JsonProperty("quoteAmount")
     private String quoteAmount;
