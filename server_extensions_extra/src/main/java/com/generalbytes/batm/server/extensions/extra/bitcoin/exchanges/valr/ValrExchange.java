@@ -148,8 +148,10 @@ public class ValrExchange implements IExchange {
         }
         String timestamp = String.valueOf(System.currentTimeMillis());
         String signature = signRequest(clientSecret, timestamp, "POST", "/v1/wallet/crypto/"+cryptoCurrency+"/withdraw", "{\"address\":\""+destinationAddress+"\",\"amount\":\""+amount.toString()+"\"}");
-
-        final ValrRequestData result = api.sendMoney("{\"address\":\""+destinationAddress+"\",\"amount\":\""+amount.toString()+"\"}", cryptoCurrency, clientKey, signature, timestamp);
+        ValrSend senddata;
+        senddata.setAddress(destinationAddress);
+        senddata.setAmount(amount.toString());
+        final ValrRequestData result = api.sendMoney(senddata, cryptoCurrency, clientKey, signature, timestamp);
         return result.getResult();
     }
 
@@ -174,13 +176,22 @@ public class ValrExchange implements IExchange {
             String signature = signRequest(clientSecret, timestamp, "POST", "/v1/orders/limit", "{\"side\":\""+type+"\",\"quantity\":\""+amount.toString()+"\",\"price\":\""+price.toString()+"\",\"pair\":\""+pair+"\"}");
 
             log.debug("limit pair {} type {} amount {} price {}", pair, type, amount.toString(), price.toString());
-            final ValrOrderData result = api.createLimitBuyOrder("{\"side\":\""+type+"\",\"quantity\":\""+amount.toString()+"\",\"price\":\""+price.toString()+"\",\"pair\":\""+pair+"\"}", clientKey, signature, timestamp);
+            ValrLimitBuyOrder buyOrder;
+            buyOrder.setPair(pair);
+            buyOrder.setSide(type);
+            buyOrder.setAmount(amount.toString());
+            buyOrder.setPrice(price.toString());
+            final ValrOrderData result = api.createLimitBuyOrder(buyOrder, clientKey, signature, timestamp);
             return result.getResult();
         } else {
             String signature = signRequest(clientSecret, timestamp, "POST", "/v1/orders/market", "{\"side\":\""+type+"\",\"quoteAmount\":\""+amountincrypto.toString()+"\",\"pair\":\""+pair+"\"}");
 
             log.debug("market pair {} type {} amount   {}  ", pair, type, amountincrypto.toString());
-            final ValrOrderData result = api.createBuyOrder("{\"side\":\""+type+"\",\"quoteAmount\":\""+amountincrypto.toString()+"\",\"pair\":\""+pair+"\"}", clientKey, signature, timestamp);
+            ValrBuyOrder buyOrder;
+            buyOrder.setPair(pair);
+            buyOrder.setSide(type);
+            buyOrder.setAmount(amountincrypto.toString());
+            final ValrOrderData result = api.createBuyOrder(buyOrder, clientKey, signature, timestamp);
             return result.getResult();
         }
     }
@@ -200,13 +211,23 @@ public class ValrExchange implements IExchange {
             BigDecimal price     = priceask.subtract(one).setScale(0, BigDecimal.ROUND_CEILING);
 
             String signature = signRequest(clientSecret, timestamp, "POST", "/v1/orders/limit", "{\"side\":\""+type+"\",\"quantity\":\""+cryptoAmount.toString()+"\",\"price\":\""+price.toString()+"\",\"pair\":\""+pair+"\"}");
+            ValrLimitSellOrder sellOrder;
+            sellOrder.setPair(pair);
+            sellOrder.setSide(type);
+            sellOrder.setAmount(cryptoAmount.toString());
+            sellOrder.setPrice(price.toString());
 
-            final ValrOrderData result = api.createLimitSellOrder("{\"side\":\""+type+"\",\"quantity\":\""+cryptoAmount.toString()+"\",\"price\":\""+price.toString()+"\",\"pair\":\""+pair+"\"}", clientKey, signature, timestamp);
+            final ValrOrderData result = api.createLimitSellOrder(sellOrder, clientKey, signature, timestamp);
             log.debug("limit pair {} type {} amount {} price {} result {}", pair, "ASK", cryptoAmount.toString(), price.toString(), result.getResult());
             return result.getResult();
         } else {
             String signature = signRequest(clientSecret, timestamp, "POST", "/v1/orders/market", "{\"side\":\""+type+"\",\"baseAmount\":\""+cryptoAmount.toString()+"\",\"pair\":\""+pair+"\"}");
-            final ValrOrderData result = api.createSellOrder("{\"side\":\""+type+"\",\"baseAmount\":\""+cryptoAmount.toString()+"\",\"pair\":\""+pair+"\"}", clientKey, signature, timestamp);
+            ValrSellOrder sellOrder;
+            sellOrder.setPair(pair);
+            sellOrder.setSide(type);
+            sellOrder.setAmount(cryptoAmount.toString());
+
+            final ValrOrderData result = api.createSellOrder(sellOrder, clientKey, signature, timestamp);
             log.debug("market pair {} type {} amount   {}   result {}", pair, type, cryptoAmount.toString(), result.getResult());
             return result.getResult();
         }
