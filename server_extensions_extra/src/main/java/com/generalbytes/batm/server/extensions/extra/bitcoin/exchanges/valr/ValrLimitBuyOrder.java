@@ -7,9 +7,6 @@ import java.math.BigDecimal;
 
 public class ValrLimitBuyOrder {
 
-    @JsonProperty("pair")
-    private String pair;
-
     @JsonProperty("side")
     private String side;
 
@@ -18,6 +15,9 @@ public class ValrLimitBuyOrder {
 
     @JsonProperty("price")
     private String price;
+
+    @JsonProperty("pair")
+    private String pair;
 
     public void setPair(String pair) {
         this.pair = pair;

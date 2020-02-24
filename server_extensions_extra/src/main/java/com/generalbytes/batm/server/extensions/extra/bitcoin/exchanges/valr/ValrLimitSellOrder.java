@@ -7,17 +7,17 @@ import java.math.BigDecimal;
 
 public class ValrLimitSellOrder {
 
-    @JsonProperty("pair")
-    private String pair;
-
     @JsonProperty("side")
     private String side;
 
-    @JsonProperty("volume")
-    private String volume;
+    @JsonProperty("quantity")
+    private String quantity;
 
     @JsonProperty("price")
     private String price;
+
+    @JsonProperty("pair")
+    private String pair;
 
     public void setPair(String pair) {
         this.pair = pair;
@@ -27,8 +27,8 @@ public class ValrLimitSellOrder {
         this.side = side;
     }
 
-    public void setAmount(String volume) {
-        this.volume = volume;
+    public void setAmount(String quantity) {
+        this.quantity = quantity;
     }
 
     public void setPrice(String price) {

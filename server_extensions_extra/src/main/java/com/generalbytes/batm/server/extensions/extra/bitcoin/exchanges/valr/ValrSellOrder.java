@@ -7,14 +7,14 @@ import java.math.BigDecimal;
 
 public class ValrSellOrder {
 
-    @JsonProperty("pair")
-    private String pair;
-
     @JsonProperty("side")
     private String side;
 
     @JsonProperty("baseAmount")
     private String baseAmount;
+
+    @JsonProperty("pair")
+    private String pair;
 
     public void setPair(String pair) {
         this.pair = pair;
