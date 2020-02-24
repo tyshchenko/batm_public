@@ -62,7 +62,7 @@ public interface ValrExchangeAPI {
     ValrOrderData createLimitSellOrder(@FormParam("pair") String pair, @FormParam("side") String type, @FormParam("volume") String volume, @FormParam("price") String price, @HeaderParam("X-VALR-API-KEY") String apiKey, @HeaderParam("X-VALR-SIGNATURE") String signature, @HeaderParam("X-VALR-TIMESTAMP") String timestamp);
 
     @GET
-    @Path("/{pair}/marketsummary")
+    @Path("/public/{pair}/marketsummary")
     ValrTickerData getTicker(@PathParam("pair") String symbol);
 
 }
