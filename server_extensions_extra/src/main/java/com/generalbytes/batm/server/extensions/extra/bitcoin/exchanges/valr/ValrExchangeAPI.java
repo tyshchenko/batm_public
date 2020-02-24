@@ -43,23 +43,23 @@ public interface ValrExchangeAPI {
 
     @POST
     @Path("/wallet/crypto/{symbol}/withdraw")
-    ValrRequestData sendMoney(@FormParam("address") String destinationAddress, @FormParam("amount") String amount, @PathParam("symbol") String cryptoCurrency, @HeaderParam("X-VALR-API-KEY") String apiKey, @HeaderParam("X-VALR-SIGNATURE") String signature, @HeaderParam("X-VALR-TIMESTAMP") String timestamp);
+    ValrRequestData sendMoney(String json, @PathParam("symbol") String cryptoCurrency, @HeaderParam("X-VALR-API-KEY") String apiKey, @HeaderParam("X-VALR-SIGNATURE") String signature, @HeaderParam("X-VALR-TIMESTAMP") String timestamp);
 
     @POST
     @Path("/orders/market")
-    ValrOrderData createBuyOrder(@FormParam("pair") String pair, @FormParam("side") String type, @FormParam("quoteAmount") String volume, @HeaderParam("X-VALR-API-KEY") String apiKey, @HeaderParam("X-VALR-SIGNATURE") String signature, @HeaderParam("X-VALR-TIMESTAMP") String timestamp);
+    ValrOrderData createBuyOrder(String json, @HeaderParam("X-VALR-API-KEY") String apiKey, @HeaderParam("X-VALR-SIGNATURE") String signature, @HeaderParam("X-VALR-TIMESTAMP") String timestamp);
 
     @POST
     @Path("/orders/market")
-    ValrOrderData createSellOrder(@FormParam("pair") String pair, @FormParam("side") String type, @FormParam("baseAmount") String volume, @HeaderParam("X-VALR-API-KEY") String apiKey, @HeaderParam("X-VALR-SIGNATURE") String signature, @HeaderParam("X-VALR-TIMESTAMP") String timestamp);
+    ValrOrderData createSellOrder(String json, @HeaderParam("X-VALR-API-KEY") String apiKey, @HeaderParam("X-VALR-SIGNATURE") String signature, @HeaderParam("X-VALR-TIMESTAMP") String timestamp);
 
     @POST
     @Path("/orders/limit")
-    ValrOrderData createLimitBuyOrder(@FormParam("pair") String pair, @FormParam("side") String type, @FormParam("quantity") String volume, @FormParam("price") String price, @HeaderParam("X-VALR-API-KEY") String apiKey, @HeaderParam("X-VALR-SIGNATURE") String signature, @HeaderParam("X-VALR-TIMESTAMP") String timestamp);
+    ValrOrderData createLimitBuyOrder(String json, @HeaderParam("X-VALR-API-KEY") String apiKey, @HeaderParam("X-VALR-SIGNATURE") String signature, @HeaderParam("X-VALR-TIMESTAMP") String timestamp);
 
     @POST
     @Path("/orders/limit")
-    ValrOrderData createLimitSellOrder(@FormParam("pair") String pair, @FormParam("side") String type, @FormParam("volume") String volume, @FormParam("price") String price, @HeaderParam("X-VALR-API-KEY") String apiKey, @HeaderParam("X-VALR-SIGNATURE") String signature, @HeaderParam("X-VALR-TIMESTAMP") String timestamp);
+    ValrOrderData createLimitSellOrder(String json, @HeaderParam("X-VALR-API-KEY") String apiKey, @HeaderParam("X-VALR-SIGNATURE") String signature, @HeaderParam("X-VALR-TIMESTAMP") String timestamp);
 
     @GET
     @Path("/public/{pair}/marketsummary")
