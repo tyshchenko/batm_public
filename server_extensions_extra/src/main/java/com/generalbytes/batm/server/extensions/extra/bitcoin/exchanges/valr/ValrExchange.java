@@ -148,7 +148,7 @@ public class ValrExchange implements IExchange {
         }
         String timestamp = String.valueOf(System.currentTimeMillis());
         String signature = signRequest(clientSecret, timestamp, "POST", "/v1/wallet/crypto/"+cryptoCurrency+"/withdraw", "{\"address\":\""+destinationAddress+"\",\"amount\":\""+amount.toString()+"\"}");
-        ValrSend senddata;
+        ValrSend senddata = new ValrSend();
         senddata.setAddress(destinationAddress);
         senddata.setAmount(amount.toString());
         final ValrRequestData result = api.sendMoney(senddata, cryptoCurrency, clientKey, signature, timestamp);
@@ -176,7 +176,7 @@ public class ValrExchange implements IExchange {
             String signature = signRequest(clientSecret, timestamp, "POST", "/v1/orders/limit", "{\"side\":\""+type+"\",\"quantity\":\""+amount.toString()+"\",\"price\":\""+price.toString()+"\",\"pair\":\""+pair+"\"}");
 
             log.debug("limit pair {} type {} amount {} price {}", pair, type, amount.toString(), price.toString());
-            ValrLimitBuyOrder buyOrder;
+            ValrLimitBuyOrder buyOrder = new ValrLimitBuyOrder();
             buyOrder.setPair(pair);
             buyOrder.setSide(type);
             buyOrder.setAmount(amount.toString());
@@ -187,7 +187,7 @@ public class ValrExchange implements IExchange {
             String signature = signRequest(clientSecret, timestamp, "POST", "/v1/orders/market", "{\"side\":\""+type+"\",\"quoteAmount\":\""+amountincrypto.toString()+"\",\"pair\":\""+pair+"\"}");
 
             log.debug("market pair {} type {} amount   {}  ", pair, type, amountincrypto.toString());
-            ValrBuyOrder buyOrder;
+            ValrBuyOrder buyOrder = new ValrBuyOrder();
             buyOrder.setPair(pair);
             buyOrder.setSide(type);
             buyOrder.setAmount(amountincrypto.toString());
@@ -211,7 +211,7 @@ public class ValrExchange implements IExchange {
             BigDecimal price     = priceask.subtract(one).setScale(0, BigDecimal.ROUND_CEILING);
 
             String signature = signRequest(clientSecret, timestamp, "POST", "/v1/orders/limit", "{\"side\":\""+type+"\",\"quantity\":\""+cryptoAmount.toString()+"\",\"price\":\""+price.toString()+"\",\"pair\":\""+pair+"\"}");
-            ValrLimitSellOrder sellOrder;
+            ValrLimitSellOrder sellOrder = new ValrLimitSellOrder();
             sellOrder.setPair(pair);
             sellOrder.setSide(type);
             sellOrder.setAmount(cryptoAmount.toString());
@@ -222,7 +222,7 @@ public class ValrExchange implements IExchange {
             return result.getResult();
         } else {
             String signature = signRequest(clientSecret, timestamp, "POST", "/v1/orders/market", "{\"side\":\""+type+"\",\"baseAmount\":\""+cryptoAmount.toString()+"\",\"pair\":\""+pair+"\"}");
-            ValrSellOrder sellOrder;
+            ValrSellOrder sellOrder = new ValrSellOrder();
             sellOrder.setPair(pair);
             sellOrder.setSide(type);
             sellOrder.setAmount(cryptoAmount.toString());
