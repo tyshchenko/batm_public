@@ -90,27 +90,4 @@ public class DashPaymentSupport extends AbstractRPCPaymentSupport {
         }
     }
 
-    @Override
-    public PaymentReceipt getPaymentReceipt(String paymentAddress) {
-        PaymentReceipt result = new PaymentReceipt(getCurrency(), paymentAddress);
-        for (PaymentRequest paymentRequest : requests.keySet()) {
-            if (paymentRequest.getAddress().equals(paymentAddress)) {
-                switch (paymentRequest.getState()) {
-                    case PaymentRequest.STATE_SEEN_IN_BLOCK_CHAIN:
-                        result.setStatus(PaymentReceipt.STATUS_PAID);
-                        result.setConfidence(PaymentReceipt.CONFIDENCE_SURE);
-                        break;
-                    case PaymentRequest.STATE_SEEN_TRANSACTION:
-                        result.setStatus(PaymentReceipt.STATUS_PAID);
-                        result.setConfidence(PaymentReceipt.CONFIDENCE_NONE);
-                        break;
-                }
-                result.setAmount(paymentRequest.getAmount());
-                result.setTransactionId(paymentRequest.getIncomingTransactionHash());
-            }
-        }
-        return result;
-    }
-
-
 }
