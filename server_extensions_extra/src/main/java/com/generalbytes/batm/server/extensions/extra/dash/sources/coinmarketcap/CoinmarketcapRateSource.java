@@ -73,6 +73,7 @@ public class CoinmarketcapRateSource implements IRateSource {
         result.add(CryptoCurrency.CLOAK.getCode());
         result.add(CryptoCurrency.DAI.getCode());
         result.add(CryptoCurrency.DASH.getCode());
+        result.add(CryptoCurrency.DASHD.getCode());
         result.add(CryptoCurrency.DOGE.getCode());
         result.add(CryptoCurrency.ECA.getCode());
         result.add(CryptoCurrency.EFL.getCode());

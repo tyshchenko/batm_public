@@ -42,7 +42,7 @@ public class DashPaymentSupport extends AbstractRPCPaymentSupport {
 
     @Override
     public String getCurrency() {
-        return CryptoCurrency.DASH.getCode();
+        return CryptoCurrency.DASHD.getCode();
     }
 
     @Override

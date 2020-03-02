@@ -23,6 +23,6 @@ import com.generalbytes.batm.server.extensions.extra.common.RPCWallet;
 
 public class DashRPCWallet extends RPCWallet {
     public DashRPCWallet(String rpcURL, String accountName) {
-        super(rpcURL, accountName, CryptoCurrency.DASH.getCode());
+        super(rpcURL, accountName, CryptoCurrency.DASHD.getCode());
     }
 }

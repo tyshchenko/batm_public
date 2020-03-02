@@ -51,6 +51,7 @@ public enum CryptoCurrency {
     CLOAK("CloakCoin"),
     DAI("Dai"),
     DASH("Dash"),
+    DASHD("Dash Coin"),
     DEX("DEX"),
     DGB("DigiByte"),
     DOGE("DOGE"),

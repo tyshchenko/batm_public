@@ -44,6 +44,7 @@ public class YobitRateSource implements IRateSourceAdvanced {
         result.add(CryptoCurrency.LTC.getCode());
         result.add(CryptoCurrency.MAX.getCode());
         result.add(CryptoCurrency.DASH.getCode());
+        result.add(CryptoCurrency.DASHD.getCode());
         result.add(CryptoCurrency.ETH.getCode());
         result.add(CryptoCurrency.LSK.getCode());
         result.add(CryptoCurrency.DOGE.getCode());

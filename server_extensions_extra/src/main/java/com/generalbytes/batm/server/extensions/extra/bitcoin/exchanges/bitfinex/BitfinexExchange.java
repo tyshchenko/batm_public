@@ -761,7 +761,7 @@ public class BitfinexExchange implements IExchangeAdvanced, IRateSourceAdvanced 
     }
 
     private String getExchangeSpecificSymbol(String cryptoCurrency) {
-        if (CryptoCurrency.DASH.getCode().equals(cryptoCurrency)) {
+        if (CryptoCurrency.DASHD.getCode().equals(cryptoCurrency)) {
             return "DSH";
         }
         return cryptoCurrency;

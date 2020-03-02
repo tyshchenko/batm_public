@@ -25,7 +25,7 @@ public class DashDefinition extends CryptoCurrencyDefinition{
     private IPaymentSupport paymentSupport = new DashPaymentSupport();
 
     public DashDefinition() {
-        super(CryptoCurrency.DASH.getCode(), "Dash", "dash","https://www.dash.org");
+        super(CryptoCurrency.DASHD.getCode(), "Dash", "dash","https://www.dash.org");
     }
 
     @Override

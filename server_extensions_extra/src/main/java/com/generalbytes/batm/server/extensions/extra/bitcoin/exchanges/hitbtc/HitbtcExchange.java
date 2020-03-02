@@ -65,6 +65,7 @@ public class HitbtcExchange extends XChangeExchange {
         cryptoCurrencies.add(CryptoCurrency.DOGE.getCode());
         cryptoCurrencies.add(CryptoCurrency.XMR.getCode());
         cryptoCurrencies.add(CryptoCurrency.DASH.getCode());
+        cryptoCurrencies.add(CryptoCurrency.DASHD.getCode());
         cryptoCurrencies.add(CryptoCurrency.NXT.getCode());
         return cryptoCurrencies;
     }

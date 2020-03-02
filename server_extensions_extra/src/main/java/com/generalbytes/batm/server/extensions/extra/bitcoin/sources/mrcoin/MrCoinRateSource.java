@@ -44,6 +44,7 @@ public class MrCoinRateSource implements IRateSourceAdvanced{
         result.add(CryptoCurrency.BCH.getCode());
         result.add(CryptoCurrency.LTC.getCode());
         result.add(CryptoCurrency.DASH.getCode());
+        result.add(CryptoCurrency.DASHD.getCode());
         result.add(CryptoCurrency.DAI.getCode());
         return result;
     }

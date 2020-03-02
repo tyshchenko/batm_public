@@ -78,7 +78,7 @@ public class DashExtension extends AbstractExtension{
 
     @Override
     public ICryptoAddressValidator createAddressValidator(String cryptoCurrency) {
-        if (CryptoCurrency.DASH.getCode().equalsIgnoreCase(cryptoCurrency)) {
+        if (CryptoCurrency.DASHD.getCode().equalsIgnoreCase(cryptoCurrency)) {
             return new DashAddressValidator();
         }
         return null;
@@ -125,7 +125,7 @@ public class DashExtension extends AbstractExtension{
     @Override
     public Set<String> getSupportedCryptoCurrencies() {
         Set<String> result = new HashSet<String>();
-        result.add(CryptoCurrency.DASH.getCode());
+        result.add(CryptoCurrency.DASHD.getCode());
         return result;
     }
 
@@ -138,7 +138,7 @@ public class DashExtension extends AbstractExtension{
 
 //     @Override
 //     public IPaperWalletGenerator createPaperWalletGenerator(String cryptoCurrency) {
-//         if (CryptoCurrency.DASH.getCode().equalsIgnoreCase(cryptoCurrency)) {
+//         if (CryptoCurrency.DASHD.getCode().equalsIgnoreCase(cryptoCurrency)) {
 //             return new DashWalletGenerator("Xgb", ctx);
 //         }
 //         return null;

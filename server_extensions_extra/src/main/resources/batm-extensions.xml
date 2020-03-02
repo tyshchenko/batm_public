@@ -65,6 +65,7 @@
                 <cryptocurrency>BCH</cryptocurrency>
                 <cryptocurrency>LTC</cryptocurrency>
                 <cryptocurrency>DASH</cryptocurrency>
+                <cryptocurrency>DASHD</cryptocurrency>
                 <cryptocurrency>DAI</cryptocurrency>
             </ratesource>
             <ratesource prefix="bitfinex" name ="Bitfinex.com Exchange" >
@@ -74,6 +75,7 @@
                 <cryptocurrency>LTC</cryptocurrency>
                 <cryptocurrency>BCH</cryptocurrency>
                 <cryptocurrency>DASH</cryptocurrency>
+                <cryptocurrency>DASHD</cryptocurrency>
                 <cryptocurrency>XMR</cryptocurrency>
             </ratesource>
             <ratesource prefix="bittrex" name ="Bittrex.com Exchange" >
@@ -103,6 +105,7 @@
                 <cryptocurrency>REP</cryptocurrency>
                 <cryptocurrency>ANT</cryptocurrency>
                 <cryptocurrency>DASH</cryptocurrency>
+                <cryptocurrency>DASHD</cryptocurrency>
                 <cryptocurrency>HATCH</cryptocurrency>
                 <cryptocurrency>XMR</cryptocurrency>
                 <cryptocurrency>$PAC</cryptocurrency>
@@ -147,6 +150,7 @@
                 <cryptocurrency>DAI</cryptocurrency>
                 <cryptocurrency>DAI</cryptocurrency>
                 <cryptocurrency>DASH</cryptocurrency>
+                <cryptocurrency>DASHD</cryptocurrency>
                 <cryptocurrency>DEX</cryptocurrency>
                 <cryptocurrency>DGB</cryptocurrency>
                 <cryptocurrency>DOGE</cryptocurrency>
@@ -250,6 +254,7 @@
                 <!-- Sell on exchange & receive to exchange will work only for BTC, LTC, ETH, see org.knowm.xchange.bitfinex.v1.service.BitfinexAccountServiceRaw.requestDepositAddressRaw -->
                 <cryptocurrency>BCH</cryptocurrency>
                 <cryptocurrency>DASH</cryptocurrency>
+                <cryptocurrency>DASHD</cryptocurrency>
                 <cryptocurrency>XMR</cryptocurrency>
             </exchange>
             <exchange prefix="bittrex" name="Bittrex.com Exchange">
@@ -288,6 +293,7 @@
             <cryptocurrency>DOGE</cryptocurrency>
             <cryptocurrency>XMR</cryptocurrency>
             <cryptocurrency>DASH</cryptocurrency>
+            <cryptocurrency>DASHD</cryptocurrency>
             <cryptocurrency>NXT</cryptocurrency>
         </exchange>
         <cryptologo cryptocurrency="BTC" file="btc.png"/>
@@ -339,6 +345,7 @@
             <cryptocurrency>CLOAK</cryptocurrency>
             <cryptocurrency>DAI</cryptocurrency>
             <cryptocurrency>DASH</cryptocurrency>
+            <cryptocurrency>DASHD</cryptocurrency>
             <cryptocurrency>DEX</cryptocurrency>
             <cryptocurrency>DGB</cryptocurrency>
             <cryptocurrency>DOGE</cryptocurrency>
@@ -396,6 +403,7 @@
             <cryptocurrency>CLOAK</cryptocurrency>
             <cryptocurrency>DAI</cryptocurrency>
             <cryptocurrency>DASH</cryptocurrency>
+            <cryptocurrency>DASHD</cryptocurrency>
             <cryptocurrency>DEX</cryptocurrency>
             <cryptocurrency>DGB</cryptocurrency>
             <cryptocurrency>DOGE</cryptocurrency>
@@ -651,18 +659,22 @@
             <param name="host" />
             <param name="port" />
             <param name="accountname" />
-            <cryptocurrency>DASH</cryptocurrency>
+
+            <cryptocurrency>DASHD</cryptocurrency>
         </wallet>
         <ratesource prefix="cddash" name="Cryptodiggers" >
-            <cryptocurrency>DASH</cryptocurrency>
+
+            <cryptocurrency>DASHD</cryptocurrency>
         </ratesource>
         <ratesource prefix="dashfix" name ="Fix Price" >
             <param name="price" />
-            <cryptocurrency>DASH</cryptocurrency>
+
+            <cryptocurrency>DASHD</cryptocurrency>
             <help>USD is default fiat currency.</help>
         </ratesource>
-        <cryptologo cryptocurrency="DASH" file="dash.png"/>
-        <cryptologo cryptocurrency="DASH" file="dash.svg"/>
+
+        <cryptologo cryptocurrency="DASHD" file="dash.png"/>
+        <cryptologo cryptocurrency="DASHD" file="dash.svg"/>
     </extension>
     <extension class="com.generalbytes.batm.server.extensions.extra.syscoin.SyscoinExtension" >
     <wallet prefix="syscoind" name="syscoind">
@@ -1180,6 +1192,7 @@
             <cryptocurrency>FTO</cryptocurrency>
             <cryptocurrency>MAX</cryptocurrency>
             <cryptocurrency>DASH</cryptocurrency>
+            <cryptocurrency>DASHD</cryptocurrency>
             <cryptocurrency>LTC</cryptocurrency>
             <cryptocurrency>BTC</cryptocurrency>
             <cryptocurrency>ETH</cryptocurrency>

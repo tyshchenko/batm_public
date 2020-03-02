@@ -45,8 +45,8 @@ public class DashWalletGenerator implements IPaperWalletGenerator {
     @Override
     public IPaperWallet generateWallet(String cryptoCurrency, String oneTimePassword, String userLanguage) {
         WalletToolsDASH wt = new WalletToolsDASH();
-        String privateKey = wt.generateWalletPrivateKeyWithPrefix(prefix, CryptoCurrency.DASH.getCode());
-        String address = wt.getWalletAddressFromPrivateKey(privateKey, CryptoCurrency.DASH.getCode());
+        String privateKey = wt.generateWalletPrivateKeyWithPrefix(prefix, CryptoCurrency.DASHD.getCode());
+        String address = wt.getWalletAddressFromPrivateKey(privateKey, CryptoCurrency.DASHD.getCode());
 
         byte[] content = ctx.createPaperWallet7ZIP(privateKey, address, oneTimePassword, cryptoCurrency);
 
