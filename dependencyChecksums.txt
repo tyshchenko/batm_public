@@ -57,6 +57,7 @@ verifyModule 'org.java-websocket:Java-WebSocket:1.3.8:64d38c6b4d6c9e830be6820d40
 verifyModule 'org.json:json:20180130:3eddf6d9d50e770650e62abe62885f4393aa911430ecde73ebafb1ffd2cfad16'
 verifyModule 'org.knowm.xchange:xchange-bitfinex:4.3.19:ad2277011bfddd897731a848c559d11740082b4837188b16b801959660b9f1dc'
 verifyModule 'org.knowm.xchange:xchange-bittrex:4.3.15:964e01f74c6af4630f8123e4434c3d3ca7a6d71881fba461b70f395821015c69'
+verifyModule 'org.knowm.xchange:xchange-binance:4.3.15:33c2d5a5fa14dc2e2269f4df7ee3e131f35a0bec110c32c182ece5f7e9ab4aa3'
 verifyModule 'org.knowm.xchange:xchange-coinbasepro:4.3.15:f0ed6a10f03830144fb45bd3137c345e2168d291c9708da6b65c8dc5ac70ed59'
 verifyModule 'org.knowm.xchange:xchange-coingi:4.3.18:9e88748f1855bb85ac3415967bb9c867d673e93e0acefdc021bb6bf4cbb45d74'
 verifyModule 'org.knowm.xchange:xchange-core:4.3.15:7e7d7b3542102b618dfe2bcdcf45a5bfecc9f890b97ba0deb075e3da2467937d'
