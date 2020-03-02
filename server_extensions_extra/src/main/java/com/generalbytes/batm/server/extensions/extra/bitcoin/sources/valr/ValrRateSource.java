@@ -46,6 +46,7 @@ public class ValrRateSource implements IRateSourceAdvanced {
         Set<String> result = new HashSet<String>();
         result.add(CryptoCurrency.BTC.getCode());
         result.add(CryptoCurrency.ETH.getCode());
+        result.add(CryptoCurrency.DASHD.getCode());
         return result;
     }
 
@@ -74,6 +75,12 @@ public class ValrRateSource implements IRateSourceAdvanced {
             final ValrTickerData ethZar = api.getTicker("ETHZAR");
             BigDecimal lastEthPriceInZar = ethZar.getAskPrice();
             return lastEthPriceInZar;
+        } else if (CryptoCurrency.DASHD.getCode().equalsIgnoreCase(cryptoCurrency)) {
+            final ValrTickerData btcZar = api.getTicker("BTCZAR");
+            BigDecimal lastBtcPriceInZar = btcZar.getAskPrice();
+            final ValrTickerData btcDash = api.getTicker("DASHBTC");
+            BigDecimal lastDashPriceInBtc = btcDash.getAskPrice();
+            return lastBtcPriceInZar.multiply(lastDashPriceInBtc);
         }
         return null;
     }
@@ -91,6 +98,12 @@ public class ValrRateSource implements IRateSourceAdvanced {
             final ValrTickerData ethZar = api.getTicker("ETHZAR");
             BigDecimal lastEthPriceInZar = ethZar.getAskPrice();
             return lastEthPriceInZar;
+        } else if (CryptoCurrency.DASHD.getCode().equalsIgnoreCase(cryptoCurrency)) {
+            final ValrTickerData btcZar = api.getTicker("BTCZAR");
+            BigDecimal lastBtcPriceInZar = btcZar.getAskPrice();
+            final ValrTickerData btcDash = api.getTicker("DASHBTC");
+            BigDecimal lastDashPriceInBtc = btcDash.getAskPrice();
+            return lastBtcPriceInZar.multiply(lastDashPriceInBtc);
         }
         return null;
     }
@@ -108,6 +121,12 @@ public class ValrRateSource implements IRateSourceAdvanced {
             final ValrTickerData ethZar = api.getTicker("ETHZAR");
             BigDecimal lastEthPriceInZar = ethZar.getPrice();
             return lastEthPriceInZar;
+        } else if (CryptoCurrency.DASHD.getCode().equalsIgnoreCase(cryptoCurrency)) {
+            final ValrTickerData btcZar = api.getTicker("BTCZAR");
+            BigDecimal lastBtcPriceInZar = btcZar.getPrice();
+            final ValrTickerData btcDash = api.getTicker("DASHBTC");
+            BigDecimal lastDashPriceInBtc = btcDash.getPrice();
+            return lastBtcPriceInZar.multiply(lastDashPriceInBtc);
         }
         return null;
     }
