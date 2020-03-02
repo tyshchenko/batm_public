@@ -49,6 +49,7 @@ public class ValrExchange implements IExchange {
         Set<String> cryptoCurrencies = new HashSet<>();
         cryptoCurrencies.add(CryptoCurrency.BTC.getCode());
         cryptoCurrencies.add(CryptoCurrency.ETH.getCode());
+        cryptoCurrencies.add(CryptoCurrency.DASHD.getCode());
         return cryptoCurrencies;
     }
 
