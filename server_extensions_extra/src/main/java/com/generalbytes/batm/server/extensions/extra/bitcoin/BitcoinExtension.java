@@ -21,6 +21,9 @@ import com.generalbytes.batm.common.currencies.CryptoCurrency;
 import com.generalbytes.batm.common.currencies.FiatCurrency;
 import com.generalbytes.batm.server.extensions.*;
 import com.generalbytes.batm.server.extensions.FixPriceRateSource;
+import com.generalbytes.batm.server.extensions.extra.bitcoin.exchanges.binance.BinanceComExchange;
+import com.generalbytes.batm.server.extensions.extra.bitcoin.exchanges.binance.BinanceJerseyExchange;
+import com.generalbytes.batm.server.extensions.extra.bitcoin.exchanges.binance.BinanceUsExchange;
 import com.generalbytes.batm.server.extensions.extra.bitcoin.exchanges.bitfinex.BitfinexExchange;
 import com.generalbytes.batm.server.extensions.extra.bitcoin.exchanges.bitflyer.BitFlyerExchange;
 import com.generalbytes.batm.server.extensions.extra.bitcoin.exchanges.bittrex.BittrexExchange;
@@ -148,6 +151,33 @@ public class BitcoinExtension extends AbstractExtension{
                 String secret = paramTokenizer.nextToken();
 
                 return new BitFlyerExchange(preferredFiatCurrency, key, secret, BITFLYER_COM_BASE_URL);
+            } else if ("binancecom".equalsIgnoreCase(prefix)) {
+                String preferredFiatCurrency = FiatCurrency.EUR.getCode();
+                String apikey = paramTokenizer.nextToken();
+                String secretKey = paramTokenizer.nextToken();
+                if (paramTokenizer.hasMoreTokens()) {
+                    preferredFiatCurrency = paramTokenizer.nextToken().toUpperCase();
+                }
+                return new BinanceComExchange(apikey, secretKey, preferredFiatCurrency);
+
+            } else if ("binanceus".equalsIgnoreCase(prefix)) {
+                String preferredFiatCurrency = FiatCurrency.USD.getCode();
+                String apikey = paramTokenizer.nextToken();
+                String secretKey = paramTokenizer.nextToken();
+                if (paramTokenizer.hasMoreTokens()) {
+                    preferredFiatCurrency = paramTokenizer.nextToken().toUpperCase();
+                }
+                return new BinanceUsExchange(apikey, secretKey, preferredFiatCurrency);
+
+            } else if ("binancejersey".equalsIgnoreCase(prefix)) {
+                String preferredFiatCurrency = FiatCurrency.EUR.getCode();
+                String apikey = paramTokenizer.nextToken();
+                String secretKey = paramTokenizer.nextToken();
+                if (paramTokenizer.hasMoreTokens()) {
+                    preferredFiatCurrency = paramTokenizer.nextToken().toUpperCase();
+                }
+                return new BinanceJerseyExchange(apikey, secretKey, preferredFiatCurrency);
+
             }
         }
         return null;
@@ -339,6 +369,12 @@ public class BitcoinExtension extends AbstractExtension{
                     preferredFiatCurrency = st.nextToken().toUpperCase();
                 }
                 return new BitFlyerExchange(preferredFiatCurrency, BITFLYER_COM_BASE_URL);
+            } else if ("binancecom".equalsIgnoreCase(rsType)) {
+                String preferredFiatCurrency = FiatCurrency.EUR.getCode();
+                if (st.hasMoreTokens()) {
+                    preferredFiatCurrency = st.nextToken().toUpperCase();
+                }
+                return new BinanceComExchange(preferredFiatCurrency);
             }
         }
         return null;
