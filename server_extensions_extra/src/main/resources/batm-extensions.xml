@@ -456,6 +456,7 @@
             <cryptocurrency>BTC</cryptocurrency>
             <cryptocurrency>CLOAK</cryptocurrency>
             <cryptocurrency>DASH</cryptocurrency>
+            <cryptocurrency>DASHD</cryptocurrency>
             <cryptocurrency>DOGE</cryptocurrency>
             <cryptocurrency>ETH</cryptocurrency>
             <cryptocurrency>GRS</cryptocurrency>
@@ -475,7 +476,7 @@
         </exchange>
         <ratesource prefix="binancecom" name="Binance.com">
             <param name="fiatcurrency" />
-            <cryptocurrency>BTC</cryptocurrency>
+            <cryptocurrency>DASHD</cryptocurrency>
         </ratesource>
     </extension>
     <extension class="com.generalbytes.batm.server.extensions.extra.bitcoincash.BitcoinCashExtension">
