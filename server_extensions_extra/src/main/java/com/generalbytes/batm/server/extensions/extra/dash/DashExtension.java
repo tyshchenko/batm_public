@@ -29,6 +29,7 @@ import com.generalbytes.batm.server.extensions.ICryptoAddressValidator;
 import com.generalbytes.batm.server.extensions.ICryptoCurrencyDefinition;
 import com.generalbytes.batm.server.extensions.IPaperWalletGenerator;
 import com.generalbytes.batm.server.extensions.IWallet;
+import com.generalbytes.batm.server.extensions.extra.bitcoin.sources.valr.ValrRateSource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
