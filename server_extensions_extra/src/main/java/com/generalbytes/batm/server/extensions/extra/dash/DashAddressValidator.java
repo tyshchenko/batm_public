@@ -29,7 +29,7 @@ public class DashAddressValidator implements ICryptoAddressValidator {
     private static final Logger log = LoggerFactory.getLogger("batm.master.extensions.DashAddressValidator");
     @Override
     public boolean isAddressValid(String address) {
-        if (address.startsWith("X")) {
+        if (address.startsWith("X") || address.startsWith("7")) {
             try {
                 Base58.decodeToBigInteger(address);
                 Base58.decodeChecked(address);

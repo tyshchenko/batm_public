@@ -24,11 +24,23 @@ import com.generalbytes.batm.server.extensions.FixPriceRateSource;
 import com.generalbytes.batm.server.extensions.extra.dash.sources.cddash.CryptodiggersRateSource;
 import com.generalbytes.batm.server.extensions.extra.dash.sources.coinmarketcap.CoinmarketcapRateSource;
 import com.generalbytes.batm.server.extensions.extra.dash.wallets.dashd.DashRPCWallet;
+import com.generalbytes.batm.server.extensions.AbstractExtension;
+import com.generalbytes.batm.server.extensions.ICryptoAddressValidator;
+import com.generalbytes.batm.server.extensions.ICryptoCurrencyDefinition;
+import com.generalbytes.batm.server.extensions.IPaperWalletGenerator;
+import com.generalbytes.batm.server.extensions.IWallet;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.util.HashSet;
+import java.util.Set;
+import java.util.StringTokenizer;
 
 import java.math.BigDecimal;
 import java.util.*;
 
 public class DashExtension extends AbstractExtension{
+    private static final ICryptoCurrencyDefinition DEFINITION = new DashDefinition();
     @Override
     public String getName() {
         return "BATM Dash extra extension";
@@ -121,5 +133,20 @@ public class DashExtension extends AbstractExtension{
         result.add(CryptoCurrency.DASH.getCode());
         result.add(CryptoCurrency.POT.getCode());
         return result;
+    }
+
+    @Override
+    public Set<ICryptoCurrencyDefinition> getCryptoCurrencyDefinitions() {
+        Set<ICryptoCurrencyDefinition> result = new HashSet<>();
+        result.add(DEFINITION);
+        return result;
+    }
+
+    @Override
+    public IPaperWalletGenerator createPaperWalletGenerator(String cryptoCurrency) {
+        if (CryptoCurrency.DASH.getCode().equalsIgnoreCase(cryptoCurrency)) {
+            return new DashWalletGenerator("Xgb", ctx);
+        }
+        return null;
     }
 }
