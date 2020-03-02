@@ -172,7 +172,7 @@ public class ValrExchange implements IExchange {
     public String purchaseCoins(BigDecimal amount, String cryptoCurrency, String fiatCurrencyToUse, String description) {
         String type = "BUY";
         String pair;
-        twowaybuy = false;
+
         pair = cryptoCurrency.toUpperCase() + "ZAR";
         BigDecimal one       = new BigDecimal(1);
         BigDecimal onepr     = new BigDecimal(1.01);
