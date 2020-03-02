@@ -117,7 +117,11 @@ public class DashExtension extends AbstractExtension{
                     apiKey = st.nextToken();
                 }
                 return new CoinmarketcapRateSource(apiKey, preferredFiatCurrency);
+            }  else if ("valrRateSource".equalsIgnoreCase(exchangeType)) {
+                String preferedFiatCurrency = FiatCurrency.ZAR.getCode();
+                return new ValrRateSource(preferedFiatCurrency);
             }
+
         }
         return null;
     }
