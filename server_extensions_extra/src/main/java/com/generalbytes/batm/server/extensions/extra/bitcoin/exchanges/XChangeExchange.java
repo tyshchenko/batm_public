@@ -17,6 +17,7 @@
  ************************************************************************************/
 package com.generalbytes.batm.server.extensions.extra.bitcoin.exchanges;
 
+import com.generalbytes.batm.common.currencies.CryptoCurrency;
 import com.generalbytes.batm.server.coinutil.DDOSUtils;
 import com.generalbytes.batm.server.extensions.IExchangeAdvanced;
 import com.generalbytes.batm.server.extensions.IRateSourceAdvanced;
@@ -31,6 +32,7 @@ import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.account.AccountInfo;
+import org.knowm.xchange.dto.account.AddressWithTag;
 import org.knowm.xchange.dto.account.Wallet;
 import org.knowm.xchange.dto.marketdata.OrderBook;
 import org.knowm.xchange.dto.trade.LimitOrder;
@@ -42,6 +44,7 @@ import org.knowm.xchange.exceptions.NotYetImplementedForExchangeException;
 import org.knowm.xchange.service.account.AccountService;
 import org.knowm.xchange.service.marketdata.MarketDataService;
 import org.knowm.xchange.service.trade.TradeService;
+import org.knowm.xchange.service.trade.params.DefaultWithdrawFundsParams;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import si.mazi.rescu.HttpStatusIOException;
@@ -70,15 +73,17 @@ public abstract class XChangeExchange implements IExchangeAdvanced, IRateSourceA
                 .build();
     }
 
-    private final Exchange exchange;
+    protected final Exchange exchange;
     private final String name;
-    private final Logger log;
+    protected final Logger log;
     private final RateLimiter rateLimiter;
 
     public XChangeExchange(ExchangeSpecification specification, String preferredFiatCurrency) {
         exchange = ExchangeFactory.INSTANCE.createExchange(specification);
-        name = exchange.getExchangeSpecification().getExchangeName();
-        log = LoggerFactory.getLogger("batm.master.exchange." + name);
+        String exchangeName = exchange.getExchangeSpecification().getExchangeName();
+        String sslUri = exchange.getExchangeSpecification().getSslUri();
+        name = exchangeName + " (" + sslUri + ")"; // just for logging, do not setExchangeName() as it's used to load configuration json internally
+        log = LoggerFactory.getLogger("batm.master.exchange." + exchangeName);
         rateLimiter = RateLimiter.create(getAllowedCallsPerSecond());
         this.preferredFiatCurrency = preferredFiatCurrency;
     }
@@ -200,9 +205,8 @@ public abstract class XChangeExchange implements IExchangeAdvanced, IRateSourceA
 
         log.info("{} exchange withdrawing {} {} to {}", name, amount, cryptoCurrency, destinationAddress);
 
-        AccountService accountService = exchange.getAccountService();
         try {
-            String result = accountService.withdrawFunds(Currency.getInstance(translateCryptoCurrencySymbolToExchangeSpecificSymbol(cryptoCurrency)), amount, destinationAddress);
+            String result = withdrawFunds(cryptoCurrency, amount, destinationAddress);
             if (isWithdrawSuccessful(result)) {
                 log.debug("{} exchange withdrawal completed with result: {}", name, result);
                 return "success";
@@ -211,10 +215,17 @@ public abstract class XChangeExchange implements IExchangeAdvanced, IRateSourceA
             }
         } catch (HttpStatusIOException e) {
             log.info("{} exchange withdrawal failed; HTTP status: {}, body: {}", name, e.getHttpStatusCode(), e.getHttpBody(), e);
-        } catch (IOException e) {
+        } catch (IOException | ExchangeException e) {
             log.error("{} exchange withdrawal failed", name, e);
         }
         return null;
+    }
+
+    private String withdrawFunds(String cryptoCurrency, BigDecimal amount, String destinationAddress) throws IOException {
+        AccountService accountService = exchange.getAccountService();
+        Currency exchangeCryptoCurrency = Currency.getInstance(translateCryptoCurrencySymbolToExchangeSpecificSymbol(cryptoCurrency));
+
+        return accountService.withdrawFunds(exchangeCryptoCurrency, amount, destinationAddress);
     }
 
     public String purchaseCoins(BigDecimal amount, String cryptoCurrency, String fiatCurrencyToUse, String description) {
@@ -242,7 +253,7 @@ public abstract class XChangeExchange implements IExchangeAdvanced, IRateSourceA
 
             Collections.sort(asks, asksComparator);
 
-            LimitOrder order = new LimitOrder(Order.OrderType.BID, amount, currencyPair, "", null, getTradablePrice(amount, asks));
+            LimitOrder order = new LimitOrder(Order.OrderType.BID, getTradableAmount(amount, currencyPair), currencyPair, "", null, getTradablePrice(amount, asks));
             log.debug("order = {}", order);
             DDOSUtils.waitForPossibleCall(getClass());
             String orderId = tradeService.placeLimitOrder(order);
@@ -371,7 +382,7 @@ public abstract class XChangeExchange implements IExchangeAdvanced, IRateSourceA
 
             Collections.sort(bids, bidsComparator);
 
-            LimitOrder order = new LimitOrder(Order.OrderType.ASK, cryptoAmount, currencyPair,
+            LimitOrder order = new LimitOrder(Order.OrderType.ASK, getTradableAmount(cryptoAmount, currencyPair), currencyPair,
                 "", null, getTradablePrice(cryptoAmount, bids));
 
             log.debug("order: {}", order);
@@ -592,7 +603,7 @@ public abstract class XChangeExchange implements IExchangeAdvanced, IRateSourceA
 
                 Collections.sort(asks, asksComparator);
 
-                LimitOrder order = new LimitOrder(Order.OrderType.BID, amount, currencyPair, "", null,
+                LimitOrder order = new LimitOrder(Order.OrderType.BID, getTradableAmount(amount, currencyPair), currencyPair, "", null,
                     getTradablePrice(amount, asks));
 
                 log.debug("limitOrder = {}", order);
@@ -722,7 +733,7 @@ public abstract class XChangeExchange implements IExchangeAdvanced, IRateSourceA
 
                 Collections.sort(bids, bidsComparator);
 
-                LimitOrder order = new LimitOrder(Order.OrderType.ASK, cryptoAmount, currencyPair,
+                LimitOrder order = new LimitOrder(Order.OrderType.ASK, getTradableAmount(cryptoAmount, currencyPair), currencyPair,
                     "", null, getTradablePrice(cryptoAmount, bids));
                 log.debug("order = {}", order);
 
@@ -735,10 +746,9 @@ public abstract class XChangeExchange implements IExchangeAdvanced, IRateSourceA
                 } catch (InterruptedException e) {
                     log.error("Error", e);
                 }
-            } catch (IOException e) {
-                log.error("Error", e);
+            } catch (IOException | ExchangeException e) {
                 log.error("{} exchange sell coins task failed", name, e);
-            } catch (Throwable e) {
+            } catch (Exception e) {
                 log.error("Error", e);
             }
             return (orderId != null);
@@ -815,6 +825,17 @@ public abstract class XChangeExchange implements IExchangeAdvanced, IRateSourceA
         public long getShortestTimeForNexStepInvocation() {
             return 5 * 1000; //it doesn't make sense to run step sooner than after 5 seconds
         }
+    }
+
+    /**
+     *
+     * @param cryptoAmount
+     * @param currencyPair
+     * @return Adjusted crypto amount that is possible to be traded on the exchange
+     * (e.g. rounded for the right precision that the exchange supports)
+     */
+    protected BigDecimal getTradableAmount(BigDecimal cryptoAmount, CurrencyPair currencyPair) {
+        return cryptoAmount;
     }
 
     @Override
