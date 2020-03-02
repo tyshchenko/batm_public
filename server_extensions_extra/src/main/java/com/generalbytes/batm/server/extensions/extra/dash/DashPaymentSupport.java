@@ -23,8 +23,6 @@ import com.generalbytes.batm.server.extensions.extra.common.AbstractRPCPaymentSu
 import com.generalbytes.batm.server.extensions.extra.common.RPCClient;
 import com.generalbytes.batm.server.extensions.payment.PaymentRequest;
 import com.generalbytes.batm.server.extensions.payment.PaymentReceipt;
-import com.generalbytes.batm.server.extensions.extra.dash.wallets.DashRPCClient;
-import com.generalbytes.batm.server.extensions.extra.dash.wallets.DashTransaction;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
@@ -104,14 +102,7 @@ public class DashPaymentSupport extends AbstractRPCPaymentSupport {
                         break;
                     case PaymentRequest.STATE_SEEN_TRANSACTION:
                         result.setStatus(PaymentReceipt.STATUS_PAID);
-
-                        //Is it instantsend?
-                        DashRPCClient client = (DashRPCClient)getClient(paymentRequest.getWallet());
-                        DashTransaction dashTx = (DashTransaction)client.getTransaction(paymentRequest.getIncomingTransactionHash());
-                        if(dashTx.instantlock())
-                            result.setConfidence(PaymentReceipt.CONFIDENCE_SURE);
-                        else
-                            result.setConfidence(PaymentReceipt.CONFIDENCE_NONE);
+                        result.setConfidence(PaymentReceipt.CONFIDENCE_NONE);
                         break;
                 }
                 result.setAmount(paymentRequest.getAmount());
@@ -121,52 +112,5 @@ public class DashPaymentSupport extends AbstractRPCPaymentSupport {
         return result;
     }
 
-//   public static void main(String[] args) {
-//       //You need to have node running: i.e.:  dashd -rpcuser=rpcuser -rpcpassword=rpcpassword -rpcport=8332
-//
-//       try {
-//           DashRPCWallet wallet = new DashRPCWallet("http://rpcuser:rpcpassword@localhost:9998", "");
-//           DashPaymentSupport ps = new DashPaymentSupport();
-//           ps.init(null);
-//           PRS spec = new PRS(
-//               ps.getCurrency(),
-//               "Just a test",
-//               60 * 15, //15 min
-//               3,
-//               false,
-//               false,
-//               new BigDecimal("7"),
-//               new BigDecimal("10"),
-//               wallet
-//           );
-//           spec.addOutput("Xfem7sYAMm8uwfrCxqH1ABgsFBDZCWJCXK", new BigDecimal("0.0002"));
-//
-//           PaymentRequest pr = ps.createPaymentRequest(spec);
-//           System.out.println(pr);
-//           pr.setListener(new IPaymentRequestListener() {
-//               @Override
-//               public void stateChanged(PaymentRequest request, int previousState, int newState) {
-//                   System.out.println("stateChanged = " + request + " previousState: " + previousState + " newState: " + newState);
-//               }
-//
-//               @Override
-//               public void numberOfConfirmationsChanged(PaymentRequest request, int numberOfConfirmations, Direction direction) {
-//                   System.out.println("numberOfConfirmationsChanged = " + request + " numberOfConfirmations: " + numberOfConfirmations + " direction: " + direction);
-//               }
-//
-//               @Override
-//               public void refundSent(PaymentRequest request, String toAddress, String cryptoCurrency, BigDecimal amount) {
-//                   System.out.println("refundSent = " + request + " toAddress: " + toAddress + " cryptoCurrency: " + cryptoCurrency + " " + amount);
-//               }
-//           });
-//           System.out.println("Waiting for transfer");
-//
-//           Thread.sleep(20 * 60 * 1000);
-//       } catch (MalformedURLException e) {
-//           e.printStackTrace();
-//       } catch (InterruptedException e) {
-//           e.printStackTrace();
-//       }
-//   }
 
 }
