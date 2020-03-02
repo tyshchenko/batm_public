@@ -136,11 +136,11 @@ public class DashExtension extends AbstractExtension{
         return result;
     }
 
-    @Override
-    public IPaperWalletGenerator createPaperWalletGenerator(String cryptoCurrency) {
-        if (CryptoCurrency.DASH.getCode().equalsIgnoreCase(cryptoCurrency)) {
-            return new DashWalletGenerator("Xgb", ctx);
-        }
-        return null;
-    }
+//     @Override
+//     public IPaperWalletGenerator createPaperWalletGenerator(String cryptoCurrency) {
+//         if (CryptoCurrency.DASH.getCode().equalsIgnoreCase(cryptoCurrency)) {
+//             return new DashWalletGenerator("Xgb", ctx);
+//         }
+//         return null;
+//     }
 }

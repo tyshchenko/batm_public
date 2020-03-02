@@ -90,4 +90,9 @@ public class DashPaymentSupport extends AbstractRPCPaymentSupport {
         }
     }
 
+    @Override
+    public String getSigHashType() {
+        return "ALL";
+    }
+
 }

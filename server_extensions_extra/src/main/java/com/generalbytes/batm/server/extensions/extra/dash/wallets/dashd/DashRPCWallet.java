@@ -20,7 +20,6 @@ package com.generalbytes.batm.server.extensions.extra.dash.wallets.dashd;
 import com.generalbytes.batm.common.currencies.CryptoCurrency;
 import com.generalbytes.batm.server.extensions.extra.common.RPCWallet;
 
-//You need to have node running: i.e.:  bitcoind -rpcuser=rpcuser -rpcpassword=rpcpassword -rpcport=8332
 
 public class DashRPCWallet extends RPCWallet {
     public DashRPCWallet(String rpcURL, String accountName) {
