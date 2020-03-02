@@ -63,15 +63,6 @@ public abstract class BinanceExchange extends XChangeExchange {
         return accountInfo.getWallet();
     }
 
-    @Override
-    protected BigDecimal getTradableAmount(BigDecimal cryptoAmount, CurrencyPair currencyPair) {
-        try {
-            BigDecimal minStep = exchange.getExchangeMetaData().getCurrencyPairs().get(currencyPair).getAmountStepSize();
-            return minStep == null ? cryptoAmount : getAmountRoundedToMinStep(cryptoAmount, minStep);
-        } catch (Exception e) {
-            return cryptoAmount;
-        }
-    }
 
     protected BigDecimal getAmountRoundedToMinStep(BigDecimal cryptoAmount, BigDecimal minStep) {
         return cryptoAmount.divideToIntegralValue(minStep).multiply(minStep);
