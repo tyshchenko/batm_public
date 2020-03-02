@@ -39,7 +39,7 @@ public interface ValrExchangeAPI {
 
     @GET
     @Path("/wallet/crypto/{symbol}/deposit/address")
-    ValrAddressData getAddress(@PathParam("symbol") String symbol, @HeaderParam("X-VALR-API-KEY") String apiKey, @HeaderParam("X-VALR-SIGNATURE") String signature, @HeaderParam("X-VALR-TIMESTAMP") String timestamp);
+    ValrAddressData getAddress(@PathParam("symbol") String symbol, @HeaderParam("X-VALR-API-KEY") String apiKey, @HeaderParam("X-VALR-SIGNATURE") String signature, @HeaderParam("X-VALR-TIMESTAMP") String timestamp) throws HttpStatusIOException;
 
     @POST
     @Path("/wallet/crypto/{symbol}/withdraw")

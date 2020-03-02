@@ -108,8 +108,13 @@ public class ValrExchange implements IExchange {
         }
         String timestamp = String.valueOf(System.currentTimeMillis());
         String signature = signRequest(clientSecret, timestamp, "GET", "/v1/wallet/crypto/"+rightcryptoCurrency+"/deposit/address", "");
-        final ValrAddressData address = api.getAddress(rightcryptoCurrency, clientKey, signature, timestamp);
-        return address.getAddress();
+        try {
+            final ValrAddressData address = api.getAddress(rightcryptoCurrency, clientKey, signature, timestamp);
+            return address.getAddress();
+        } catch (HttpStatusIOException e) {
+            log.error("Error {}", e.getHttpBody());
+            return null;
+        }
     }
 
 
