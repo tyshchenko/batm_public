@@ -126,6 +126,7 @@ public class ValrExchange implements IExchange {
             final List<ValrBalances> balance = api.getBalance(clientKey, signature, timestamp);
             final BigDecimal fiatballance = getBalance("ZAR",balance);
             log.debug("{} exbalance = {} {}", fiatCurrency, fiatballance, getDepositAddress("DASH"));
+            log.debug("{} exbalance = {} {}", fiatCurrency, fiatballance, getDepositAddress("BTC"));
             return fiatballance;
         } catch (HttpStatusIOException e) {
             log.error("Error {}", e.getHttpBody());
