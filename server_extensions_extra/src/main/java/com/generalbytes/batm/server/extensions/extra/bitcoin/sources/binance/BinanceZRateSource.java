@@ -67,12 +67,21 @@ public class BinanceZRateSource implements IRateSource {
         if (!getFiatCurrencies().contains(fiatCurrency)) {
             return null;
         }
-        String cryptoZCurrency = cryptoCurrency;
+        String cryptoZCurrency = cryptoCurrency + "BTC";
+        BigDecimal priceInBtc = new BigDecimal(0);
+
         if (CryptoCurrency.DASHD.getCode().equalsIgnoreCase(cryptoCurrency)) {
-            cryptoZCurrency = "DASH";
+            cryptoZCurrency = "DASHBTC";
+            BinanceZTickerData selectedCryptoInBtc = api.getTicker(cryptoZCurrency);
+            priceInBtc = selectedCryptoInBtc.getPrice();
+
         }
-        BinanceZTickerData selectedCryptoInBtc = api.getTicker(cryptoZCurrency + "BTC");
-        BigDecimal priceInBtc = selectedCryptoInBtc.getPrice();
+        if (CryptoCurrency.USDT.getCode().equalsIgnoreCase(cryptoCurrency)) {
+            cryptoZCurrency = "BTCUSDT";
+            BinanceZTickerData selectedCryptoInBtc = api.getTicker(cryptoZCurrency);
+            BigDecimal one = new BigDecimal(1);
+            priceInBtc = one.divide(selectedCryptoInBtc.getPrice());
+        }
         BigDecimal priceBTCZAR = luno.getExchangeRateLast("BTC", "ZAR");
 
         return priceBTCZAR.multiply(priceInBtc).setScale(2, BigDecimal.ROUND_CEILING);
