@@ -60,6 +60,12 @@ public class BinanceZRateSource implements IRateSource {
             priceInBtc = selectedCryptoInBtc.getPrice();
 
         }
+        if (CryptoCurrency.NANO.getCode().equalsIgnoreCase(cryptoCurrency)) {
+            cryptoZCurrency = "NANOBTC";
+            BinanceZTickerData selectedCryptoInBtc = api.getTicker(cryptoZCurrency);
+            priceInBtc = selectedCryptoInBtc.getPrice();
+
+        }
         if (CryptoCurrency.USDT.getCode().equalsIgnoreCase(cryptoCurrency)) {
             cryptoZCurrency = "BTCUSDT";
             BinanceZTickerData selectedCryptoInBtc = api.getTicker(cryptoZCurrency);
