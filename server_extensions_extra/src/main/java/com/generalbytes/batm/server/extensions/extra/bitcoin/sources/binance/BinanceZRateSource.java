@@ -81,7 +81,7 @@ public class BinanceZRateSource implements IRateSource {
             BinanceZTickerData selectedCryptoInBtc = api.getTicker(cryptoZCurrency);
             BigDecimal one = new BigDecimal(1);
             BigDecimal usdtprice = selectedCryptoInBtc.getPrice();
-            priceInBtc = one.divide(usdtprice);
+            priceInBtc = one.divide(usdtprice, 6, BigDecimal.ROUND_HALF_UP);
         }
         BigDecimal priceBTCZAR = luno.getExchangeRateLast("BTC", "ZAR");
 
