@@ -169,12 +169,54 @@ public class BinanceZExchange implements IExchange {
 
     @Override
     public String purchaseCoins(BigDecimal amount, String cryptoCurrency, String fiatCurrencyToUse, String description) {
+        String crypto = cryptoCurrency + "USDT";
+        if (CryptoCurrency.DASHD.getCode().equalsIgnoreCase(cryptoCurrency)) {
+            crypto = "DASHUSDT";
+        }
+        try {
+            // buy crypto for usdt
+            String query = "";
+            String cryptoAmountS = amount.setScale(3, BigDecimal.ROUND_CEILING).toString();
+            String timeStamp = String.valueOf(new Date().getTime());
+            query = "symbol=" + crypto + "&side=BUY&quantity=" + cryptoAmountS + "&type=MARKET&recvWindow=" + 5000 + "&timestamp=" + timeStamp;
+            String signing = sign(query, clientSecret);
+
+            final BinanceZOrderData orderInfo = api.market(this.clientKey, crypto, "BUY", cryptoAmountS, "MARKET", String.valueOf(5000), timeStamp, signing);
+            log.error("purchaseCoins {}", orderInfo.getMsg());
+            return orderInfo.getOrderId();
+
+        } catch (HttpStatusIOException e) {
+            log.error(e.getHttpBody());
+        } catch (IOException e) {
+            log.error("", e);
+        }
         return null;
     }
 
 
     @Override
     public String sellCoins(BigDecimal cryptoAmount, String cryptoCurrency, String fiatCurrencyToUse, String description) {
+        String crypto = cryptoCurrency + "USDT";
+        if (CryptoCurrency.DASHD.getCode().equalsIgnoreCase(cryptoCurrency)) {
+            crypto = "DASHUSDT";
+        }
+        try {
+            // buy crypto for usdt
+            String query = "";
+            String cryptoAmountS = cryptoAmount.setScale(3, BigDecimal.ROUND_CEILING).toString();
+            String timeStamp = String.valueOf(new Date().getTime());
+            query = "symbol=" + crypto + "&side=SELL&quantity=" + cryptoAmountS + "&type=MARKET&recvWindow=" + 5000 + "&timestamp=" + timeStamp;
+            String signing = sign(query, clientSecret);
+
+            final BinanceZOrderData orderInfo = api.market(this.clientKey, crypto, "SELL", cryptoAmountS, "MARKET", String.valueOf(5000), timeStamp, signing);
+            log.error("sellCoins {}", orderInfo.getMsg());
+            return orderInfo.getOrderId();
+
+        } catch (HttpStatusIOException e) {
+            log.error(e.getHttpBody());
+        } catch (IOException e) {
+            log.error("", e);
+        }
         return null;
     }
 
