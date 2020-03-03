@@ -96,9 +96,9 @@ public class BinanceZExchange implements IExchange {
             String timeStamp = String.valueOf(new Date().getTime());
             query = "recvWindow=" + 5000 + "&timestamp=" + timeStamp;
 
-            String signing = sign(query, binanceApiSecret);
+            String signing = sign(query, clientSecret);
 
-            final BinanceZResponse accountInfo = api.getCryptoBalance(this.binanceApiKey, String.valueOf(5000), timeStamp, signing);
+            final BinanceZResponse accountInfo = api.getCryptoBalance(this.clientKey, String.valueOf(5000), timeStamp, signing);
 
             if (accountInfo != null) {
                 List<BinanceZAssetData> balances = (List<BinanceZAssetData>) accountInfo.getBalance();
@@ -161,8 +161,8 @@ public class BinanceZExchange implements IExchange {
             String timeStamp = String.valueOf(new Date().getTime());
             query = "asset=" + cryptoCurrency + "&address=" + destinationAddress + "&amount=" + amount + "&name=" + "123" + "&recvWindow=" + 5000 + "&timestamp=" + timeStamp;
 
-            String signing = sign(query, binanceApiSecret);
-            BinanceZSendCoinResponse response = api.sendCryptoCurrency(this.binanceApiKey, cryptoCurrency, destinationAddress, String.valueOf(amount), "123", String.valueOf(5000), timeStamp, signing);
+            String signing = sign(query, clientSecret);
+            BinanceZSendCoinResponse response = api.sendCryptoCurrency(this.clientKey, cryptoCurrency, destinationAddress, String.valueOf(amount), "123", String.valueOf(5000), timeStamp, signing);
 
             if (response != null && response.getMsg() != null && response.getSuccess()) {
                 return response.getMsg();
