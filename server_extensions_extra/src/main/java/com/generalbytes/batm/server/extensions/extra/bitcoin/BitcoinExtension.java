@@ -34,6 +34,7 @@ import com.generalbytes.batm.server.extensions.extra.bitcoin.exchanges.hitbtc.Hi
 import com.generalbytes.batm.server.extensions.extra.bitcoin.exchanges.itbit.ItBitExchange;
 import com.generalbytes.batm.server.extensions.extra.bitcoin.exchanges.luno.LunoExchange;
 import com.generalbytes.batm.server.extensions.extra.bitcoin.exchanges.valr.ValrExchange;
+import com.generalbytes.batm.server.extensions.extra.bitcoin.exchanges.binancez.BinanceZExchange;
 import com.generalbytes.batm.server.extensions.extra.bitcoin.paymentprocessors.bitcoinpay.BitcoinPayPP;
 import com.generalbytes.batm.server.extensions.extra.bitcoin.paymentprocessors.coinofsale.CoinOfSalePP;
 import com.generalbytes.batm.server.extensions.extra.bitcoin.sources.luno.LunoRateSource;
@@ -141,6 +142,14 @@ public class BitcoinExtension extends AbstractExtension{
                     preferredFiatCurrency = paramTokenizer.nextToken().toUpperCase();
                 }
                 return new ValrExchange(apiKey, apiSecret, preferredFiatCurrency, typeorder);
+            } else if ("binancezar".equalsIgnoreCase(prefix)) {
+                String apiKey = paramTokenizer.nextToken();
+                String apiSecret = paramTokenizer.nextToken();
+                String preferredFiatCurrency = FiatCurrency.ZAR.getCode();
+                if (paramTokenizer.hasMoreTokens()) {
+                    preferredFiatCurrency = paramTokenizer.nextToken().toUpperCase();
+                }
+                return new BinanceZExchange(apiKey, apiSecret, preferredFiatCurrency);
             } else if ("bitflyer".equalsIgnoreCase(prefix)) {
                 String preferredFiatCurrency = paramTokenizer.nextToken().toUpperCase();
                 String key = paramTokenizer.nextToken();

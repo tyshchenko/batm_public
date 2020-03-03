@@ -474,6 +474,12 @@
             <cryptocurrency>XRP</cryptocurrency>
             <cryptocurrency>XZC</cryptocurrency>
         </exchange>
+        <exchange prefix="binancezar" name="Binance.ZAR">
+            <param name="apikey"/>
+            <param name="secretkey"/>
+            <param name="fiatcurrency"/>
+            <cryptocurrency>DASHD</cryptocurrency>
+        </exchange>
         <ratesource prefix="binancecom" name="Binance.com">
             <param name="fiatcurrency" />
             <cryptocurrency>DASHD</cryptocurrency>
