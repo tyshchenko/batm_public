@@ -128,7 +128,7 @@ public class BinanceZExchange implements IExchange {
         final BigDecimal usdtballance = getCryptoBalance("USDT");
         final BigDecimal priceUSDTZAR = bins.getExchangeRateLast("USDT", "ZAR");
 
-        return usdtballance.multiply(priceUSDTZAR).setScale(2, BigDecimal.ROUND_CEILING);;
+        return usdtballance.multiply(priceUSDTZAR).setScale(2, BigDecimal.ROUND_CEILING);
     }
 
 
