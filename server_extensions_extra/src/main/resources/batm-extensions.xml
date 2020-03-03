@@ -478,6 +478,10 @@
             <param name="fiatcurrency" />
             <cryptocurrency>DASHD</cryptocurrency>
         </ratesource>
+        <ratesource prefix="binancezar" name="Binance.zar">
+            <param name="fiatcurrency" />
+            <cryptocurrency>DASHD</cryptocurrency>
+        </ratesource>
     </extension>
     <extension class="com.generalbytes.batm.server.extensions.extra.bitcoincash.BitcoinCashExtension">
         <wallet prefix="bitcoincashd" name="BitcoinABC/BitcoinClassic Cash Core - bitcoind" >

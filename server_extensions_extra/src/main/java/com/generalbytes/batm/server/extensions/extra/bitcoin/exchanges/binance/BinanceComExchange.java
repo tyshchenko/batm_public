@@ -50,6 +50,7 @@ public class BinanceComExchange extends BinanceExchange {
         cryptoCurrencies.add(CryptoCurrency.BTC.getCode());
         cryptoCurrencies.add(CryptoCurrency.CLOAK.getCode());
         cryptoCurrencies.add(CryptoCurrency.DASH.getCode());
+        cryptoCurrencies.add(CryptoCurrency.DASHD.getCode());
         cryptoCurrencies.add(CryptoCurrency.DOGE.getCode());
         cryptoCurrencies.add(CryptoCurrency.ETH.getCode());
         cryptoCurrencies.add(CryptoCurrency.GRS.getCode());

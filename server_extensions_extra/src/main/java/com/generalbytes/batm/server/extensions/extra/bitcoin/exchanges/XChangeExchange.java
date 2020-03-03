@@ -823,6 +823,10 @@ public abstract class XChangeExchange implements IExchangeAdvanced, IRateSourceA
     }
 
     protected String translateCryptoCurrencySymbolToExchangeSpecificSymbol(String from) {
-        return from;
+        if (CryptoCurrency.DASHD.getCode().equalsIgnoreCase(from)) {
+            return "DASH";
+        } else {
+            return from;
+        }
     }
 }

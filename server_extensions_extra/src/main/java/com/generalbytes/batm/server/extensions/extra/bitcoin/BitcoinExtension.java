@@ -37,6 +37,7 @@ import com.generalbytes.batm.server.extensions.extra.bitcoin.exchanges.valr.Valr
 import com.generalbytes.batm.server.extensions.extra.bitcoin.paymentprocessors.bitcoinpay.BitcoinPayPP;
 import com.generalbytes.batm.server.extensions.extra.bitcoin.paymentprocessors.coinofsale.CoinOfSalePP;
 import com.generalbytes.batm.server.extensions.extra.bitcoin.sources.luno.LunoRateSource;
+import com.generalbytes.batm.server.extensions.extra.bitcoin.sources.binance.BinanceZRateSource;
 import com.generalbytes.batm.server.extensions.extra.bitcoin.sources.valr.ValrRateSource;
 import com.generalbytes.batm.server.extensions.extra.bitcoin.sources.bity.BityRateSource;
 import com.generalbytes.batm.server.extensions.extra.bitcoin.sources.coingecko.CoinGeckoRateSource;
@@ -351,6 +352,9 @@ public class BitcoinExtension extends AbstractExtension{
             }else if ("valrRateSource".equalsIgnoreCase(rsType)) {
                 String preferedFiatCurrency = FiatCurrency.ZAR.getCode();
                 return new ValrRateSource(preferedFiatCurrency);
+            }else if ("binancezar".equalsIgnoreCase(rsType)) {
+                String preferedFiatCurrency = FiatCurrency.ZAR.getCode();
+                return new BinanceZRateSource(preferedFiatCurrency);
             } else if ("coingecko".equalsIgnoreCase(rsType)) {
                 String preferredFiatCurrency = st.hasMoreTokens() ? st.nextToken().toUpperCase() : FiatCurrency.USD.getCode();
                 return new CoinGeckoRateSource(preferredFiatCurrency);
