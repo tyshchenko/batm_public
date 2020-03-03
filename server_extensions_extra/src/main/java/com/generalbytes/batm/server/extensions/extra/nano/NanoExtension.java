@@ -9,7 +9,7 @@ import com.generalbytes.batm.server.extensions.extra.nano.wallets.nanod.NanoRPCW
 import java.math.BigDecimal;
 import java.util.*;
 
-public class NanorExtension extends AbstractExtension {
+public class NanoExtension extends AbstractExtension {
     private static final CryptoCurrencyDefinition DEFINITION = new NanoDefinition();
 
 

@@ -7,9 +7,14 @@ public class NanoAddressValidator implements ICryptoAddressValidator {
     public boolean isAddressValid(String address) {
         return true;
     }
-    
+
     @Override
     public boolean isPaperWalletSupported() {
+        return false;
+    }
+
+    @Override
+    public boolean mustBeBase58Address() {
         return false;
     }
 
