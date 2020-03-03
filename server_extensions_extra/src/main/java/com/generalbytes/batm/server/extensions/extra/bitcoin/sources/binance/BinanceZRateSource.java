@@ -35,7 +35,7 @@ public class BinanceZRateSource implements IRateSource {
 
     public BinanceZRateSource(String preferedFiatCurrency) {
         api = RestProxyFactory.createProxy(BinanceZAPI.class, "https://api.binance.com");
-        luno = LunoRateSource(preferedFiatCurrency);
+        luno = new LunoRateSource(preferedFiatCurrency);
         if (FiatCurrency.ZAR.getCode().equalsIgnoreCase(preferedFiatCurrency)) {
             this.preferredFiatCurrency = FiatCurrency.ZAR.getCode();
         }
