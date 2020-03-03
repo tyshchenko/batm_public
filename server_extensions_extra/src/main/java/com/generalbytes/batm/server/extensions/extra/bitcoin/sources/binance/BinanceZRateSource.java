@@ -70,7 +70,7 @@ public class BinanceZRateSource implements IRateSource {
         if (CryptoCurrency.DASHD.getCode().equalsIgnoreCase(cryptoCurrency)) {
             cryptoZCurrency = "DASH";
         }
-        BinanceZTickerData selectedCryptoInBtc = api.getTicker(cryptoCurrency + "BTC");
+        BinanceZTickerData selectedCryptoInBtc = api.getTicker(cryptoZCurrency + "BTC");
         BigDecimal priceInBtc = selectedCryptoInBtc.getPrice();
         BigDecimal priceBTCZAR = luno.getExchangeRateLast("BTC", "ZAR");
 
