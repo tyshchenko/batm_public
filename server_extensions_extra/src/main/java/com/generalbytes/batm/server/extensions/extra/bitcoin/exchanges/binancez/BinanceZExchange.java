@@ -10,6 +10,7 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.Date;
 import java.io.IOException;
+import java.util.List;
 
 import si.mazi.rescu.RestProxyFactory;
 import si.mazi.rescu.ClientConfig;
