@@ -148,7 +148,7 @@ public class BinanceZExchange implements IExchange {
         try {
             String query = "";
             String timeStamp = String.valueOf(new Date().getTime());
-            query = "asset=" + crypto + "recvWindow=" + 5000 + "&timestamp=" + timeStamp;
+            query = "asset=" + crypto + "&recvWindow=" + 5000 + "&timestamp=" + timeStamp;
 
             String signing = sign(query, clientSecret);
 
