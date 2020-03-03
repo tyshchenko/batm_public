@@ -153,7 +153,7 @@ public class BinanceZExchange implements IExchange {
             String signing = sign(query, clientSecret);
 
             final BinanceZAddressData accountInfo = api.getDepoAddress(this.clientKey, crypto, String.valueOf(5000), timeStamp, signing);
-            log.error("getDepositAddress {}", accountInfo);
+            log.error("getDepositAddress {}", accountInfo.getMsg());
             return accountInfo.getAddress();
 
         } catch (HttpStatusIOException e) {
