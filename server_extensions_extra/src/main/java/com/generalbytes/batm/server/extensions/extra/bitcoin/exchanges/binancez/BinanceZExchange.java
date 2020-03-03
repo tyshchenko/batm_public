@@ -93,7 +93,10 @@ public class BinanceZExchange implements IExchange {
             log.error("Cryptocurrency " + cryptoCurrency + " not supported.");
             return null;
         }
-        log.error("getCryptoBalance {}", cryptoCurrency);
+        String crypto = cryptoCurrency;
+        if (CryptoCurrency.DASHD.getCode().equalsIgnoreCase(cryptoCurrency)) {
+            crypto = "DASH";
+        }
         try {
 
             String query = "";
@@ -110,7 +113,7 @@ public class BinanceZExchange implements IExchange {
                     for (BinanceZAssetData assetData : balances) {
                         final String asset = (String) assetData.getAsset();
                         BigDecimal value = assetData.getFree();
-                        if (asset.equals(cryptoCurrency)) {
+                        if (asset.equals(crypto)) {
                             log.error("getCryptoBalance {}", value);
                             return value;
                         }
@@ -159,12 +162,17 @@ public class BinanceZExchange implements IExchange {
     @Override
     public String sendCoins(String destinationAddress, BigDecimal amount, String cryptoCurrency, String description) {
         try {
+            String crypto = cryptoCurrency;
+            if (CryptoCurrency.DASHD.getCode().equalsIgnoreCase(cryptoCurrency)) {
+                crypto = "DASH";
+            }
+
             String query = "";
             String timeStamp = String.valueOf(new Date().getTime());
-            query = "asset=" + cryptoCurrency + "&address=" + destinationAddress + "&amount=" + amount + "&name=" + "123" + "&recvWindow=" + 5000 + "&timestamp=" + timeStamp;
+            query = "asset=" + crypto + "&address=" + destinationAddress + "&amount=" + amount + "&name=" + "123" + "&recvWindow=" + 5000 + "&timestamp=" + timeStamp;
 
             String signing = sign(query, clientSecret);
-            BinanceZSendCoinResponse response = api.sendCryptoCurrency(this.clientKey, cryptoCurrency, destinationAddress, String.valueOf(amount), "123", String.valueOf(5000), timeStamp, signing);
+            BinanceZSendCoinResponse response = api.sendCryptoCurrency(this.clientKey, crypto, destinationAddress, String.valueOf(amount), "123", String.valueOf(5000), timeStamp, signing);
 
             if (response != null && response.getMsg() != null && response.getSuccess()) {
                 return response.getMsg();
