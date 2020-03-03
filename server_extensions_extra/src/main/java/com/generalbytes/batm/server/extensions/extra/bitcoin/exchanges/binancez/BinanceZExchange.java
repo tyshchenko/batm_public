@@ -9,10 +9,12 @@ import java.math.BigDecimal;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.Date;
+import java.io.IOException;
 
 import si.mazi.rescu.RestProxyFactory;
 import si.mazi.rescu.ClientConfig;
 import si.mazi.rescu.ClientConfigUtil;
+import si.mazi.rescu.HttpStatusIOException;
 
 import javax.crypto.Mac;
 import javax.crypto.spec.SecretKeySpec;
@@ -131,13 +133,7 @@ public class BinanceZExchange implements IExchange {
 
     @Override
     public String getDepositAddress(String cryptoCurrency) {
-        if (cryptoCurrency.equals("BTC")) {
-            final LunoAddressData address = api.getAddress("XBT");
-            return address.getAddress();
-        } else {
-            final LunoAddressData address = api.getAddress(cryptoCurrency);
-            return address.getAddress();
-        }
+        return null;
     }
 
 
