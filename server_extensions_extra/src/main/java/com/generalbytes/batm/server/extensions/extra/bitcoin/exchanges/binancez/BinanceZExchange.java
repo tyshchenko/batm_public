@@ -72,6 +72,7 @@ public class BinanceZExchange implements IExchange {
         Set<String> cryptoCurrencies = new HashSet<>();
         cryptoCurrencies.add(CryptoCurrency.DASHD.getCode());
         cryptoCurrencies.add(CryptoCurrency.USDT.getCode());
+        cryptoCurrencies.add(CryptoCurrency.NANO.getCode());
         return cryptoCurrencies;
     }
 

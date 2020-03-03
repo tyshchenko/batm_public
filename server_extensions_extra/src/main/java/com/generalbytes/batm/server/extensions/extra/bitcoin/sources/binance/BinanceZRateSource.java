@@ -30,6 +30,7 @@ public class BinanceZRateSource implements IRateSource {
         Set<String> result = new HashSet<>();
         result.add(CryptoCurrency.DASHD.getCode());
         result.add(CryptoCurrency.USDT.getCode());
+        result.add(CryptoCurrency.NANO.getCode());
         return result;
     }
 

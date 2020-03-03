@@ -74,6 +74,7 @@ public enum CryptoCurrency {
     MEC("Megacoin"),
     MKR("Maker"),
     MUSD("MovexUSD"),
+    NANO("Nano"),
     NBT("NuBits"),
     NLG("NLG"),
     NXT("Nxt"),

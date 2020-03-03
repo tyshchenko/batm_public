@@ -478,6 +478,7 @@
             <param name="secretkey"/>
             <param name="fiatcurrency"/>
             <cryptocurrency>DASHD</cryptocurrency>
+            <cryptocurrency>NANO</cryptocurrency>
         </exchange>
         <ratesource prefix="binancecom" name="Binance.com">
             <param name="fiatcurrency" />
@@ -486,6 +487,7 @@
         <ratesource prefix="binancezar" name="Binance.zar">
             <param name="fiatcurrency" />
             <cryptocurrency>DASHD</cryptocurrency>
+            <cryptocurrency>NANO</cryptocurrency>
         </ratesource>
     </extension>
     <extension class="com.generalbytes.batm.server.extensions.extra.bitcoincash.BitcoinCashExtension">
@@ -1446,6 +1448,23 @@
         </ratesource>
         <cryptologo cryptocurrency="ANK" file="anker.png"/>
         <cryptologo cryptocurrency="ANK" file="anker.svg"/>
+    </extension>
+    <extension class="com.generalbytes.batm.server.extensions.extra.nano.NanoExtension" >
+        <wallet prefix="nanod" name="NanoD">
+            <param name="protocol" />
+            <param name="user" />
+            <param name="password" />
+            <param name="host" />
+            <param name="port" />
+            <param name="accountname" />
+            <cryptocurrency>NANO</cryptocurrency>
+        </wallet>
+        <wallet prefix="nanodemo" name="NANO Demo Wallet">
+            <param name="fiatCurrency" />
+            <param name="walletAddress" />
+            <cryptocurrency>NANO</cryptocurrency>
+        </wallet>
+        <cryptologo cryptocurrency="NANO" file="nano.png"/>
     </extension>
     <extension class="com.generalbytes.batm.server.extensions.extra.ethereum.EthereumExtension" >
         <wallet prefix="infura" name="infura.io wallet">
