@@ -471,7 +471,6 @@
             <cryptocurrency>USDT</cryptocurrency>
             <cryptocurrency>VIA</cryptocurrency>
             <cryptocurrency>XMR</cryptocurrency>
-            <cryptocurrency>XRP</cryptocurrency>
             <cryptocurrency>XZC</cryptocurrency>
         </exchange>
         <exchange prefix="binancezar" name="Binance.ZAR">
