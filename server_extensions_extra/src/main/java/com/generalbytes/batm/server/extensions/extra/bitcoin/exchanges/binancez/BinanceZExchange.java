@@ -93,6 +93,7 @@ public class BinanceZExchange implements IExchange {
             log.error("Cryptocurrency " + cryptoCurrency + " not supported.");
             return null;
         }
+        log.error("getCryptoBalance {}", cryptoCurrency);
         try {
 
             String query = "";
@@ -110,6 +111,7 @@ public class BinanceZExchange implements IExchange {
                         final String asset = (String) assetData.getAsset();
                         BigDecimal value = assetData.getFree();
                         if (asset.equals(cryptoCurrency)) {
+                            log.error("getCryptoBalance {}", value);
                             return value;
                         }
                     }
@@ -126,9 +128,12 @@ public class BinanceZExchange implements IExchange {
     @Override
     public BigDecimal getFiatBalance(String fiatCurrency) {
         final BigDecimal usdtballance = getCryptoBalance("USDT");
+        log.error("usdtballance {}", usdtballance);
         final BigDecimal priceUSDTZAR = bins.getExchangeRateLast("USDT", "ZAR");
-
-        return usdtballance.multiply(priceUSDTZAR).setScale(2, BigDecimal.ROUND_CEILING);
+        log.error("priceUSDTZAR {}", priceUSDTZAR);
+        final BigDecimal result = usdtballance.multiply(priceUSDTZAR).setScale(2, BigDecimal.ROUND_CEILING);
+        log.error("result {}", result);
+        return result;
     }
 
 
