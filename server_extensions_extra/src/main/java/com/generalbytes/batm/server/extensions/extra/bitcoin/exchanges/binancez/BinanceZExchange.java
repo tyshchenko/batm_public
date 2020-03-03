@@ -8,6 +8,7 @@ import com.generalbytes.batm.server.extensions.extra.bitcoin.sources.binance.Bin
 import java.math.BigDecimal;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.Date;
 
 import si.mazi.rescu.RestProxyFactory;
 import si.mazi.rescu.ClientConfig;
@@ -77,12 +78,12 @@ public class BinanceZExchange implements IExchange {
         fiatCurrencies.add(FiatCurrency.ZAR.getCode());
         return fiatCurrencies;
     }
-    
+
     @Override
     public String getPreferredFiatCurrency() {
         return this.preferredFiatCurrency;
     }
-    
+
     @Override
     public BigDecimal getCryptoBalance(String cryptoCurrency) {
         if (!getCryptoCurrencies().contains(cryptoCurrency)) {
@@ -118,15 +119,15 @@ public class BinanceZExchange implements IExchange {
         }
         return null;
     }
-    
+
     @Override
     public BigDecimal getFiatBalance(String fiatCurrency) {
         final BigDecimal usdtballance = getCryptoBalance("USDT");
         final BigDecimal priceUSDTZAR = bins.getExchangeRateLast("USDT", "ZAR");
-        
+
         return usdtballance.multiply(priceUSDTZAR).setScale(2, BigDecimal.ROUND_CEILING);;
     }
-    
+
 
     @Override
     public String getDepositAddress(String cryptoCurrency) {
@@ -139,20 +140,20 @@ public class BinanceZExchange implements IExchange {
         }
     }
 
-    
 
-    
+
+
     @Override
     public String purchaseCoins(BigDecimal amount, String cryptoCurrency, String fiatCurrencyToUse, String description) {
         return null;
     }
-    
-    
+
+
     @Override
     public String sellCoins(BigDecimal cryptoAmount, String cryptoCurrency, String fiatCurrencyToUse, String description) {
         return null;
     }
-    
+
     @Override
     public String sendCoins(String destinationAddress, BigDecimal amount, String cryptoCurrency, String description) {
         try {
@@ -173,5 +174,5 @@ public class BinanceZExchange implements IExchange {
         }
         return null;
     }
-    
+
 }
