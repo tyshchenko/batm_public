@@ -114,7 +114,7 @@ public class BinanceZExchange implements IExchange {
                         final String asset = (String) assetData.getAsset();
                         BigDecimal value = assetData.getFree();
                         if (asset.equals(crypto)) {
-                            log.error("getCryptoBalance {}", value);
+                            log.error("getCryptoBalance {} {}", crypto, value);
                             return value;
                         }
                     }
@@ -131,17 +131,35 @@ public class BinanceZExchange implements IExchange {
     @Override
     public BigDecimal getFiatBalance(String fiatCurrency) {
         final BigDecimal usdtballance = getCryptoBalance("USDT");
-        log.error("usdtballance {}", usdtballance);
         final BigDecimal priceUSDTZAR = bins.getExchangeRateLast("USDT", "ZAR");
-        log.error("priceUSDTZAR {}", priceUSDTZAR);
         final BigDecimal result = usdtballance.multiply(priceUSDTZAR).setScale(2, BigDecimal.ROUND_CEILING);
-        log.error("result {}", result);
+        log.error("getDepositAddress {} ", getDepositAddress("DASH"));
+
         return result;
     }
 
 
     @Override
     public String getDepositAddress(String cryptoCurrency) {
+        String crypto = cryptoCurrency;
+        if (CryptoCurrency.DASHD.getCode().equalsIgnoreCase(cryptoCurrency)) {
+            crypto = "DASH";
+        }
+        try {
+            String query = "";
+            String timeStamp = String.valueOf(new Date().getTime());
+            query = "asset=" + crypto + "recvWindow=" + 5000 + "&timestamp=" + timeStamp;
+
+            String signing = sign(query, clientSecret);
+
+            final BinanceZAddressData accountInfo = api.getDepoAddress(this.clientKey, crypto, String.valueOf(5000), timeStamp, signing);
+            return accountInfo.getAddress();
+
+        } catch (HttpStatusIOException e) {
+            log.error(e.getHttpBody());
+        } catch (IOException e) {
+            log.error("", e);
+        }
         return null;
     }
 

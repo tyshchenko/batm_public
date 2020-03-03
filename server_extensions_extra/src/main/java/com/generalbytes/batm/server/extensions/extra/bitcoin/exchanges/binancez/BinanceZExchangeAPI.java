@@ -15,4 +15,10 @@ public interface BinanceZExchangeAPI {
     @Path("wapi/v1/withdraw.html")
     @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
     BinanceZSendCoinResponse sendCryptoCurrency(@HeaderParam("X-MBX-APIKEY") String apiKey, @QueryParam("asset") String asset, @QueryParam("address") String address, @QueryParam("amount") String amount, @QueryParam("name") String name, @QueryParam("recvWindow") String recvWindow, @QueryParam("timestamp") String timeStamp, @QueryParam("signature") String signature) throws IOException;
+
+    @GET
+    @Path("/wapi/v3/depositAddress.html")
+    BinanceZAddressData getDepoAddress(@HeaderParam("X-MBX-APIKEY") String apiKey, @QueryParam("asset") String asset, @QueryParam("recvWindow") String recvWindow, @QueryParam("timestamp") String timeStamp, @QueryParam("signature") String signature) throws IOException;
+
+
 }
