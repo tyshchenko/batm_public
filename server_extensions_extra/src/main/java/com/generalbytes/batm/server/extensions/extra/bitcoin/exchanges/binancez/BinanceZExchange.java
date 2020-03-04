@@ -134,7 +134,7 @@ public class BinanceZExchange implements IExchange {
         final BigDecimal usdtballance = getCryptoBalance("USDT");
         final BigDecimal priceUSDTZAR = bins.getExchangeRateLast("USDT", "ZAR");
         final BigDecimal result = usdtballance.multiply(priceUSDTZAR).setScale(2, BigDecimal.ROUND_CEILING);
-        log.error("getDepositAddress {} ", getDepositAddress("NANO"));
+
 
         return result;
     }
@@ -154,7 +154,7 @@ public class BinanceZExchange implements IExchange {
             String signing = sign(query, clientSecret);
 
             final BinanceZAddressData accountInfo = api.getDepoAddress(this.clientKey, crypto, String.valueOf(5000), timeStamp, signing);
-            log.error("getDepositAddress {}", accountInfo.getMsg());
+            log.error("getDepositAddress msg {}", accountInfo.getMsg());
             return accountInfo.getAddress();
 
         } catch (HttpStatusIOException e) {
@@ -235,9 +235,10 @@ public class BinanceZExchange implements IExchange {
 
             String signing = sign(query, clientSecret);
             BinanceZSendCoinResponse response = api.sendCryptoCurrency(this.clientKey, crypto, destinationAddress, String.valueOf(amount), "123", String.valueOf(5000), timeStamp, signing);
-
-            if (response != null && response.getMsg() != null && response.getSuccess()) {
-                return response.getMsg();
+            log.error("sendCoins msg {}", response.getMsg());
+            log.error("sendCoins id {}", response.getId());
+            if (response != null && response.getSuccess()) {
+                return response.getId();
             }
         } catch (HttpStatusIOException e) {
             log.error(e.getHttpBody());
