@@ -72,7 +72,7 @@ public class NanoWallet implements IWallet{
             log.error("InfuraWallet wallet error: unknown cryptocurrency.");
             return null;
         }
-        BigDecimal balance = new BigDecimal.ZERO;
+        BigDecimal balance = BigDecimal.ZERO;
         return balance;
     }
 
