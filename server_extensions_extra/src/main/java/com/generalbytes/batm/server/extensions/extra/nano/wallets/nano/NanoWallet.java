@@ -53,7 +53,7 @@ public class NanoWallet implements IWallet{
             log.error("wallet error: unknown cryptocurrency.");
             return null;
         }
-        final BalanceData balance = api.getBalanse(cryptoCurrency);
+        final BalanceData balance = api.getBalanse(address);
         return balance;
     }
 
