@@ -15,6 +15,7 @@ import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
+import si.mazi.rescu.RestProxyFactory;
 
 public class NanoWallet implements IWallet{
     private String cryptoCurrency = CryptoCurrency.NANO.getCode();
@@ -72,7 +73,7 @@ public class NanoWallet implements IWallet{
             return null;
         }
         final BalanceData balance = api.getBalanse(cryptoCurrency);
-        return balance;
+        return balance.getBalance();
     }
 
     @Override
