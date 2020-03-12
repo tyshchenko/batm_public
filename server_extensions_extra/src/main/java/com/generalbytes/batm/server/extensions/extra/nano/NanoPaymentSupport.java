@@ -61,6 +61,7 @@ public class NanoPaymentSupport implements IPaymentSupport {
 
                 if ((addressStatus.getBalance().compareTo(BigDecimal.ZERO) > 0) && (request.getState() == PaymentRequest.STATE_NEW)) {
                     log.info("Received: {}, Requested: {}, {}", addressStatus.getBalance(), spec.getTotal(), request);
+                    request.setTxValue(spec.getTotal());
                     if (addressStatus.getBalance().compareTo(spec.getTotal()) == 0) {
                         log.info("Amounts matches {}", request);
                         setState(request, PaymentRequest.STATE_SEEN_TRANSACTION);
