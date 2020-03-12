@@ -2,81 +2,147 @@ package com.generalbytes.batm.server.extensions.extra.nano;
 
 import com.generalbytes.batm.common.currencies.CryptoCurrency;
 import com.generalbytes.batm.server.extensions.ICryptoAddressValidator;
-import com.generalbytes.batm.server.extensions.extra.bitcoincash.test.PRS;
-import com.generalbytes.batm.server.extensions.extra.common.AbstractRPCPaymentSupport;
-import com.generalbytes.batm.server.extensions.extra.common.RPCClient;
+import com.generalbytes.batm.server.extensions.IExtensionContext;
+import com.generalbytes.batm.server.extensions.IWallet;
 import com.generalbytes.batm.server.extensions.payment.IPaymentRequestListener;
+import com.generalbytes.batm.server.extensions.payment.IPaymentRequestSpecification;
+import com.generalbytes.batm.server.extensions.payment.IPaymentSupport;
+import com.generalbytes.batm.server.extensions.payment.PaymentReceipt;
 import com.generalbytes.batm.server.extensions.payment.PaymentRequest;
+import com.generalbytes.batm.server.extensions.extra.nano.wallets.nano.NanoWallet;
+import com.generalbytes.batm.server.extensions.extra.nano.wallets.nano.BalanceData;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.concurrent.TimeUnit;
 
-import wf.bitcoin.javabitcoindrpcclient.BitcoinRPCException;
 
-public class NanoPaymentSupport extends AbstractRPCPaymentSupport {
+public class NanoPaymentSupport implements IPaymentSupport {
     private NanoAddressValidator addressValidator = new NanoAddressValidator();
 
-    private static final long MAXIMUM_WAIT_FOR_POSSIBLE_REFUND_MILLIS = TimeUnit.DAYS.toMillis(3); // 3 days
-    private static final long MAXIMUM_WATCHING_TIME_MILLIS = TimeUnit.DAYS.toMillis(3); // 3 days (exactly plus Sell Offer Expiration 5-120 minutes)
-    private static final BigDecimal TOLERANCE = new BigDecimal("0.0002"); // Received amount should be  cryptoTotalToSend +- tolerance
+    private static final Logger log = LoggerFactory.getLogger(NanoPaymentSupport.class);
+    private final Map<String, PaymentRequest> requests = new ConcurrentHashMap<>();
+
+    private final ScheduledExecutorService executorService = Executors.newSingleThreadScheduledExecutor();
 
     @Override
-    public String getCurrency() {
-        return CryptoCurrency.NANO.getCode();
+    public boolean init(IExtensionContext context) {
+        return true;
     }
 
-    @Override
-    public long getMaximumWatchingTimeMillis() {
-        return MAXIMUM_WATCHING_TIME_MILLIS;
-    }
 
     @Override
-    public long getMaximumWaitForPossibleRefundInMillis() {
-        return MAXIMUM_WAIT_FOR_POSSIBLE_REFUND_MILLIS;
-    }
-
-    @Override
-    public BigDecimal getTolerance() {
-        return TOLERANCE;
-    }
-
-    @Override
-    public BigDecimal getMinimumNetworkFee(RPCClient client) {
-        return client.getNetworkInfo().relayFee();
-    }
-
-    @Override
-    public ICryptoAddressValidator getAddressValidator() {
-        return addressValidator;
-    }
-
-    @Override
-    public int calculateTransactionSize(int numberOfInputs, int numberOfOutputs) {
-        return (numberOfInputs * 149) + (numberOfOutputs * 34) + 10;
-    }
-
-    @Override
-    public BigDecimal calculateTxFee(int numberOfInputs, int numberOfOutputs, RPCClient client) {
-        final int transactionSize = calculateTransactionSize(numberOfInputs, numberOfOutputs);
-        try {
-            BigDecimal estimate = new BigDecimal(client.getEstimateFee(2));
-            if (BigDecimal.ZERO.compareTo(estimate) == 0 || estimate.compareTo(new BigDecimal("-1")) == 0 ) {
-                //bitcoind is clueless
-                return getMinimumNetworkFee(client);
-            }
-            return estimate.divide(new BigDecimal("1000"), RoundingMode.UP).multiply(new BigDecimal(transactionSize));
-        } catch (BitcoinRPCException e) {
-            e.printStackTrace();
+    public PaymentRequest createPaymentRequest(IPaymentRequestSpecification spec) {
+        IWallet wallet = spec.getWallet();
+        NanoWallet nanoWallet = new NanoWallet("ZAR", CryptoCurrency.NANO.getCode());
+        if (spec.getOutputs().size() != 1) {
+            throw new IllegalStateException("Only 1 output supported");
         }
-        return null;
+
+        String destinationAddress = spec.getOutputs().get(0).getAddress();
+
+        final String address = nanoWallet.getNewCryptoAddress(spec.getCryptoCurrency());
+        long validTillMillis = System.currentTimeMillis() + (spec.getValidInSeconds() * 1000);
+
+        PaymentRequest request = new PaymentRequest(spec.getCryptoCurrency(), spec.getDescription(), validTillMillis,
+            address, spec.getTotal(), BigDecimal.ZERO, spec.getRemoveAfterNumberOfConfirmationsOfIncomingTransaction(),
+            spec.getRemoveAfterNumberOfConfirmationsOfOutgoingTransaction(), wallet);
+
+        ScheduledFuture<?> scheduledFuture = executorService.scheduleAtFixedRate(() -> {
+            try {
+                BalanceData addressStatus = nanoWallet.getStatus(address);
+                int confirmations = Integer.parseInt(addressStatus.getConfirmations());
+
+                if ((addressStatus.getBalance().compareTo(BigDecimal.ZERO) > 0) && (request.getState() == PaymentRequest.STATE_NEW)) {
+                    log.info("Received: {}, Requested: {}, {}", addressStatus.getBalance(), spec.getTotal(), request);
+                    if (addressStatus.getBalance().compareTo(spec.getTotal()) == 0) {
+                        log.info("Amounts matches {}", request);
+                        setState(request, PaymentRequest.STATE_SEEN_TRANSACTION);
+                    } else if (request.getState() != PaymentRequest.STATE_TRANSACTION_INVALID) {
+                        log.info("Received amount does not match the requested amount");
+                        setState(request, PaymentRequest.STATE_TRANSACTION_INVALID);
+                    }
+                }
+                if ((request.getState() == PaymentRequest.STATE_SEEN_TRANSACTION) || (request.getState() == PaymentRequest.STATE_SEEN_IN_BLOCK_CHAIN)) {
+                    if (confirmations > 0) {
+                        log.info("Received: {}, Confirmations: {} for {}", addressStatus.getBalance(), confirmations, request);
+                        if (request.getState() == PaymentRequest.STATE_SEEN_TRANSACTION) {
+                            setState(request, PaymentRequest.STATE_SEEN_IN_BLOCK_CHAIN);
+                        }
+
+                        fireNumberOfConfirmationsChanged(request, confirmations);
+                        fireNumberOfOutConfirmationsChanged(request, confirmations);
+
+                    }
+                }
+
+            } catch (Exception e) {
+                log.error("", e);
+            }
+
+        }, 15, 5, TimeUnit.SECONDS);
+
+        executorService.schedule(() -> {
+            try {
+                scheduledFuture.cancel(false);
+                if (request.getState() != PaymentRequest.STATE_SEEN_IN_BLOCK_CHAIN) {
+                    log.info("Cancelling {}", request);
+                    setState(request, PaymentRequest.STATE_TRANSACTION_TIMED_OUT);
+                }
+            } catch (Throwable t) {
+                log.error("", t);
+            }
+        }, spec.getValidInSeconds(), TimeUnit.SECONDS);
+
+        requests.entrySet().removeIf(e -> e.getValue().getValidTill() <  System.currentTimeMillis());
+        requests.put(address, request);
+        return request;
+    }
+
+
+    @Override
+    public boolean isPaymentReceived(String paymentAddress) {
+        PaymentRequest paymentRequest = requests.get(paymentAddress);
+        return paymentRequest != null && paymentRequest.getState() == PaymentRequest.STATE_SEEN_IN_BLOCK_CHAIN;
     }
 
     @Override
-    public String getSigHashType() {
-        return "ALL";
+    public PaymentReceipt getPaymentReceipt(String paymentAddress) {
+        PaymentReceipt result = new PaymentReceipt(CryptoCurrency.NANO.getCode(), paymentAddress);
+        PaymentRequest paymentRequest = requests.get(paymentAddress);
+        if (paymentRequest != null && paymentRequest.getState() == PaymentRequest.STATE_SEEN_IN_BLOCK_CHAIN) {
+            result.setStatus(PaymentReceipt.STATUS_PAID);
+            result.setConfidence(PaymentReceipt.CONFIDENCE_SURE);
+            result.setAmount(paymentRequest.getAmount());
+            result.setTransactionId(paymentRequest.getIncomingTransactionHash());
+        }
+        return result;
     }
 
+    private void fireNumberOfConfirmationsChanged(PaymentRequest request, int numberOfConfirmations) {
+        IPaymentRequestListener listener = request.getListener();
+        if (listener != null) {
+            listener.numberOfConfirmationsChanged(request, numberOfConfirmations, IPaymentRequestListener.Direction.INCOMING);
+        }
+    }
+
+    private void fireNumberOfOutConfirmationsChanged(PaymentRequest request, int numberOfConfirmations) {
+        IPaymentRequestListener listener = request.getListener();
+        if (listener != null) {
+            listener.numberOfConfirmationsChanged(request, numberOfConfirmations, IPaymentRequestListener.Direction.OUTGOING);
+        }
+    }
+
+    private void setState(PaymentRequest request, int newState) {
+        int previousState = request.getState();
+        request.setState(newState);
+        log.debug("Transaction state changed: {} -> {} {}", previousState, newState, request);
+
+        IPaymentRequestListener listener = request.getListener();
+        if (listener != null) {
+            listener.stateChanged(request, previousState, request.getState());
+        }
+    }
 
 
 }

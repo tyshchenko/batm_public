@@ -1459,9 +1459,8 @@
             <param name="accountname" />
             <cryptocurrency>NANO</cryptocurrency>
         </wallet>
-        <wallet prefix="nanodemo" name="NANO Demo Wallet">
+        <wallet prefix="nanowallet" name="NANO Wallet">
             <param name="fiatCurrency" />
-            <param name="walletAddress" />
             <cryptocurrency>NANO</cryptocurrency>
         </wallet>
         <cryptologo cryptocurrency="NANO" file="nano.png"/>

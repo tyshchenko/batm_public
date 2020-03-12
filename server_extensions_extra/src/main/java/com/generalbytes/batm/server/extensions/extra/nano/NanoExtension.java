@@ -5,6 +5,7 @@ import com.generalbytes.batm.common.currencies.FiatCurrency;
 import com.generalbytes.batm.server.extensions.*;
 import com.generalbytes.batm.server.extensions.FixPriceRateSource;
 import com.generalbytes.batm.server.extensions.extra.nano.wallets.nanod.NanoRPCWallet;
+import com.generalbytes.batm.server.extensions.extra.nano.wallets.nano.NanoWallet;
 
 import java.math.BigDecimal;
 import java.util.*;
@@ -41,16 +42,12 @@ public class NanoExtension extends AbstractExtension {
                     return new NanoRPCWallet(rpcURL, accountName);
                 }
             } else
-            if ("nanodemo".equalsIgnoreCase(walletType)) {
+            if ("nanowallet".equalsIgnoreCase(walletType)) {
 
                 String fiatCurrency = st.nextToken();
-                String walletAddress = "";
-                if (st.hasMoreTokens()) {
-                    walletAddress = st.nextToken();
-                }
 
-                if (fiatCurrency != null && walletAddress != null) {
-                    return new DummyExchangeAndWalletAndSource(fiatCurrency, CryptoCurrency.NANO.getCode(), walletAddress);
+                if (fiatCurrency != null) {
+                    return new NanoWallet(fiatCurrency, CryptoCurrency.NANO.getCode());
                 }
             }
         }
