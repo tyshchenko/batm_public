@@ -2,7 +2,7 @@ package com.generalbytes.batm.server.extensions.extra.nano.wallets.nano;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
-@Path("api/1")
+@Path("/")
 @Produces(MediaType.APPLICATION_JSON)
 public interface NanoAPI {
     @GET
