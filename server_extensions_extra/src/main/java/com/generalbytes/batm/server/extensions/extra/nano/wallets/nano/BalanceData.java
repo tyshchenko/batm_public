@@ -19,7 +19,7 @@ public class BalanceData {
 
 
     public BigDecimal getBalance() {
-        BigInteger ten = BigInteger.TEN;
+        BigDecimal ten = BigDecimal.TEN;
         return balance.divide(ten.pow(8));
     }
     public String getConfirmations() {

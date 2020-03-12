@@ -11,11 +11,17 @@ import com.generalbytes.batm.server.extensions.payment.PaymentReceipt;
 import com.generalbytes.batm.server.extensions.payment.PaymentRequest;
 import com.generalbytes.batm.server.extensions.extra.nano.wallets.nano.NanoWallet;
 import com.generalbytes.batm.server.extensions.extra.nano.wallets.nano.BalanceData;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 
 import java.math.BigDecimal;
-import java.math.RoundingMode;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
-
 
 public class NanoPaymentSupport implements IPaymentSupport {
     private NanoAddressValidator addressValidator = new NanoAddressValidator();
