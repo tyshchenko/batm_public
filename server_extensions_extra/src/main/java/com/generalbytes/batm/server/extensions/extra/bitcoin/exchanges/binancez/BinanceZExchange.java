@@ -229,6 +229,11 @@ public class BinanceZExchange implements IExchange {
     @Override
     public String sendCoins(String destinationAddress, BigDecimal amount, String cryptoCurrency, String description) {
         try {
+            try {
+                Thread.sleep(2000); //give exchange 2 seconds to reflect open order in order book
+            } catch (InterruptedException e) {
+                log.error("Error", e);
+            }
             String crypto = cryptoCurrency;
             if (CryptoCurrency.DASHD.getCode().equalsIgnoreCase(cryptoCurrency)) {
                 crypto = "DASH";
