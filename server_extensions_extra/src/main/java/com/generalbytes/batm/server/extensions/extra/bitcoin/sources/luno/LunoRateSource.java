@@ -33,7 +33,7 @@ public class LunoRateSource implements IRateSource {
 
     public LunoRateSource(String preferedFiatCurrency) {
         api = RestProxyFactory.createProxy(LunoAPI.class, "https://api.mybitx.com");
-        
+
         if (FiatCurrency.ZAR.getCode().equalsIgnoreCase(preferedFiatCurrency)) {
             this.preferredFiatCurrency = FiatCurrency.ZAR.getCode();
         }
@@ -45,6 +45,7 @@ public class LunoRateSource implements IRateSource {
         Set<String> result = new HashSet<String>();
         result.add(CryptoCurrency.BTC.getCode());
         result.add(CryptoCurrency.ETH.getCode());
+        result.add(CryptoCurrency.LTC.getCode());
         return result;
     }
 
@@ -73,6 +74,10 @@ public class LunoRateSource implements IRateSource {
             final LunoTickerData ethZar = api.getTicker("ETHZAR");
             BigDecimal lastEthPriceInZar = ethZar.getPrice();
             return lastEthPriceInZar;
+        } else if (CryptoCurrency.LTC.getCode().equalsIgnoreCase(cryptoCurrency)) {
+            final LunoTickerData ltcZar = api.getTicker("LTCZAR");
+            BigDecimal lastLTCPriceInZar = ltcZar.getPrice();
+            return lastLTCPriceInZar;
         }
         return null;
     }

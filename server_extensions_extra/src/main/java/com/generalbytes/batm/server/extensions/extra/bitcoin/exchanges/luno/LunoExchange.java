@@ -42,6 +42,7 @@ public class LunoExchange implements IExchange {
         Set<String> cryptoCurrencies = new HashSet<>();
         cryptoCurrencies.add(CryptoCurrency.BTC.getCode());
         cryptoCurrencies.add(CryptoCurrency.ETH.getCode());
+        cryptoCurrencies.add(CryptoCurrency.LTC.getCode());
         return cryptoCurrencies;
     }
 
@@ -80,8 +81,8 @@ public class LunoExchange implements IExchange {
     public String getPreferredFiatCurrency() {
         return this.preferredFiatCurrency;
     }
-    
-    
+
+
     @Override
     public BigDecimal getFiatBalance(String fiatCurrency) {
         final LunoBalanceData balance = api.getBalance();
@@ -89,23 +90,26 @@ public class LunoExchange implements IExchange {
         log.debug("{} exbalance = {}", fiatCurrency, fiatballance);
         return fiatballance;
     }
-    
-    
+
+
     @Override
     public String purchaseCoins(BigDecimal amount, String cryptoCurrency, String fiatCurrencyToUse, String description) {
         String type = "BUY";
-        String pair;
-        if (cryptoCurrency.equals("BTC")) {
+        String pair = cryptoCurrency.toUpperCase() + "ZAR";
+
+        BigDecimal cryptofee    = new BigDecimal(0.00033);
+
+        if (cryptoCurrency.equals("ETH")) {
+            cryptofee    = new BigDecimal(0.01);
+        } else if (cryptoCurrency.equals("BTC")) {
             pair = "XBTZAR";
-        } else {
-            pair = cryptoCurrency.toUpperCase() + "ZAR";
         }
-        
+
         final LunoTickerData cryptoToZar = api.getTicker(pair);
         BigDecimal pricebid  = cryptoToZar.getBid();
         BigDecimal one       = new BigDecimal(1);
         BigDecimal onepr     = new BigDecimal(1.01);
-        BigDecimal cryptofee    = new BigDecimal(0.00033);
+
         amount               = amount.multiply(onepr);
         amount               = amount.add(cryptofee).setScale(6, BigDecimal.ROUND_CEILING);
         BigDecimal price     = pricebid.add(one).setScale(0, BigDecimal.ROUND_CEILING);
@@ -120,8 +124,8 @@ public class LunoExchange implements IExchange {
             return result.getResult();
         }
     }
-    
-    
+
+
     @Override
     public String sellCoins(BigDecimal cryptoAmount, String cryptoCurrency, String fiatCurrencyToUse, String description) {
         String type = "SELL";
@@ -145,8 +149,8 @@ public class LunoExchange implements IExchange {
             return result.getResult();
         }
     }
-    
-    
+
+
     @Override
     public String sendCoins(String destinationAddress, BigDecimal amount, String cryptoCurrency, String description) {
         try {
@@ -162,6 +166,6 @@ public class LunoExchange implements IExchange {
             return result.getResult();
         }
     }
-    
+
 
 }

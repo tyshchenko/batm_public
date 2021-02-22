@@ -191,6 +191,7 @@
                 <param name="fiatCurrency" />
                 <cryptocurrency>BTC</cryptocurrency>
                 <cryptocurrency>ETH</cryptocurrency>
+                <cryptocurrency>LTC</cryptocurrency>
             </ratesource>
             <ratesource prefix="valrRateSource" name ="VALR Rate Source" >
                 <param name="fiatCurrency" />
@@ -235,6 +236,7 @@
                 <help>Typeorders can be limit or market</help>
                 <cryptocurrency>BTC</cryptocurrency>
                 <cryptocurrency>ETH</cryptocurrency>
+                <cryptocurrency>LTC</cryptocurrency>
             </exchange>
             <exchange prefix="valrexchange" name="VALR Exchange">
                 <param name="apikey" />
