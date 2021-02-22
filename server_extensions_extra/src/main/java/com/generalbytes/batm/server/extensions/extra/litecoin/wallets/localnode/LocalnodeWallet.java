@@ -19,7 +19,7 @@ import si.mazi.rescu.RestProxyFactory;
 
 public class LocalnodeWallet implements IWallet{
     private String cryptoCurrency = CryptoCurrency.LTC.getCode();
-    private static final Logger log = LoggerFactory.getLogger(NanoWallet.class);
+    private static final Logger log = LoggerFactory.getLogger(LocalnodeWallet.class);
     private LocalAPI api;
 
     public LocalnodeWallet(String preferedFiatCurrency, String preferedCryptoCurrency) {
@@ -28,11 +28,11 @@ public class LocalnodeWallet implements IWallet{
 
     @Override
     public Set<String> getCryptoCurrencies() {
-        Set<String> currencies = new HashSet<>();
+        Set<String> cryptoCurrencies = new HashSet<>();
         cryptoCurrencies.add(CryptoCurrency.ETH.getCode());
         cryptoCurrencies.add(CryptoCurrency.LTC.getCode());
         cryptoCurrencies.add(CryptoCurrency.DASHD.getCode());
-        return currencies;
+        return cryptoCurrencies;
     }
 
     @Override
