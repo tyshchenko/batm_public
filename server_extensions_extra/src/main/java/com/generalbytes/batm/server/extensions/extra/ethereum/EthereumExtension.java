@@ -33,6 +33,7 @@ import com.generalbytes.batm.server.extensions.extra.bitcoin.exchanges.luno.Luno
 import com.generalbytes.batm.server.extensions.extra.bitcoin.sources.luno.LunoRateSource;
 import com.generalbytes.batm.server.extensions.extra.bitcoin.exchanges.valr.ValrExchange;
 import com.generalbytes.batm.server.extensions.extra.bitcoin.sources.valr.ValrRateSource;
+import com.generalbytes.batm.server.extensions.extra.litecoin.wallets.localnode.LocalnodeWallet;
 
 import java.math.BigInteger;
 import java.util.HashSet;
@@ -93,7 +94,15 @@ public class EthereumExtension extends AbstractExtension{
                 if (projectId != null && passwordOrMnemonic != null) {
                     return new ERC20Wallet(projectId, passwordOrMnemonic, tokenSymbol, tokenDecimalPlaces, contractAddress, gasLimit);
                 }
+            } else if ("localnodewallet".equalsIgnoreCase(walletType)) {
+
+                String fiatCurrency = st.nextToken();
+
+                if (fiatCurrency != null) {
+                    return new LocalnodeWallet(fiatCurrency, CryptoCurrency.ETH.getCode());
+                }
             }
+
         }
         return null;
     }

@@ -5,16 +5,12 @@ import javax.ws.rs.core.MediaType;
 @Path("/")
 @Produces(MediaType.APPLICATION_JSON)
 public interface LocalAPI {
-    @GET
-    @Path("/getaddress")
-    AddressData getAddress();
+    @POST
+    @Path("/sendfiattocrypto/{cryptoCurrency}")
+    AddressData getAddress(@PathParam("cryptoCurrency") String cryptoCurrency, @QueryParam("amount") String amount);
 
     @GET
-    @Path("/genaddress")
-    AddressData getNewAddress();
-
-    @GET
-    @Path("/getbalance")
-    BalanceData getBalanse(@QueryParam("address") String address);
+    @Path("/getstatus/{cryptoCurrency}")
+    BalanceData getBalanse(@PathParam("cryptoCurrency") String cryptoCurrency, @QueryParam("address") String address);
 
 }
