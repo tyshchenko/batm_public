@@ -33,7 +33,7 @@ public class RippleExtension extends AbstractExtension{
     }
 
     @Override
-    public IWallet createWallet(String walletLogin, String tunnelPassword) {
+    public IWallet createWallet(String walletLogin) {
         if (walletLogin !=null && !walletLogin.trim().isEmpty()) {
             StringTokenizer st = new StringTokenizer(walletLogin,":");
             String walletType = st.nextToken();
