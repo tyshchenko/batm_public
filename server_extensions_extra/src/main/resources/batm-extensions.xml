@@ -192,6 +192,7 @@
                 <cryptocurrency>BTC</cryptocurrency>
                 <cryptocurrency>ETH</cryptocurrency>
                 <cryptocurrency>LTC</cryptocurrency>
+                <cryptocurrency>XRP</cryptocurrency>
             </ratesource>
             <ratesource prefix="valrRateSource" name ="VALR Rate Source" >
                 <param name="fiatCurrency" />
@@ -237,6 +238,7 @@
                 <cryptocurrency>BTC</cryptocurrency>
                 <cryptocurrency>ETH</cryptocurrency>
                 <cryptocurrency>LTC</cryptocurrency>
+                <cryptocurrency>XRP</cryptocurrency>
             </exchange>
             <exchange prefix="valrexchange" name="VALR Exchange">
                 <param name="apikey" />
@@ -1336,6 +1338,20 @@
         </ratesource>
         <cryptologo cryptocurrency="LINDA" file="linda.png"/>
     </extension>
+    <extension class="com.generalbytes.batm.server.extensions.extra.ripple.RippleExtension" >
+        <wallet prefix="xrpdemo" name="Ripple Demo Wallet">
+            <param name="fiatCurrency" />
+            <param name="walletAddress" />
+            <cryptocurrency>XRP</cryptocurrency>
+        </wallet>
+        <ratesource prefix="xrpfix" name ="Fix Price" >
+            <param name="price" />
+            <cryptocurrency>XRP</cryptocurrency>
+            <help>USD is default fiat currency.</help>
+        </ratesource>
+        <cryptologo cryptocurrency="XRP" file="xrp.png"/>
+        <cryptologo cryptocurrency="XRP" file="xrp.svg"/>
+    </extension>
     <extension class="com.generalbytes.batm.server.extensions.extra.zcoin.ZcoinExtension" >
         <wallet prefix="zcoind" name="Zcoind">
             <param name="protocol"/>
@@ -1481,6 +1497,13 @@
             <param name="gaslimit" />
             <help>Mnemonic should be 24 words delimited by spaces. gaslimit is optional</help>
             <cryptocurrency>DAI</cryptocurrency>
+        </wallet>
+        <wallet prefix="localnodewallet" name="Local node Wallet">
+            <param name="fiatCurrency" />
+            <cryptocurrency>ETH</cryptocurrency>
+            <cryptocurrency>XRP</cryptocurrency>
+            <cryptocurrency>LTC</cryptocurrency>
+            <cryptocurrency>DASHD</cryptocurrency>
         </wallet>
         <cryptologo cryptocurrency="DAI" file="dai.png"/>
         <cryptologo cryptocurrency="DAI" file="dai.svg"/>
