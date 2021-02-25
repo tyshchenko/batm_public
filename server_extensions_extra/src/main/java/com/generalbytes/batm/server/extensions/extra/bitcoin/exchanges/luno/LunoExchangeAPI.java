@@ -19,9 +19,9 @@ package com.generalbytes.batm.server.extensions.extra.bitcoin.exchanges.luno;
 
 import java.math.BigDecimal;
 
-import javax.ws.rs.*; 
-import javax.ws.rs.core.MediaType; 
-@Path("api/1") 
+import javax.ws.rs.*;
+import javax.ws.rs.core.MediaType;
+@Path("api/1")
 @Produces(MediaType.APPLICATION_JSON)
 public interface LunoExchangeAPI {
     @GET
@@ -39,6 +39,10 @@ public interface LunoExchangeAPI {
     @POST
     @Path("/send")
     LunoRequestData sendMoney(@QueryParam("address") String destinationAddress, @QueryParam("amount") String amount, @QueryParam("currency") String cryptoCurrency, @QueryParam("description") String description);
+
+    @POST
+    @Path("/send")
+    LunoRequestData sendXRPMoney(@QueryParam("address") String destinationAddress, @QueryParam("amount") String amount, @QueryParam("currency") String cryptoCurrency, @QueryParam("description") String description @QueryParam("has_destination_tag") Boolean tag);
 
     @POST
     @Path("/marketorder")
