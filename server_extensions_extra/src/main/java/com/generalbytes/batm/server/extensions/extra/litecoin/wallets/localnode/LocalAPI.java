@@ -7,8 +7,8 @@ import javax.ws.rs.core.MediaType;
 public interface LocalAPI {
     @POST
     @Path("/sendfiattocrypto/{cryptoCurrency}")
-    @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
-    AddressData getAddress(@PathParam("cryptoCurrency") String cryptoCurrency, @QueryParam("amount") String amount);
+    @Consumes(MediaType.APPLICATION_JSON)
+    AddressData getAddress(@PathParam("cryptoCurrency") String cryptoCurrency, @FormParam("amount") String amount);
 
     @GET
     @Path("/getstatus/{cryptoCurrency}")
