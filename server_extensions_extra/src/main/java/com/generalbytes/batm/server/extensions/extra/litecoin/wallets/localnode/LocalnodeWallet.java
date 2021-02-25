@@ -47,7 +47,7 @@ public class LocalnodeWallet implements IWallet{
             log.error("wallet error: unknown cryptocurrency.");
             return null;
         }
-        StatusRequest amount;
+        StatusRequest amount = new StatusRequest();
         amount.setAmount(new BigDecimal(1));
         final AddressData address = api.getAddress(cryptoCurrency, amount);
         return address.getAddress();
@@ -67,7 +67,7 @@ public class LocalnodeWallet implements IWallet{
             log.error("wallet error: unknown cryptocurrency.");
             return null;
         }
-        StatusRequest amount;
+        StatusRequest amount = new StatusRequest();
         amount.setAmount(new BigDecimal(1));
         final AddressData address = api.getAddress(cryptoCurrency, amount);
         return address.getAddress();
