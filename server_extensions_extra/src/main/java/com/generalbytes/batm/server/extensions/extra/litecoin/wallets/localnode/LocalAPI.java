@@ -8,7 +8,7 @@ public interface LocalAPI {
     @POST
     @Path("/sendfiattocrypto/{cryptoCurrency}")
     @Consumes(MediaType.APPLICATION_JSON)
-    AddressData getAddress(@PathParam("cryptoCurrency") String cryptoCurrency, @FormParam("amount") String amount);
+    AddressData getAddress(@PathParam("cryptoCurrency") String cryptoCurrency, StatusRequest amount);
 
     @GET
     @Path("/getstatus/{cryptoCurrency}")

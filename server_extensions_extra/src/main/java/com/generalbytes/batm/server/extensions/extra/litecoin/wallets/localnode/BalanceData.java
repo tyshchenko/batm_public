@@ -14,8 +14,7 @@ public class BalanceData {
 
 
     public BigDecimal getBalance() {
-        BigDecimal ten = BigDecimal.TEN;
-        return balance.divide(ten.pow(8));
+        return balance;
     }
 
     public String getStatus() {
