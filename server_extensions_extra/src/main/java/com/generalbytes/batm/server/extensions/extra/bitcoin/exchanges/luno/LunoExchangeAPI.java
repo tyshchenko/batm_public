@@ -42,7 +42,7 @@ public interface LunoExchangeAPI {
 
     @POST
     @Path("/send")
-    LunoRequestData sendXRPMoney(@QueryParam("address") String destinationAddress, @QueryParam("amount") String amount, @QueryParam("currency") String cryptoCurrency, @QueryParam("description") String description @QueryParam("has_destination_tag") Boolean tag);
+    LunoRequestData sendXRPMoney(@QueryParam("address") String destinationAddress, @QueryParam("amount") String amount, @QueryParam("currency") String cryptoCurrency, @QueryParam("description") String description, @QueryParam("has_destination_tag") Boolean tag);
 
     @POST
     @Path("/marketorder")
