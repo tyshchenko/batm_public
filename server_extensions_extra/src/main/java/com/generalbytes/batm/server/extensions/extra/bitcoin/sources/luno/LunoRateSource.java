@@ -46,6 +46,7 @@ public class LunoRateSource implements IRateSource {
         result.add(CryptoCurrency.BTC.getCode());
         result.add(CryptoCurrency.ETH.getCode());
         result.add(CryptoCurrency.LTC.getCode());
+        result.add(CryptoCurrency.XRP.getCode());
         return result;
     }
 
@@ -78,6 +79,10 @@ public class LunoRateSource implements IRateSource {
             final LunoTickerData ltcZar = api.getTicker("LTCZAR");
             BigDecimal lastLTCPriceInZar = ltcZar.getPrice();
             return lastLTCPriceInZar;
+        } else if (CryptoCurrency.XRP.getCode().equalsIgnoreCase(cryptoCurrency)) {
+            final LunoTickerData xrpZar = api.getTicker("XRPZAR");
+            BigDecimal lastxrpPriceInZar = xrpZar.getPrice();
+            return lastxrpPriceInZar;
         }
         return null;
     }
