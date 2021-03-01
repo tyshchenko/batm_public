@@ -163,7 +163,7 @@ public class LunoExchange implements IExchange {
             final LunoRequestData result = api.sendMoney(destinationAddress, amount.toString(), "XBT", description);
             return result.getResult();
         } else if (cryptoCurrency.equals("XRP")) {
-            final LunoRequestData result = api.sendXRPMoney(destinationAddress, amount.setScale(2, BigDecimal.ROUND_CEILING).toString(), "XBT", description, false);
+            final LunoRequestData result = api.sendMoney(destinationAddress, amount.setScale(2, BigDecimal.ROUND_CEILING).toString(), "XBT", description);
             return result.getResult();
         } else {
             if (cryptoCurrency.equals("ETH")) {
