@@ -30,6 +30,7 @@ import java.math.BigDecimal;
 import java.util.*;
 
 public class DogecoinExtension extends AbstractExtension{
+    private static final CryptoCurrencyDefinition DEFINITION = new DogeDefinition();
 
     @Override
     public String getName() {
@@ -134,6 +135,13 @@ public class DogecoinExtension extends AbstractExtension{
     public Set<String> getSupportedCryptoCurrencies() {
         Set<String> result = new HashSet<String>();
         result.add(CryptoCurrency.DOGE.getCode());
+        return result;
+    }
+
+    @Override
+    public Set<ICryptoCurrencyDefinition> getCryptoCurrencyDefinitions() {
+        Set<ICryptoCurrencyDefinition> result = new HashSet<>();
+        result.add(DEFINITION);
         return result;
     }
 

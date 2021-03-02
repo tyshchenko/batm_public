@@ -177,6 +177,9 @@ public class BinanceZExchange implements IExchange {
             crypto = "DASHUSDT";
             cryptoAmountS = amount.setScale(3, BigDecimal.ROUND_CEILING).toString();
         }
+        if (CryptoCurrency.DOGE.getCode().equalsIgnoreCase(cryptoCurrency)) {
+            cryptoAmountS = amount.setScale(0, BigDecimal.ROUND_CEILING).toString();
+        }
         try {
             // buy crypto for usdt
             String query = "";
@@ -205,6 +208,9 @@ public class BinanceZExchange implements IExchange {
         if (CryptoCurrency.DASHD.getCode().equalsIgnoreCase(cryptoCurrency)) {
             crypto = "DASHUSDT";
             cryptoAmountS = cryptoAmount.setScale(3, BigDecimal.ROUND_CEILING).toString();
+        }
+        if (CryptoCurrency.DOGE.getCode().equalsIgnoreCase(cryptoCurrency)) {
+            cryptoAmountS = amount.setScale(0, BigDecimal.ROUND_CEILING).toString();
         }
         try {
             // buy crypto for usdt
@@ -238,6 +244,9 @@ public class BinanceZExchange implements IExchange {
             String crypto = cryptoCurrency;
             if (CryptoCurrency.DASHD.getCode().equalsIgnoreCase(cryptoCurrency)) {
                 crypto = "DASH";
+            }
+            if (CryptoCurrency.DOGE.getCode().equalsIgnoreCase(cryptoCurrency)) {
+                amount = amount.setScale(0, BigDecimal.ROUND_CEILING);
             }
 
             String query = "";

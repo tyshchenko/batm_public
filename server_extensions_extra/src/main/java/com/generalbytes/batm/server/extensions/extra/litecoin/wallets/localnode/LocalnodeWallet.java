@@ -54,7 +54,7 @@ public class LocalnodeWallet implements IWallet{
         return address.getAddress();
     }
 
-    public BalanceData getStatus(String address) {
+    public BalanceData getStatus(String address, String cryptoCurrency) {
         if (!getCryptoCurrencies().contains(cryptoCurrency)) {
             log.error("wallet error: unknown cryptocurrency.");
             return null;
