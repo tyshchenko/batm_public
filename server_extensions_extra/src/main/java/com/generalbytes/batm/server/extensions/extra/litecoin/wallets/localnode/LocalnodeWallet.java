@@ -94,4 +94,9 @@ public class LocalnodeWallet implements IWallet{
         return "SendcoinOk";
     }
 
+    @Override
+    public String generateNewDepositCryptoAddress(String cryptoCurrency, String label) {
+        return getCryptoAddress(cryptoCurrency);
+    }
+
 }
