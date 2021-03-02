@@ -31,6 +31,7 @@ public class BinanceZRateSource implements IRateSource {
         result.add(CryptoCurrency.DASHD.getCode());
         result.add(CryptoCurrency.USDT.getCode());
         result.add(CryptoCurrency.NANO.getCode());
+        result.add(CryptoCurrency.DOGE.getCode());
         return result;
     }
 
@@ -62,6 +63,12 @@ public class BinanceZRateSource implements IRateSource {
         }
         if (CryptoCurrency.NANO.getCode().equalsIgnoreCase(cryptoCurrency)) {
             cryptoZCurrency = "NANOBTC";
+            BinanceZTickerData selectedCryptoInBtc = api.getTicker(cryptoZCurrency);
+            priceInBtc = selectedCryptoInBtc.getPrice();
+
+        }
+        if (CryptoCurrency.DOGE.getCode().equalsIgnoreCase(cryptoCurrency)) {
+            cryptoZCurrency = "DOGEBTC";
             BinanceZTickerData selectedCryptoInBtc = api.getTicker(cryptoZCurrency);
             priceInBtc = selectedCryptoInBtc.getPrice();
 
