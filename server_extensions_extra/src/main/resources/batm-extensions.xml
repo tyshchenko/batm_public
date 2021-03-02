@@ -193,7 +193,6 @@
                 <cryptocurrency>ETH</cryptocurrency>
                 <cryptocurrency>LTC</cryptocurrency>
                 <cryptocurrency>XRP</cryptocurrency>
-                <cryptocurrency>DOGE</cryptocurrency>
             </ratesource>
             <ratesource prefix="valrRateSource" name ="VALR Rate Source" >
                 <param name="fiatCurrency" />
@@ -240,7 +239,6 @@
                 <cryptocurrency>ETH</cryptocurrency>
                 <cryptocurrency>LTC</cryptocurrency>
                 <cryptocurrency>XRP</cryptocurrency>
-                <cryptocurrency>DOGE</cryptocurrency>
             </exchange>
             <exchange prefix="valrexchange" name="VALR Exchange">
                 <param name="apikey" />
@@ -485,6 +483,7 @@
             <param name="fiatcurrency"/>
             <cryptocurrency>DASHD</cryptocurrency>
             <cryptocurrency>NANO</cryptocurrency>
+            <cryptocurrency>DOGE</cryptocurrency>
         </exchange>
         <ratesource prefix="binancecom" name="Binance.com">
             <param name="fiatcurrency" />
@@ -494,6 +493,7 @@
             <param name="fiatcurrency" />
             <cryptocurrency>DASHD</cryptocurrency>
             <cryptocurrency>NANO</cryptocurrency>
+            <cryptocurrency>DOGE</cryptocurrency>
         </ratesource>
     </extension>
     <extension class="com.generalbytes.batm.server.extensions.extra.bitcoincash.BitcoinCashExtension">
