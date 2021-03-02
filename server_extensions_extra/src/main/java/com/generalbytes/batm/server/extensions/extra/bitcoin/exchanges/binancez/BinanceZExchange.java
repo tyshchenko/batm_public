@@ -210,7 +210,7 @@ public class BinanceZExchange implements IExchange {
             cryptoAmountS = cryptoAmount.setScale(3, BigDecimal.ROUND_CEILING).toString();
         }
         if (CryptoCurrency.DOGE.getCode().equalsIgnoreCase(cryptoCurrency)) {
-            cryptoAmountS = amount.setScale(0, BigDecimal.ROUND_CEILING).toString();
+            cryptoAmountS = cryptoAmount.setScale(0, BigDecimal.ROUND_CEILING).toString();
         }
         try {
             // buy crypto for usdt
