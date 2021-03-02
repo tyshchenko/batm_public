@@ -159,11 +159,12 @@ public class LunoExchange implements IExchange {
         } catch (InterruptedException e) {
             log.error("Error", e);
         }
+        log.debug("SENDING {} destinationAddress = {} {}", cryptoCurrency, destinationAddress, amount.toString());
         if (cryptoCurrency.equals("BTC")) {
             final LunoRequestData result = api.sendMoney(destinationAddress, amount.toString(), "XBT", description);
             return result.getResult();
         } else if (cryptoCurrency.equals("XRP")) {
-            final LunoRequestData result = api.sendMoney(destinationAddress, amount.setScale(2, BigDecimal.ROUND_CEILING).toString(), "XBT", description);
+            final LunoRequestData result = api.sendMoney(destinationAddress, amount.setScale(2, BigDecimal.ROUND_CEILING).toString(), "XRP", description);
             return result.getResult();
         } else {
             if (cryptoCurrency.equals("ETH")) {

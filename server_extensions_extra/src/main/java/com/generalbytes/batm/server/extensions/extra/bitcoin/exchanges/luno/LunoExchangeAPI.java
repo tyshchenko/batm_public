@@ -43,7 +43,7 @@ public interface LunoExchangeAPI {
     @POST
     @Path("/send")
     @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
-    LunoRequestData sendXRPMoney(@FormParam("address") String destinationAddress, @FormParam("amount") String amount, @FormParam("currency") String cryptoCurrency, @FormParam("description") String description, @FormParam("has_destination_tag") Boolean tag);
+    LunoRequestData sendXRPMoney(@FormParam("address") String destinationAddress, @FormParam("amount") String amount, @FormParam("currency") String cryptoCurrency, @FormParam("description") String description);
 
     @POST
     @Path("/marketorder")
