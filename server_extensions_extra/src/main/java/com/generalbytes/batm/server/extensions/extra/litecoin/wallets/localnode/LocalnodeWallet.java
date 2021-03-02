@@ -2,7 +2,7 @@ package com.generalbytes.batm.server.extensions.extra.litecoin.wallets.localnode
 
 import com.generalbytes.batm.common.currencies.CryptoCurrency;
 import com.generalbytes.batm.server.extensions.IWallet;
-
+import com.generalbytes.batm.server.extensions.IGeneratesNewDepositCryptoAddress;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
