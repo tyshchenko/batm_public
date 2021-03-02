@@ -17,7 +17,7 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 import si.mazi.rescu.RestProxyFactory;
 
-public class LocalnodeWallet implements IWallet{
+public class LocalnodeWallet implements IWallet, IGeneratesNewDepositCryptoAddress{
     private String cryptoCurrency = CryptoCurrency.LTC.getCode();
     private static final Logger log = LoggerFactory.getLogger(LocalnodeWallet.class);
     private LocalAPI api;
