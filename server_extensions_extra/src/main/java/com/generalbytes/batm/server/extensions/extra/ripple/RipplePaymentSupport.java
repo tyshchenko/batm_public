@@ -81,7 +81,8 @@ public class RipplePaymentSupport implements IPaymentSupport {
                     }
                 }
                 if ((request.getState() == PaymentRequest.STATE_SEEN_TRANSACTION) || (request.getState() == PaymentRequest.STATE_SEEN_IN_BLOCK_CHAIN)) {
-                    if (addressBalance.getStatus() == "complete" ) {
+                    log.info("Received: {}, Confirmations: {} status {}", addressBalance.getBalance(), 12, addressBalance.getStatus() );
+                    if ( addressBalance.getStatus().equalsIgnoreCase("complete") ) {
                         log.info("Received: {}, Confirmations: {} for {}", addressBalance.getBalance(), 12, request);
                         if (request.getState() == PaymentRequest.STATE_SEEN_TRANSACTION) {
                             setState(request, PaymentRequest.STATE_SEEN_IN_BLOCK_CHAIN);
