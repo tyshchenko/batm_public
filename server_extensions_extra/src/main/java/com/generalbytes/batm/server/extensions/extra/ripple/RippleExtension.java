@@ -27,6 +27,7 @@ import java.util.Set;
 import java.util.StringTokenizer;
 
 public class RippleExtension extends AbstractExtension{
+    private static final CryptoCurrencyDefinition DEFINITION = new RippleDefinition();
     @Override
     public String getName() {
         return "BATM Ripple extension";
@@ -91,6 +92,13 @@ public class RippleExtension extends AbstractExtension{
     public Set<String> getSupportedCryptoCurrencies() {
         Set<String> result = new HashSet<String>();
         result.add(CryptoCurrency.XRP.getCode());
+        return result;
+    }
+
+    @Override
+    public Set<ICryptoCurrencyDefinition> getCryptoCurrencyDefinitions() {
+        Set<ICryptoCurrencyDefinition> result = new HashSet<>();
+        result.add(DEFINITION);
         return result;
     }
 }

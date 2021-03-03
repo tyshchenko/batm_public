@@ -1,4 +1,4 @@
-package com.generalbytes.batm.server.extensions.extra.dogecoin;
+package com.generalbytes.batm.server.extensions.extra.ripple;
 
 import com.generalbytes.batm.common.currencies.CryptoCurrency;
 import com.generalbytes.batm.server.extensions.IExtensionContext;
@@ -23,8 +23,8 @@ import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
 
-public class DogePaymentSupport implements IPaymentSupport {
-    private static final Logger log = LoggerFactory.getLogger(DogePaymentSupport.class);
+public class RipplePaymentSupport implements IPaymentSupport {
+    private static final Logger log = LoggerFactory.getLogger(RipplePaymentSupport.class);
     private final Map<String, PaymentRequest> requests = new ConcurrentHashMap<>();
 
     private final ScheduledExecutorService executorService = Executors.newSingleThreadScheduledExecutor();
@@ -63,7 +63,7 @@ public class DogePaymentSupport implements IPaymentSupport {
 
                 if ((addressBalance.getBalance().compareTo(BigDecimal.ZERO) > 0) && (request.getState() == PaymentRequest.STATE_NEW)) {
                     log.info("Received: {}, Requested: {}, {}", addressBalance.getBalance(), spec.getTotal(), request);
-                    BigDecimal difference = addressBalance.getBalance().add(BigDecimal.ONE).subtract(spec.getTotal());
+                    BigDecimal difference = addressBalance.getBalance().subtract(spec.getTotal());
                     if (difference.compareTo(BigDecimal.ZERO) > 0) {
                         if (spec.isDoNotForward()) {
                             log.info("Amounts matches {} do not forward", request);
