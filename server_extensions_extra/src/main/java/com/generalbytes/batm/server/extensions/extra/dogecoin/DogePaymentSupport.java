@@ -89,6 +89,7 @@ public class DogePaymentSupport implements IPaymentSupport {
                         }
 
                         fireNumberOfConfirmationsChanged(request, 12);
+                        fireNumberOfOutConfirmationsChanged(request, 12);
                     }
                 }
 
