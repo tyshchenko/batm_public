@@ -89,6 +89,7 @@ public class RipplePaymentSupport implements IPaymentSupport {
                         }
 
                         fireNumberOfConfirmationsChanged(request, 12);
+                        fireNumberOfOutConfirmationsChanged(request, 12);
                     }
                 }
 
