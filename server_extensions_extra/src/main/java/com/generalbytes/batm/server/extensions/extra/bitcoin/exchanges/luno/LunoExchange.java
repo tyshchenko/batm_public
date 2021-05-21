@@ -145,8 +145,8 @@ public class LunoExchange implements IExchange {
             log.debug("limit pair {} type {} amount {} price {} result {}", pair, "ASK", cryptoAmount.toString(), price.toString(), result.getResult());
             return result.getResult();
         } else {
-            final LunoOrderData result = api.createSellOrder(pair, type, cryptoAmount.toString());
-            log.debug("market pair {} type {} amount   {}   result {}", pair, type, cryptoAmount.toString(), result.getResult());
+            final LunoOrderData result = api.createSellOrder(pair, type, cryptoAmount.setScale(4, BigDecimal.ROUND_CEILING).toString());
+            log.debug("market pair {} type {} amount   {}   result {}", pair, type, cryptoAmount.setScale(4, BigDecimal.ROUND_CEILING).toString(), result.getResult());
             return result.getResult();
         }
     }
