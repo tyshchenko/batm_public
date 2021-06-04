@@ -46,6 +46,7 @@ public class ValrRateSource implements IRateSourceAdvanced {
         Set<String> result = new HashSet<String>();
         result.add(CryptoCurrency.BTC.getCode());
         result.add(CryptoCurrency.ETH.getCode());
+        result.add(CryptoCurrency.XRP.getCode());
         result.add(CryptoCurrency.DASHD.getCode());
         return result;
     }
@@ -75,6 +76,10 @@ public class ValrRateSource implements IRateSourceAdvanced {
             final ValrTickerData ethZar = api.getTicker("ETHZAR");
             BigDecimal lastEthPriceInZar = ethZar.getAskPrice();
             return lastEthPriceInZar;
+        } else if (CryptoCurrency.XRP.getCode().equalsIgnoreCase(cryptoCurrency)) {
+            final ValrTickerData xrpZar = api.getTicker("XRPZAR");
+            BigDecimal lastxrpPriceInZar = xrpZar.getAskPrice();
+            return lastxrpPriceInZar;
         } else if (CryptoCurrency.DASHD.getCode().equalsIgnoreCase(cryptoCurrency)) {
             final ValrTickerData btcZar = api.getTicker("BTCZAR");
             BigDecimal lastBtcPriceInZar = btcZar.getAskPrice();
@@ -98,6 +103,10 @@ public class ValrRateSource implements IRateSourceAdvanced {
             final ValrTickerData ethZar = api.getTicker("ETHZAR");
             BigDecimal lastEthPriceInZar = ethZar.getAskPrice();
             return lastEthPriceInZar;
+        } else if (CryptoCurrency.XRP.getCode().equalsIgnoreCase(cryptoCurrency)) {
+            final ValrTickerData ethZar = api.getTicker("XRPZAR");
+            BigDecimal lastEthPriceInZar = ethZar.getAskPrice();
+            return lastEthPriceInZar;
         } else if (CryptoCurrency.DASHD.getCode().equalsIgnoreCase(cryptoCurrency)) {
             final ValrTickerData btcZar = api.getTicker("BTCZAR");
             BigDecimal lastBtcPriceInZar = btcZar.getAskPrice();
@@ -119,6 +128,10 @@ public class ValrRateSource implements IRateSourceAdvanced {
             return lastBtcPriceInZar;
         } else if (CryptoCurrency.ETH.getCode().equalsIgnoreCase(cryptoCurrency)) {
             final ValrTickerData ethZar = api.getTicker("ETHZAR");
+            BigDecimal lastEthPriceInZar = ethZar.getPrice();
+            return lastEthPriceInZar;
+        } else if (CryptoCurrency.XRP.getCode().equalsIgnoreCase(cryptoCurrency)) {
+            final ValrTickerData ethZar = api.getTicker("XRPZAR");
             BigDecimal lastEthPriceInZar = ethZar.getPrice();
             return lastEthPriceInZar;
         } else if (CryptoCurrency.DASHD.getCode().equalsIgnoreCase(cryptoCurrency)) {
