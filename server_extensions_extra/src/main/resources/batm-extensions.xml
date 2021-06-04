@@ -485,6 +485,7 @@
             <param name="fiatcurrency"/>
             <cryptocurrency>DASHD</cryptocurrency>
             <cryptocurrency>NANO</cryptocurrency>
+            <cryptocurrency>LTC</cryptocurrency>
             <cryptocurrency>DOGE</cryptocurrency>
         </exchange>
         <ratesource prefix="binancecom" name="Binance.com">
@@ -495,6 +496,7 @@
             <param name="fiatcurrency" />
             <cryptocurrency>DASHD</cryptocurrency>
             <cryptocurrency>NANO</cryptocurrency>
+            <cryptocurrency>LTC</cryptocurrency>
             <cryptocurrency>DOGE</cryptocurrency>
         </ratesource>
     </extension>
