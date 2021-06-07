@@ -487,6 +487,9 @@
             <cryptocurrency>NANO</cryptocurrency>
             <cryptocurrency>LTC</cryptocurrency>
             <cryptocurrency>DOGE</cryptocurrency>
+            <cryptocurrency>BTC</cryptocurrency>
+            <cryptocurrency>ETH</cryptocurrency>
+            <cryptocurrency>XRP</cryptocurrency>
         </exchange>
         <ratesource prefix="binancecom" name="Binance.com">
             <param name="fiatcurrency" />
@@ -498,6 +501,9 @@
             <cryptocurrency>NANO</cryptocurrency>
             <cryptocurrency>LTC</cryptocurrency>
             <cryptocurrency>DOGE</cryptocurrency>
+            <cryptocurrency>BTC</cryptocurrency>
+            <cryptocurrency>ETH</cryptocurrency>
+            <cryptocurrency>XRP</cryptocurrency>
         </ratesource>
     </extension>
     <extension class="com.generalbytes.batm.server.extensions.extra.bitcoincash.BitcoinCashExtension">
