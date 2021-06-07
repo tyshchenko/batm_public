@@ -32,6 +32,9 @@ public class BinanceZRateSource implements IRateSource {
         result.add(CryptoCurrency.USDT.getCode());
         result.add(CryptoCurrency.NANO.getCode());
         result.add(CryptoCurrency.LTC.getCode());
+        result.add(CryptoCurrency.BTC.getCode());
+        result.add(CryptoCurrency.ETH.getCode());
+        result.add(CryptoCurrency.XRP.getCode());
         result.add(CryptoCurrency.DOGE.getCode());
         return result;
     }
@@ -55,6 +58,7 @@ public class BinanceZRateSource implements IRateSource {
         }
         String cryptoZCurrency = cryptoCurrency + "BTC";
         BigDecimal priceInBtc = new BigDecimal(0);
+        BigDecimal one = new BigDecimal(1);
 
         if (CryptoCurrency.DASHD.getCode().equalsIgnoreCase(cryptoCurrency)) {
             cryptoZCurrency = "DASHBTC";
@@ -80,10 +84,25 @@ public class BinanceZRateSource implements IRateSource {
             priceInBtc = selectedCryptoInBtc.getPrice();
 
         }
+        if (CryptoCurrency.BTC.getCode().equalsIgnoreCase(cryptoCurrency)) {
+            priceInBtc = one;
+
+        }
+        if (CryptoCurrency.ETH.getCode().equalsIgnoreCase(cryptoCurrency)) {
+            cryptoZCurrency = "ETHBTC";
+            BinanceZTickerData selectedCryptoInBtc = api.getTicker(cryptoZCurrency);
+            priceInBtc = selectedCryptoInBtc.getPrice();
+
+        }
+        if (CryptoCurrency.XRP.getCode().equalsIgnoreCase(cryptoCurrency)) {
+            cryptoZCurrency = "XRPBTC";
+            BinanceZTickerData selectedCryptoInBtc = api.getTicker(cryptoZCurrency);
+            priceInBtc = selectedCryptoInBtc.getPrice();
+
+        }
         if (CryptoCurrency.USDT.getCode().equalsIgnoreCase(cryptoCurrency)) {
             cryptoZCurrency = "BTCUSDT";
             BinanceZTickerData selectedCryptoInBtc = api.getTicker(cryptoZCurrency);
-            BigDecimal one = new BigDecimal(1);
             BigDecimal usdtprice = selectedCryptoInBtc.getPrice();
             priceInBtc = one.divide(usdtprice, 6, BigDecimal.ROUND_HALF_UP);
         }

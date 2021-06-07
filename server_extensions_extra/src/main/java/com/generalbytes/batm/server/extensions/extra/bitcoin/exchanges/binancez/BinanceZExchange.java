@@ -74,6 +74,9 @@ public class BinanceZExchange implements IExchange {
         cryptoCurrencies.add(CryptoCurrency.USDT.getCode());
         cryptoCurrencies.add(CryptoCurrency.NANO.getCode());
         cryptoCurrencies.add(CryptoCurrency.LTC.getCode());
+        cryptoCurrencies.add(CryptoCurrency.BTC.getCode());
+        cryptoCurrencies.add(CryptoCurrency.ETH.getCode());
+        cryptoCurrencies.add(CryptoCurrency.XRP.getCode());
         cryptoCurrencies.add(CryptoCurrency.DOGE.getCode());
         return cryptoCurrencies;
     }
@@ -181,6 +184,9 @@ public class BinanceZExchange implements IExchange {
         if (CryptoCurrency.DOGE.getCode().equalsIgnoreCase(cryptoCurrency)) {
             cryptoAmountS = amount.setScale(0, BigDecimal.ROUND_CEILING).toString();
         }
+        if (CryptoCurrency.BTC.getCode().equalsIgnoreCase(cryptoCurrency)) {
+            cryptoAmountS = amount.setScale(6, BigDecimal.ROUND_CEILING).toString();
+        }
         try {
             // buy crypto for usdt
             String query = "";
@@ -212,6 +218,9 @@ public class BinanceZExchange implements IExchange {
         }
         if (CryptoCurrency.DOGE.getCode().equalsIgnoreCase(cryptoCurrency)) {
             cryptoAmountS = cryptoAmount.setScale(0, BigDecimal.ROUND_CEILING).toString();
+        }
+        if (CryptoCurrency.BTC.getCode().equalsIgnoreCase(cryptoCurrency)) {
+            cryptoAmountS = cryptoAmount.setScale(6, BigDecimal.ROUND_CEILING).toString();
         }
         try {
             // buy crypto for usdt
