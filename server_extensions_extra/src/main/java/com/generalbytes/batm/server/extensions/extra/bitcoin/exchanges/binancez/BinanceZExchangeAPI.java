@@ -12,13 +12,13 @@ public interface BinanceZExchangeAPI {
     BinanceZResponse getCryptoBalance(@HeaderParam("X-MBX-APIKEY") String apiKey, @QueryParam("recvWindow") String recvWindow, @QueryParam("timestamp") String timeStamp, @QueryParam("signature") String signature ) throws IOException;
 
     @POST
-    @Path("wapi/v1/withdraw.html")
+    @Path("/sapi/v1/capital/withdraw/apply")
     @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
-    BinanceZSendCoinResponse sendCryptoCurrency(@HeaderParam("X-MBX-APIKEY") String apiKey, @QueryParam("asset") String asset, @QueryParam("address") String address, @QueryParam("amount") String amount, @QueryParam("name") String name, @QueryParam("recvWindow") String recvWindow, @QueryParam("timestamp") String timeStamp, @QueryParam("signature") String signature) throws IOException;
+    BinanceZSendCoinResponse sendCryptoCurrency(@HeaderParam("X-MBX-APIKEY") String apiKey, @QueryParam("coin") String coin, @QueryParam("address") String address, @QueryParam("amount") String amount, @QueryParam("name") String name, @QueryParam("recvWindow") String recvWindow, @QueryParam("timestamp") String timeStamp, @QueryParam("signature") String signature) throws IOException;
 
     @GET
-    @Path("/wapi/v3/depositAddress.html")
-    BinanceZAddressData getDepoAddress(@HeaderParam("X-MBX-APIKEY") String apiKey, @QueryParam("asset") String asset, @QueryParam("recvWindow") String recvWindow, @QueryParam("timestamp") String timeStamp, @QueryParam("signature") String signature) throws IOException;
+    @Path("/sapi/v1/capital/deposit/address")
+    BinanceZAddressData getDepoAddress(@HeaderParam("X-MBX-APIKEY") String apiKey, @QueryParam("coin") String coin, @QueryParam("recvWindow") String recvWindow, @QueryParam("timestamp") String timeStamp, @QueryParam("signature") String signature) throws IOException;
 
     @POST
     @Path("/api/v3/order")

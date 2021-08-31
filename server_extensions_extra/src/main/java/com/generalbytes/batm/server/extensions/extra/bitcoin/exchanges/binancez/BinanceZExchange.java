@@ -154,7 +154,7 @@ public class BinanceZExchange implements IExchange {
         try {
             String query = "";
             String timeStamp = String.valueOf(new Date().getTime());
-            query = "asset=" + crypto + "&recvWindow=" + 5000 + "&timestamp=" + timeStamp;
+            query = "coin=" + crypto + "&recvWindow=" + 5000 + "&timestamp=" + timeStamp;
 
             String signing = sign(query, clientSecret);
 
@@ -261,7 +261,7 @@ public class BinanceZExchange implements IExchange {
 
             String query = "";
             String timeStamp = String.valueOf(new Date().getTime());
-            query = "asset=" + crypto + "&address=" + destinationAddress + "&amount=" + amount + "&name=" + "123" + "&recvWindow=" + 5000 + "&timestamp=" + timeStamp;
+            query = "coin=" + crypto + "&address=" + destinationAddress + "&amount=" + amount + "&name=" + "123" + "&recvWindow=" + 5000 + "&timestamp=" + timeStamp;
 
             String signing = sign(query, clientSecret);
             BinanceZSendCoinResponse response = api.sendCryptoCurrency(this.clientKey, crypto, destinationAddress, String.valueOf(amount), "123", String.valueOf(5000), timeStamp, signing);
