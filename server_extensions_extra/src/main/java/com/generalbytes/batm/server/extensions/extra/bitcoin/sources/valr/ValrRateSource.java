@@ -84,7 +84,7 @@ public class ValrRateSource implements IRateSourceAdvanced {
             BigDecimal lastPriceInZar = cryptoZar.getAskPrice();
             return lastPriceInZar;
         }
-        return null;
+
     }
 
     @Override
@@ -110,7 +110,7 @@ public class ValrRateSource implements IRateSourceAdvanced {
             BigDecimal lastPriceInZar = cryptoZar.getPrice();
             return lastPriceInZar;
         }
-        return null;
+
     }
     @Override
     public BigDecimal calculateBuyPrice(String cryptoCurrency, String fiatCurrency, BigDecimal cryptoAmount) {
