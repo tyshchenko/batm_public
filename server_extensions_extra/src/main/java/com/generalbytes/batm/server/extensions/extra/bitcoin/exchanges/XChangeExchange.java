@@ -200,7 +200,7 @@ public abstract class XChangeExchange implements IExchangeAdvanced, IRateSourceA
         }
 
         if (CryptoCurrency.XRP.getCode().equals(cryptoCurrency)) {
-            amount = amount.setScale(6, RoundingMode.FLOOR);
+            amount = amount.setScale(6, BigDecimal.ROUND_CEILING);
         }
 
         log.info("{} exchange withdrawing {} {} to {}", name, amount, cryptoCurrency, destinationAddress);
