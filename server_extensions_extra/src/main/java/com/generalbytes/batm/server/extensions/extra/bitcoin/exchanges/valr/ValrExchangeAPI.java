@@ -46,6 +46,10 @@ public interface ValrExchangeAPI {
     ValrRequestData sendMoney(ValrSend senddata, @PathParam("symbol") String cryptoCurrency, @HeaderParam("X-VALR-API-KEY") String apiKey, @HeaderParam("X-VALR-SIGNATURE") String signature, @HeaderParam("X-VALR-TIMESTAMP") String timestamp);
 
     @POST
+    @Path("/wallet/crypto/{symbol}/withdraw")
+    ValrRequestData sendMoneyXRP(ValrSendXRP senddata, @PathParam("symbol") String cryptoCurrency, @HeaderParam("X-VALR-API-KEY") String apiKey, @HeaderParam("X-VALR-SIGNATURE") String signature, @HeaderParam("X-VALR-TIMESTAMP") String timestamp);
+
+    @POST
     @Path("/orders/market")
     ValrOrderData createBuyOrder(ValrBuyOrder buyOrder, @HeaderParam("X-VALR-API-KEY") String apiKey, @HeaderParam("X-VALR-SIGNATURE") String signature, @HeaderParam("X-VALR-TIMESTAMP") String timestamp);
 

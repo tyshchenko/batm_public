@@ -200,6 +200,10 @@
                 <cryptocurrency>ETH</cryptocurrency>
                 <cryptocurrency>XRP</cryptocurrency>
                 <cryptocurrency>DASHD</cryptocurrency>
+                <cryptocurrency>SHIB</cryptocurrency>
+                <cryptocurrency>SOL</cryptocurrency>
+                <cryptocurrency>BNB</cryptocurrency>
+                <cryptocurrency>USDC</cryptocurrency>
             </ratesource>
             <ratesource prefix="bitflyer" name="BitFlyer.jp Rate Source" >
                 <param name="fiatcurrency" />
@@ -251,6 +255,10 @@
                 <cryptocurrency>ETH</cryptocurrency>
                 <cryptocurrency>XRP</cryptocurrency>
                 <cryptocurrency>DASHD</cryptocurrency>
+                <cryptocurrency>SHIB</cryptocurrency>
+                <cryptocurrency>SOL</cryptocurrency>
+                <cryptocurrency>BNB</cryptocurrency>
+                <cryptocurrency>USDC</cryptocurrency>
             </exchange>
             <exchange prefix="bitfinex" name="Bitfinex.com Exchange">
                 <param name="apikey" />
@@ -505,6 +513,10 @@
             <cryptocurrency>ETH</cryptocurrency>
             <cryptocurrency>XRP</cryptocurrency>
         </ratesource>
+        <cryptologo cryptocurrency="BNB" file="bnb.png"/>
+        <cryptologo cryptocurrency="BNB" file="bnb.svg"/>
+        <cryptologo cryptocurrency="SOL" file="sol.png"/>
+
     </extension>
     <extension class="com.generalbytes.batm.server.extensions.extra.bitcoincash.BitcoinCashExtension">
         <wallet prefix="bitcoincashd" name="BitcoinABC/BitcoinClassic Cash Core - bitcoind" >
@@ -1517,6 +1529,10 @@
             <cryptocurrency>LTC</cryptocurrency>
             <cryptocurrency>DASHD</cryptocurrency>
             <cryptocurrency>DOGE</cryptocurrency>
+            <cryptocurrency>SHIB</cryptocurrency>
+            <cryptocurrency>SOL</cryptocurrency>
+            <cryptocurrency>BNB</cryptocurrency>
+            <cryptocurrency>USDC</cryptocurrency>
         </wallet>
         <cryptologo cryptocurrency="DAI" file="dai.png"/>
         <cryptologo cryptocurrency="DAI" file="dai.svg"/>
@@ -1609,6 +1625,12 @@
         </wallet>
         <cryptologo cryptocurrency="USDS" file="usds.png"/>
         <cryptologo cryptocurrency="USDS" file="usds.svg"/>
+        <cryptologo cryptocurrency="USDC" file="usdc.png"/>
+        <cryptologo cryptocurrency="USDC" file="usdc.svg"/>
+        <cryptologo cryptocurrency="SHIB" file="shib.png"/>
+        <cryptologo cryptocurrency="SHIB" file="shib.svg"/>
+        <cryptologo cryptocurrency="ETH" file="eth.png"/>
+
         <!-- ADD your ERC20 tokens here. And don't forget to add cryptologos. -->
     </extension>
     <!--<extension class="com.generalbytes.batm.server.extensions.extra.examples.TransactionExtension" />-->
