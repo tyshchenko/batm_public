@@ -43,15 +43,15 @@ public interface ValrExchangeAPI {
 
     @POST
     @Path("/wallet/crypto/{symbol}/withdraw")
-    ValrRequestData sendMoney(ValrSend senddata, @PathParam("symbol") String cryptoCurrency, @HeaderParam("X-VALR-API-KEY") String apiKey, @HeaderParam("X-VALR-SIGNATURE") String signature, @HeaderParam("X-VALR-TIMESTAMP") String timestamp);
+    ValrRequestData sendMoney(ValrSend senddata, @PathParam("symbol") String cryptoCurrency, @HeaderParam("X-VALR-API-KEY") String apiKey, @HeaderParam("X-VALR-SIGNATURE") String signature, @HeaderParam("X-VALR-TIMESTAMP") String timestamp) throws HttpStatusIOException;
 
     @POST
     @Path("/wallet/crypto/{symbol}/withdraw")
-    ValrRequestData sendMoneyXRP(ValrSendXRP senddata, @PathParam("symbol") String cryptoCurrency, @HeaderParam("X-VALR-API-KEY") String apiKey, @HeaderParam("X-VALR-SIGNATURE") String signature, @HeaderParam("X-VALR-TIMESTAMP") String timestamp);
+    ValrRequestData sendMoneyXRP(ValrSendXRP senddata, @PathParam("symbol") String cryptoCurrency, @HeaderParam("X-VALR-API-KEY") String apiKey, @HeaderParam("X-VALR-SIGNATURE") String signature, @HeaderParam("X-VALR-TIMESTAMP") String timestamp) throws HttpStatusIOException;
 
     @POST
     @Path("/orders/market")
-    ValrOrderData createBuyOrder(ValrBuyOrder buyOrder, @HeaderParam("X-VALR-API-KEY") String apiKey, @HeaderParam("X-VALR-SIGNATURE") String signature, @HeaderParam("X-VALR-TIMESTAMP") String timestamp);
+    ValrOrderData createBuyOrder(ValrBuyOrder buyOrder, @HeaderParam("X-VALR-API-KEY") String apiKey, @HeaderParam("X-VALR-SIGNATURE") String signature, @HeaderParam("X-VALR-TIMESTAMP") String timestamp) throws HttpStatusIOException;
 
     @POST
     @Path("/orders/market")
