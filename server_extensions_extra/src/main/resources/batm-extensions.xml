@@ -513,8 +513,6 @@
             <cryptocurrency>ETH</cryptocurrency>
             <cryptocurrency>XRP</cryptocurrency>
         </ratesource>
-        <cryptologo cryptocurrency="BNB" file="bnb.png"/>
-        <cryptologo cryptocurrency="BNB" file="bnb.svg"/>
         <cryptologo cryptocurrency="SOL" file="sol.png"/>
 
     </extension>
@@ -1626,10 +1624,12 @@
         <cryptologo cryptocurrency="USDS" file="usds.png"/>
         <cryptologo cryptocurrency="USDS" file="usds.svg"/>
         <cryptologo cryptocurrency="USDC" file="usdc.png"/>
-        <cryptologo cryptocurrency="USDC" file="usdc.svg"/>
+
         <cryptologo cryptocurrency="SHIB" file="shib.png"/>
         <cryptologo cryptocurrency="SHIB" file="shib.svg"/>
         <cryptologo cryptocurrency="ETH" file="eth.png"/>
+        <cryptologo cryptocurrency="BNB" file="bnb.png"/>
+        <cryptologo cryptocurrency="BNB" file="bnb.svg"/>
 
         <!-- ADD your ERC20 tokens here. And don't forget to add cryptologos. -->
     </extension>
