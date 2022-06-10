@@ -186,6 +186,22 @@ public class ValrExchange implements IExchange {
             senddata.setAmount(amount.toString());
             final ValrRequestData result = api.sendMoneyXRP(senddata, rightcryptoCurrency, clientKey, signature, timestamp);
             return result.getResult();
+        } else if (CryptoCurrency.USDC.getCode().equalsIgnoreCase(cryptoCurrency)) {
+            amount = amount.setScale(0, BigDecimal.ROUND_CEILING);
+            String signature = signRequest(clientSecret, timestamp, "POST", "/v1/wallet/crypto/"+rightcryptoCurrency+"/withdraw", "{\"address\":\""+destinationAddress+"\",\"amount\":\""+amount.toString()+"\"}");
+            ValrSend senddata = new ValrSend();
+            senddata.setAddress(destinationAddress);
+            senddata.setAmount(amount.toString());
+            final ValrRequestData result = api.sendMoney(senddata, rightcryptoCurrency, clientKey, signature, timestamp);
+            return result.getResult();
+        } else if (CryptoCurrency.SHIB.getCode().equalsIgnoreCase(cryptoCurrency)) {
+            amount = amount.setScale(0, BigDecimal.ROUND_CEILING);
+            String signature = signRequest(clientSecret, timestamp, "POST", "/v1/wallet/crypto/"+rightcryptoCurrency+"/withdraw", "{\"address\":\""+destinationAddress+"\",\"amount\":\""+amount.toString()+"\"}");
+            ValrSend senddata = new ValrSend();
+            senddata.setAddress(destinationAddress);
+            senddata.setAmount(amount.toString());
+            final ValrRequestData result = api.sendMoney(senddata, rightcryptoCurrency, clientKey, signature, timestamp);
+            return result.getResult();
         } else {
             String signature = signRequest(clientSecret, timestamp, "POST", "/v1/wallet/crypto/"+rightcryptoCurrency+"/withdraw", "{\"address\":\""+destinationAddress+"\",\"amount\":\""+amount.toString()+"\"}");
             ValrSend senddata = new ValrSend();
