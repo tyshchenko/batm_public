@@ -118,7 +118,7 @@ public class ValrExchange implements IExchange {
             final ValrAddressData address = api.getAddress(rightcryptoCurrency, clientKey, signature, timestamp);
             return address.getAddress();
         } catch (HttpStatusIOException e) {
-            log.error("Error {}", e.getHttpBody());
+            log.error("Error {} crypto {}", e.getHttpBody(), cryptoCurrency );
             return null;
         }
     }
@@ -172,43 +172,48 @@ public class ValrExchange implements IExchange {
             rightcryptoCurrency = "DASH";
         }
         String timestamp = String.valueOf(System.currentTimeMillis());
-
-        if (CryptoCurrency.XRP.getCode().equalsIgnoreCase(cryptoCurrency)) {
-            String[] addressParts = destinationAddress.split(":");
-            if (addressParts.length != 2) {
-                log.error("Error Destination TAG required");
-                return null;
+        log.debug("sendMoney {} to {} amount {}  ", cryptoCurrency, destinationAddress, amount.toString());
+        try {
+            if (CryptoCurrency.XRP.getCode().equalsIgnoreCase(cryptoCurrency)) {
+                String[] addressParts = destinationAddress.split(":");
+                if (addressParts.length != 2) {
+                    log.error("Error Destination TAG required");
+                    return null;
+                }
+                String signature = signRequest(clientSecret, timestamp, "POST", "/v1/wallet/crypto/"+rightcryptoCurrency+"/withdraw", "{\"address\":\""+addressParts[0]+"\",\"paymentReference\":\""+addressParts[1]+"\",\"amount\":\""+amount.toString()+"\"}");
+                ValrSendXRP senddata = new ValrSendXRP();
+                senddata.setAddress(addressParts[0]);
+                senddata.setPaymentReference(addressParts[1]);
+                senddata.setAmount(amount.toString());
+                final ValrRequestData result = api.sendMoneyXRP(senddata, rightcryptoCurrency, clientKey, signature, timestamp);
+                return result.getResult();
+            } else if (CryptoCurrency.USDC.getCode().equalsIgnoreCase(cryptoCurrency)) {
+                amount = amount.setScale(6, BigDecimal.ROUND_CEILING);
+                String signature = signRequest(clientSecret, timestamp, "POST", "/v1/wallet/crypto/"+rightcryptoCurrency+"/withdraw", "{\"address\":\""+destinationAddress+"\",\"amount\":\""+amount.toString()+"\"}");
+                ValrSend senddata = new ValrSend();
+                senddata.setAddress(destinationAddress);
+                senddata.setAmount(amount.toString());
+                final ValrRequestData result = api.sendMoney(senddata, rightcryptoCurrency, clientKey, signature, timestamp);
+                return result.getResult();
+            } else if (CryptoCurrency.SHIB.getCode().equalsIgnoreCase(cryptoCurrency)) {
+                amount = amount.setScale(0, BigDecimal.ROUND_CEILING);
+                String signature = signRequest(clientSecret, timestamp, "POST", "/v1/wallet/crypto/"+rightcryptoCurrency+"/withdraw", "{\"address\":\""+destinationAddress+"\",\"amount\":\""+amount.toString()+"\"}");
+                ValrSend senddata = new ValrSend();
+                senddata.setAddress(destinationAddress);
+                senddata.setAmount(amount.toString());
+                final ValrRequestData result = api.sendMoney(senddata, rightcryptoCurrency, clientKey, signature, timestamp);
+                return result.getResult();
+            } else {
+                String signature = signRequest(clientSecret, timestamp, "POST", "/v1/wallet/crypto/"+rightcryptoCurrency+"/withdraw", "{\"address\":\""+destinationAddress+"\",\"amount\":\""+amount.toString()+"\"}");
+                ValrSend senddata = new ValrSend();
+                senddata.setAddress(destinationAddress);
+                senddata.setAmount(amount.toString());
+                final ValrRequestData result = api.sendMoney(senddata, rightcryptoCurrency, clientKey, signature, timestamp);
+                return result.getResult();
             }
-            String signature = signRequest(clientSecret, timestamp, "POST", "/v1/wallet/crypto/"+rightcryptoCurrency+"/withdraw", "{\"address\":\""+addressParts[0]+"\",\"paymentReference\":\""+addressParts[1]+"\",\"amount\":\""+amount.toString()+"\"}");
-            ValrSendXRP senddata = new ValrSendXRP();
-            senddata.setAddress(addressParts[0]);
-            senddata.setPaymentReference(addressParts[1]);
-            senddata.setAmount(amount.toString());
-            final ValrRequestData result = api.sendMoneyXRP(senddata, rightcryptoCurrency, clientKey, signature, timestamp);
-            return result.getResult();
-        } else if (CryptoCurrency.USDC.getCode().equalsIgnoreCase(cryptoCurrency)) {
-            amount = amount.setScale(0, BigDecimal.ROUND_CEILING);
-            String signature = signRequest(clientSecret, timestamp, "POST", "/v1/wallet/crypto/"+rightcryptoCurrency+"/withdraw", "{\"address\":\""+destinationAddress+"\",\"amount\":\""+amount.toString()+"\"}");
-            ValrSend senddata = new ValrSend();
-            senddata.setAddress(destinationAddress);
-            senddata.setAmount(amount.toString());
-            final ValrRequestData result = api.sendMoney(senddata, rightcryptoCurrency, clientKey, signature, timestamp);
-            return result.getResult();
-        } else if (CryptoCurrency.SHIB.getCode().equalsIgnoreCase(cryptoCurrency)) {
-            amount = amount.setScale(0, BigDecimal.ROUND_CEILING);
-            String signature = signRequest(clientSecret, timestamp, "POST", "/v1/wallet/crypto/"+rightcryptoCurrency+"/withdraw", "{\"address\":\""+destinationAddress+"\",\"amount\":\""+amount.toString()+"\"}");
-            ValrSend senddata = new ValrSend();
-            senddata.setAddress(destinationAddress);
-            senddata.setAmount(amount.toString());
-            final ValrRequestData result = api.sendMoney(senddata, rightcryptoCurrency, clientKey, signature, timestamp);
-            return result.getResult();
-        } else {
-            String signature = signRequest(clientSecret, timestamp, "POST", "/v1/wallet/crypto/"+rightcryptoCurrency+"/withdraw", "{\"address\":\""+destinationAddress+"\",\"amount\":\""+amount.toString()+"\"}");
-            ValrSend senddata = new ValrSend();
-            senddata.setAddress(destinationAddress);
-            senddata.setAmount(amount.toString());
-            final ValrRequestData result = api.sendMoney(senddata, rightcryptoCurrency, clientKey, signature, timestamp);
-            return result.getResult();
+        } catch (HttpStatusIOException e) {
+            log.error("Error {} crypto {}", e.getHttpBody(), cryptoCurrency );
+            return null;
         }
     }
 
@@ -221,100 +226,105 @@ public class ValrExchange implements IExchange {
         BigDecimal one       = new BigDecimal(1);
         BigDecimal onepr     = new BigDecimal(1.01);
         BigDecimal cryptofee    = new BigDecimal(0.00033);
+        try {
 
-        if (CryptoCurrency.DASHD.getCode().equalsIgnoreCase(cryptoCurrency)) {
-            final ValrTickerData dashToBtc = api.getTicker("DASHBTC");
-            BigDecimal dashbtcpricebid  = dashToBtc.getAsk();
-            final ValrTickerData btcToZar = api.getTicker("BTCZAR");
-            BigDecimal btczarpricebid  = btcToZar.getAsk();
-            BigDecimal dashcryptofee    = new BigDecimal(0.002);
-            BigDecimal dashprocent      = new BigDecimal(1.005);
-            //amount in dash
-            BigDecimal dashamount  = amount.multiply(dashprocent);
-            dashamount  = dashamount.add(dashcryptofee).setScale(6, BigDecimal.ROUND_CEILING);
-            BigDecimal btcamount   = dashbtcpricebid.multiply(dashamount).setScale(6, BigDecimal.ROUND_CEILING);
-            BigDecimal zaramount   = btczarpricebid.multiply(btcamount).add(one).setScale(2, BigDecimal.ROUND_CEILING);
+            if (CryptoCurrency.DASHD.getCode().equalsIgnoreCase(cryptoCurrency)) {
+                final ValrTickerData dashToBtc = api.getTicker("DASHBTC");
+                BigDecimal dashbtcpricebid  = dashToBtc.getAsk();
+                final ValrTickerData btcToZar = api.getTicker("BTCZAR");
+                BigDecimal btczarpricebid  = btcToZar.getAsk();
+                BigDecimal dashcryptofee    = new BigDecimal(0.002);
+                BigDecimal dashprocent      = new BigDecimal(1.005);
+                //amount in dash
+                BigDecimal dashamount  = amount.multiply(dashprocent);
+                dashamount  = dashamount.add(dashcryptofee).setScale(6, BigDecimal.ROUND_CEILING);
+                BigDecimal btcamount   = dashbtcpricebid.multiply(dashamount).setScale(6, BigDecimal.ROUND_CEILING);
+                BigDecimal zaramount   = btczarpricebid.multiply(btcamount).add(one).setScale(2, BigDecimal.ROUND_CEILING);
 
-            String timestamp = String.valueOf(System.currentTimeMillis());
-            String signature = signRequest(clientSecret, timestamp, "POST", "/v1/orders/market", "{\"side\":\""+type+"\",\"quoteAmount\":\""+zaramount.toString()+"\",\"pair\":\"BTCZAR\"}");
+                String timestamp = String.valueOf(System.currentTimeMillis());
+                String signature = signRequest(clientSecret, timestamp, "POST", "/v1/orders/market", "{\"side\":\""+type+"\",\"quoteAmount\":\""+zaramount.toString()+"\",\"pair\":\"BTCZAR\"}");
 
-            ValrBuyOrder buyBtcOrder = new ValrBuyOrder();
-            buyBtcOrder.setPair("BTCZAR");
-            buyBtcOrder.setSide(type);
-            buyBtcOrder.setAmount(zaramount.toString());
-            final ValrOrderData resultbtc = api.createBuyOrder(buyBtcOrder, clientKey, signature, timestamp);
-            log.debug("market pair {} type {} amount   {}  result {}", "BTCZAR", type, zaramount.toString(), resultbtc.getResult());
+                ValrBuyOrder buyBtcOrder = new ValrBuyOrder();
+                buyBtcOrder.setPair("BTCZAR");
+                buyBtcOrder.setSide(type);
+                buyBtcOrder.setAmount(zaramount.toString());
+                final ValrOrderData resultbtc = api.createBuyOrder(buyBtcOrder, clientKey, signature, timestamp);
+                log.debug("market pair {} type {} amount   {}  result {}", "BTCZAR", type, zaramount.toString(), resultbtc.getResult());
 
-            timestamp = String.valueOf(System.currentTimeMillis());
-            signature = signRequest(clientSecret, timestamp, "POST", "/v1/orders/market", "{\"side\":\""+type+"\",\"quoteAmount\":\""+btcamount.toString()+"\",\"pair\":\"DASHBTC\"}");
-            ValrBuyOrder buyDashOrder = new ValrBuyOrder();
-            buyDashOrder.setPair("DASHBTC");
-            buyDashOrder.setSide(type);
-            buyDashOrder.setAmount(btcamount.toString());
-            final ValrOrderData result = api.createBuyOrder(buyDashOrder, clientKey, signature, timestamp);
-            log.debug("market pair {} type {} amount   {}   result {}", "DASHBTC", type, btcamount.toString(), result.getResult());
-            return result.getResult();
-        } else if (CryptoCurrency.SHIB.getCode().equalsIgnoreCase(cryptoCurrency)) {
-            final ValrTickerData cryptoToZar = api.getTicker(pair);
-            BigDecimal pricebid  = cryptoToZar.getAsk();
-            amount               = amount.multiply(onepr);
-            amount               = amount.add(one).setScale(0, BigDecimal.ROUND_CEILING);
-            BigDecimal price     = pricebid;
-            BigDecimal amountincrypto = price.multiply(amount).setScale(2, BigDecimal.ROUND_CEILING);
-            String timestamp = String.valueOf(System.currentTimeMillis());
+                timestamp = String.valueOf(System.currentTimeMillis());
+                signature = signRequest(clientSecret, timestamp, "POST", "/v1/orders/market", "{\"side\":\""+type+"\",\"quoteAmount\":\""+btcamount.toString()+"\",\"pair\":\"DASHBTC\"}");
+                ValrBuyOrder buyDashOrder = new ValrBuyOrder();
+                buyDashOrder.setPair("DASHBTC");
+                buyDashOrder.setSide(type);
+                buyDashOrder.setAmount(btcamount.toString());
+                final ValrOrderData result = api.createBuyOrder(buyDashOrder, clientKey, signature, timestamp);
+                log.debug("market pair {} type {} amount   {}   result {}", "DASHBTC", type, btcamount.toString(), result.getResult());
+                return result.getResult();
+            } else if (CryptoCurrency.SHIB.getCode().equalsIgnoreCase(cryptoCurrency)) {
+                final ValrTickerData cryptoToZar = api.getTicker(pair);
+                BigDecimal pricebid  = cryptoToZar.getAsk();
+                amount               = amount.multiply(onepr);
+                amount               = amount.add(one).setScale(0, BigDecimal.ROUND_CEILING);
+                BigDecimal price     = pricebid;
+                BigDecimal amountincrypto = price.multiply(amount).setScale(2, BigDecimal.ROUND_CEILING);
+                String timestamp = String.valueOf(System.currentTimeMillis());
 
-            String signature = signRequest(clientSecret, timestamp, "POST", "/v1/orders/market", "{\"side\":\""+type+"\",\"quoteAmount\":\""+amountincrypto.toString()+"\",\"pair\":\""+pair+"\"}");
+                String signature = signRequest(clientSecret, timestamp, "POST", "/v1/orders/market", "{\"side\":\""+type+"\",\"quoteAmount\":\""+amountincrypto.toString()+"\",\"pair\":\""+pair+"\"}");
 
-            ValrBuyOrder buyOrder = new ValrBuyOrder();
-            buyOrder.setPair(pair);
-            buyOrder.setSide(type);
-            buyOrder.setAmount(amountincrypto.toString());
-            log.debug("market pair {} type {} amount   {}  ", pair, type, amountincrypto.toString());
+                ValrBuyOrder buyOrder = new ValrBuyOrder();
+                buyOrder.setPair(pair);
+                buyOrder.setSide(type);
+                buyOrder.setAmount(amountincrypto.toString());
+                log.debug("market pair {} type {} amount   {}  ", pair, type, amountincrypto.toString());
 
-            final ValrOrderData result = api.createBuyOrder(buyOrder, clientKey, signature, timestamp);
-            log.debug("market pair {} type {} amount   {}  result {}", pair, type, amountincrypto.toString(), result.getResult());
-            return result.getResult();
-        } else if (CryptoCurrency.USDC.getCode().equalsIgnoreCase(cryptoCurrency)) {
-            final ValrTickerData cryptoToZar = api.getTicker(pair);
-            BigDecimal pricebid  = cryptoToZar.getAsk();
-            amount               = amount.multiply(onepr);
-            amount               = amount.add(one).setScale(0, BigDecimal.ROUND_CEILING);
-            BigDecimal price     = pricebid;
-            BigDecimal amountincrypto = price.multiply(amount).setScale(2, BigDecimal.ROUND_CEILING);
-            String timestamp = String.valueOf(System.currentTimeMillis());
+                final ValrOrderData result = api.createBuyOrder(buyOrder, clientKey, signature, timestamp);
+                log.debug("market pair {} type {} amount   {}  result {}", pair, type, amountincrypto.toString(), result.getResult());
+                return result.getResult();
+            } else if (CryptoCurrency.USDC.getCode().equalsIgnoreCase(cryptoCurrency)) {
+                final ValrTickerData cryptoToZar = api.getTicker(pair);
+                BigDecimal pricebid  = cryptoToZar.getAsk();
+                amount               = amount.multiply(onepr);
+                amount               = amount.add(one).setScale(0, BigDecimal.ROUND_CEILING);
+                BigDecimal price     = pricebid;
+                BigDecimal amountincrypto = price.multiply(amount).setScale(2, BigDecimal.ROUND_CEILING);
+                String timestamp = String.valueOf(System.currentTimeMillis());
 
-            String signature = signRequest(clientSecret, timestamp, "POST", "/v1/orders/market", "{\"side\":\""+type+"\",\"quoteAmount\":\""+amountincrypto.toString()+"\",\"pair\":\""+pair+"\"}");
+                String signature = signRequest(clientSecret, timestamp, "POST", "/v1/orders/market", "{\"side\":\""+type+"\",\"quoteAmount\":\""+amountincrypto.toString()+"\",\"pair\":\""+pair+"\"}");
 
-            ValrBuyOrder buyOrder = new ValrBuyOrder();
-            buyOrder.setPair(pair);
-            buyOrder.setSide(type);
-            buyOrder.setAmount(amountincrypto.toString());
-            log.debug("market pair {} type {} amount   {}  ", pair, type, amountincrypto.toString());
+                ValrBuyOrder buyOrder = new ValrBuyOrder();
+                buyOrder.setPair(pair);
+                buyOrder.setSide(type);
+                buyOrder.setAmount(amountincrypto.toString());
+                log.debug("market pair {} type {} amount   {}  ", pair, type, amountincrypto.toString());
 
-            final ValrOrderData result = api.createBuyOrder(buyOrder, clientKey, signature, timestamp);
-            log.debug("market pair {} type {} amount   {}  result {}", pair, type, amountincrypto.toString(), result.getResult());
-            return result.getResult();
+                final ValrOrderData result = api.createBuyOrder(buyOrder, clientKey, signature, timestamp);
+                log.debug("market pair {} type {} amount   {}  result {}", pair, type, amountincrypto.toString(), result.getResult());
+                return result.getResult();
 
-        } else {
-            final ValrTickerData cryptoToZar = api.getTicker(pair);
-            BigDecimal pricebid  = cryptoToZar.getAsk();
-            amount               = amount.multiply(onepr);
-            amount               = amount.add(cryptofee).setScale(6, BigDecimal.ROUND_CEILING);
-            BigDecimal price     = pricebid.add(one).setScale(0, BigDecimal.ROUND_CEILING);
-            BigDecimal amountincrypto = price.multiply(amount).setScale(2, BigDecimal.ROUND_CEILING);
-            String timestamp = String.valueOf(System.currentTimeMillis());
+            } else {
+                final ValrTickerData cryptoToZar = api.getTicker(pair);
+                BigDecimal pricebid  = cryptoToZar.getAsk();
+                amount               = amount.multiply(onepr);
+                amount               = amount.add(cryptofee).setScale(6, BigDecimal.ROUND_CEILING);
+                BigDecimal price     = pricebid.add(one).setScale(0, BigDecimal.ROUND_CEILING);
+                BigDecimal amountincrypto = price.multiply(amount).setScale(2, BigDecimal.ROUND_CEILING);
+                String timestamp = String.valueOf(System.currentTimeMillis());
 
-            String signature = signRequest(clientSecret, timestamp, "POST", "/v1/orders/market", "{\"side\":\""+type+"\",\"quoteAmount\":\""+amountincrypto.toString()+"\",\"pair\":\""+pair+"\"}");
+                String signature = signRequest(clientSecret, timestamp, "POST", "/v1/orders/market", "{\"side\":\""+type+"\",\"quoteAmount\":\""+amountincrypto.toString()+"\",\"pair\":\""+pair+"\"}");
 
-            ValrBuyOrder buyOrder = new ValrBuyOrder();
-            buyOrder.setPair(pair);
-            buyOrder.setSide(type);
-            buyOrder.setAmount(amountincrypto.toString());
-            log.debug("market pair {} type {} amount   {}  ", pair, type, amountincrypto.toString());
+                ValrBuyOrder buyOrder = new ValrBuyOrder();
+                buyOrder.setPair(pair);
+                buyOrder.setSide(type);
+                buyOrder.setAmount(amountincrypto.toString());
+                log.debug("market pair {} type {} amount   {}  ", pair, type, amountincrypto.toString());
 
-            final ValrOrderData result = api.createBuyOrder(buyOrder, clientKey, signature, timestamp);
-            log.debug("market pair {} type {} amount   {}  result {}", pair, type, amountincrypto.toString(), result.getResult());
-            return result.getResult();
+                final ValrOrderData result = api.createBuyOrder(buyOrder, clientKey, signature, timestamp);
+                log.debug("market pair {} type {} amount   {}  result {}", pair, type, amountincrypto.toString(), result.getResult());
+                return result.getResult();
+            }
+        } catch (HttpStatusIOException e) {
+            log.error("Error {} crypto {}", e.getHttpBody(), cryptoCurrency );
+            return null;
         }
     }
 
