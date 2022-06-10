@@ -188,7 +188,7 @@ public class ValrExchange implements IExchange {
                 final ValrRequestData result = api.sendMoneyXRP(senddata, rightcryptoCurrency, clientKey, signature, timestamp);
                 return result.getResult();
             } else if (CryptoCurrency.USDC.getCode().equalsIgnoreCase(cryptoCurrency)) {
-                amount = amount.setScale(6, BigDecimal.ROUND_CEILING);
+                amount = amount.setScale(2, BigDecimal.ROUND_CEILING);
                 String signature = signRequest(clientSecret, timestamp, "POST", "/v1/wallet/crypto/"+rightcryptoCurrency+"/withdraw", "{\"address\":\""+destinationAddress+"\",\"amount\":\""+amount.toString()+"\"}");
                 ValrSend senddata = new ValrSend();
                 senddata.setAddress(destinationAddress);
@@ -266,7 +266,7 @@ public class ValrExchange implements IExchange {
                 amount               = amount.multiply(onepr);
                 amount               = amount.add(one).setScale(0, BigDecimal.ROUND_CEILING);
                 BigDecimal price     = pricebid;
-                BigDecimal amountincrypto = price.multiply(amount).setScale(2, BigDecimal.ROUND_CEILING);
+                BigDecimal amountincrypto = price.multiply(amount).setScale(0, BigDecimal.ROUND_CEILING);
                 String timestamp = String.valueOf(System.currentTimeMillis());
 
                 String signature = signRequest(clientSecret, timestamp, "POST", "/v1/orders/market", "{\"side\":\""+type+"\",\"quoteAmount\":\""+amountincrypto.toString()+"\",\"pair\":\""+pair+"\"}");
