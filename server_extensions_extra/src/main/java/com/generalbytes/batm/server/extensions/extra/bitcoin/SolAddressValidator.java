@@ -28,7 +28,7 @@ public class SolAddressValidator implements ICryptoAddressValidator {
 
     @Override
     public boolean isAddressValid(String address) {
-        if (address.length() > 30) && (47 > address.length()) {
+        if ((address.length() > 30) && (47 > address.length())) {
             return true;
         } else {
             return false;
