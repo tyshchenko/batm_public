@@ -20,6 +20,7 @@ package com.generalbytes.batm.server.extensions.extra.bitcoin;
 import com.generalbytes.batm.server.coinutil.AddressFormatException;
 import com.generalbytes.batm.server.coinutil.Bech32;
 import com.generalbytes.batm.server.extensions.ICryptoAddressValidator;
+import com.generalbytes.batm.server.extensions.extra.ethereum.EtherUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
