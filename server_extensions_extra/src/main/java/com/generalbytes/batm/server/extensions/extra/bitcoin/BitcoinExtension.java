@@ -280,7 +280,14 @@ public class BitcoinExtension extends AbstractExtension{
 
     @Override
     public ICryptoAddressValidator createAddressValidator(String cryptoCurrency) {
-        return null; //no BTC address validator in open source version so far (It is present in built-in extension)
+        if (CryptoCurrency.BNB.getCode().equalsIgnoreCase(cryptoCurrency)) {
+            return new BinanceCoinAddressValidator();
+        } else if (CryptoCurrency.SOL.getCode().equalsIgnoreCase(cryptoCurrency)) {
+            return new SolAddressValidator();
+        } else {
+            return null; // no BTC address validator in open source version so far (It is present in
+                        // built-in extension)
+        }
     }
 
     @Override

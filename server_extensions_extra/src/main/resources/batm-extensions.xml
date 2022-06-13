@@ -514,6 +514,8 @@
             <cryptocurrency>XRP</cryptocurrency>
         </ratesource>
         <cryptologo cryptocurrency="SOL" file="sol.png"/>
+        <cryptologo cryptocurrency="BNB" file="bnb.png"/>
+        <cryptologo cryptocurrency="BNB" file="bnb.svg"/>
 
     </extension>
     <extension class="com.generalbytes.batm.server.extensions.extra.bitcoincash.BitcoinCashExtension">
@@ -1628,8 +1630,6 @@
         <cryptologo cryptocurrency="SHIB" file="shib.png"/>
 
         <cryptologo cryptocurrency="ETH" file="eth.png"/>
-        <cryptologo cryptocurrency="BNB" file="bnb.png"/>
-        <cryptologo cryptocurrency="BNB" file="bnb.svg"/>
 
         <!-- ADD your ERC20 tokens here. And don't forget to add cryptologos. -->
     </extension>
