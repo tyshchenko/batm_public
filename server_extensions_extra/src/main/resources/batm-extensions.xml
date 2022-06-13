@@ -1626,7 +1626,7 @@
         <cryptologo cryptocurrency="USDC" file="usdc.png"/>
 
         <cryptologo cryptocurrency="SHIB" file="shib.png"/>
-        <cryptologo cryptocurrency="SHIB" file="shib.svg"/>
+
         <cryptologo cryptocurrency="ETH" file="eth.png"/>
         <cryptologo cryptocurrency="BNB" file="bnb.png"/>
         <cryptologo cryptocurrency="BNB" file="bnb.svg"/>
