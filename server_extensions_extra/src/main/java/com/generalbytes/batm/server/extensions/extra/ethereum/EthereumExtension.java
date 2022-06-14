@@ -27,6 +27,8 @@ import com.generalbytes.batm.server.extensions.IRateSource;
 import com.generalbytes.batm.server.extensions.IWallet;
 import com.generalbytes.batm.server.extensions.extra.ethereum.erc20.ERC20Wallet;
 import com.generalbytes.batm.server.extensions.extra.ethereum.erc20.dai.DaiDefinition;
+import com.generalbytes.batm.server.extensions.extra.ethereum.erc20.shib.ShibDefinition;
+import com.generalbytes.batm.server.extensions.extra.ethereum.erc20.usdc.UsdcDefinition;
 import com.generalbytes.batm.server.extensions.extra.ethereum.sources.stasis.StasisTickerRateSource;
 import com.generalbytes.batm.server.extensions.extra.ethereum.stream365.Stream365;
 import com.generalbytes.batm.server.extensions.extra.bitcoin.exchanges.luno.LunoExchange;
@@ -42,6 +44,8 @@ import java.util.StringTokenizer;
 
 public class EthereumExtension extends AbstractExtension{
     private static final CryptoCurrencyDefinition DAI_CRYPTOCURRENCY_DEFINITION = new DaiDefinition();
+    private static final CryptoCurrencyDefinition SHIB_CRYPTOCURRENCY_DEFINITION = new ShibDefinition();
+    private static final CryptoCurrencyDefinition USDC_CRYPTOCURRENCY_DEFINITION = new UsdcDefinition();
     private static final CryptoCurrencyDefinition DEFINITION = new EtherDefinition();
 
     @Override
@@ -65,7 +69,7 @@ public class EthereumExtension extends AbstractExtension{
         result.add(CryptoCurrency.EURS.getCode());
         result.add(CryptoCurrency.USDC.getCode());
         result.add(CryptoCurrency.SHIB.getCode());
-        result.add(CryptoCurrency.BNB.getCode());
+
         return result;
     }
 
@@ -159,6 +163,8 @@ public class EthereumExtension extends AbstractExtension{
     public Set<ICryptoCurrencyDefinition> getCryptoCurrencyDefinitions() {
         Set<ICryptoCurrencyDefinition> result = new HashSet<>();
         result.add(DAI_CRYPTOCURRENCY_DEFINITION);
+        result.add(SHIB_CRYPTOCURRENCY_DEFINITION);
+        result.add(USDC_CRYPTOCURRENCY_DEFINITION);
         result.add(DEFINITION);
         return result;
     }

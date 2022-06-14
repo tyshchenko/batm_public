@@ -409,6 +409,8 @@ public class BitcoinExtension extends AbstractExtension{
         result.add(CryptoCurrency.BCH.getCode());
         result.add(CryptoCurrency.NANO.getCode());
         result.add(CryptoCurrency.DASHD.getCode());
+        result.add(CryptoCurrency.BNB.getCode());
+        result.add(CryptoCurrency.SOL.getCode());
         return result;
     }
 
