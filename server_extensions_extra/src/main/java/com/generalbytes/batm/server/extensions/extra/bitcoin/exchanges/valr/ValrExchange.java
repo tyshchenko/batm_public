@@ -53,7 +53,7 @@ public class ValrExchange implements IExchange {
         cryptoCurrencies.add(CryptoCurrency.XRP.getCode());
         cryptoCurrencies.add(CryptoCurrency.SHIB.getCode());
         cryptoCurrencies.add(CryptoCurrency.SOL.getCode());
-        cryptoCurrencies.add(CryptoCurrency.BNB.getCode());
+        cryptoCurrencies.add(CryptoCurrency.BNBBSC.getCode());
         cryptoCurrencies.add(CryptoCurrency.USDC.getCode());
 
         return cryptoCurrencies;
@@ -111,6 +111,8 @@ public class ValrExchange implements IExchange {
         String rightcryptoCurrency = cryptoCurrency;
         if (CryptoCurrency.DASHD.getCode().equalsIgnoreCase(cryptoCurrency)) {
             rightcryptoCurrency = "DASH";
+        } else if (CryptoCurrency.BNBBSC.getCode().equalsIgnoreCase(cryptoCurrency)) {
+            rightcryptoCurrency = "BNB";
         }
         String timestamp = String.valueOf(System.currentTimeMillis());
         String signature = signRequest(clientSecret, timestamp, "GET", "/v1/wallet/crypto/"+rightcryptoCurrency+"/deposit/address", "");
@@ -147,6 +149,8 @@ public class ValrExchange implements IExchange {
         String rightcryptoCurrency = cryptoCurrency;
         if (CryptoCurrency.DASHD.getCode().equalsIgnoreCase(cryptoCurrency)) {
             rightcryptoCurrency = "DASH";
+        } else if (CryptoCurrency.BNBBSC.getCode().equalsIgnoreCase(cryptoCurrency)) {
+            rightcryptoCurrency = "BNB";
         }
         try {
             final List<ValrBalances> balance = api.getBalance(clientKey, signature, timestamp);
@@ -170,6 +174,8 @@ public class ValrExchange implements IExchange {
         String rightcryptoCurrency = cryptoCurrency;
         if (CryptoCurrency.DASHD.getCode().equalsIgnoreCase(cryptoCurrency)) {
             rightcryptoCurrency = "DASH";
+        } else if (CryptoCurrency.BNBBSC.getCode().equalsIgnoreCase(cryptoCurrency)) {
+            rightcryptoCurrency = "BNB";
         }
         String timestamp = String.valueOf(System.currentTimeMillis());
         log.debug("sendMoney {} to {} amount {}  ", cryptoCurrency, destinationAddress, amount.toString());
@@ -300,6 +306,27 @@ public class ValrExchange implements IExchange {
                 final ValrOrderData result = api.createBuyOrder(buyOrder, clientKey, signature, timestamp);
                 log.debug("market pair {} type {} amount   {}  result {}", pair, type, amountincrypto.toString(), result.getResult());
                 return result.getResult();
+            } else if (CryptoCurrency.BNBBSC.getCode().equalsIgnoreCase(cryptoCurrency)) {
+                pair = "BNBZAR";
+                final ValrTickerData cryptoToZar = api.getTicker(pair);
+                BigDecimal pricebid  = cryptoToZar.getAsk();
+                amount               = amount.multiply(onepr);
+                amount               = amount.add(one).setScale(2, BigDecimal.ROUND_CEILING);
+                BigDecimal price     = pricebid;
+                BigDecimal amountincrypto = price.multiply(amount).setScale(2, BigDecimal.ROUND_CEILING);
+                String timestamp = String.valueOf(System.currentTimeMillis());
+
+                String signature = signRequest(clientSecret, timestamp, "POST", "/v1/orders/market", "{\"side\":\""+type+"\",\"quoteAmount\":\""+amountincrypto.toString()+"\",\"pair\":\""+pair+"\"}");
+
+                ValrBuyOrder buyOrder = new ValrBuyOrder();
+                buyOrder.setPair(pair);
+                buyOrder.setSide(type);
+                buyOrder.setAmount(amountincrypto.toString());
+                log.debug("market pair {} type {} amount   {}  ", pair, type, amountincrypto.toString());
+
+                final ValrOrderData result = api.createBuyOrder(buyOrder, clientKey, signature, timestamp);
+                log.debug("market pair {} type {} amount   {}  result {}", pair, type, amountincrypto.toString(), result.getResult());
+                return result.getResult();
 
             } else {
                 final ValrTickerData cryptoToZar = api.getTicker(pair);
@@ -363,6 +390,9 @@ public class ValrExchange implements IExchange {
 
             return result.getResult();
         } else {
+            if (CryptoCurrency.BNBBSC.getCode().equalsIgnoreCase(cryptoCurrency)) {
+                pair = "BNBZAR";
+            }
             String signature = signRequest(clientSecret, timestamp, "POST", "/v1/orders/market", "{\"side\":\""+type+"\",\"baseAmount\":\""+cryptoAmount.toString()+"\",\"pair\":\""+pair+"\"}");
             ValrSellOrder sellOrder = new ValrSellOrder();
             sellOrder.setPair(pair);

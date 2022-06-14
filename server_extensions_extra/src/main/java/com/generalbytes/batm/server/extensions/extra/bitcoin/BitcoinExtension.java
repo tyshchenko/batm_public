@@ -280,7 +280,7 @@ public class BitcoinExtension extends AbstractExtension{
 
     @Override
     public ICryptoAddressValidator createAddressValidator(String cryptoCurrency) {
-        if (CryptoCurrency.BNB.getCode().equalsIgnoreCase(cryptoCurrency)) {
+        if (CryptoCurrency.BNBBSC.getCode().equalsIgnoreCase(cryptoCurrency)) {
             return new BinanceCoinAddressValidator();
         } else if (CryptoCurrency.SOL.getCode().equalsIgnoreCase(cryptoCurrency)) {
             return new SolAddressValidator();
@@ -409,7 +409,7 @@ public class BitcoinExtension extends AbstractExtension{
         result.add(CryptoCurrency.BCH.getCode());
         result.add(CryptoCurrency.NANO.getCode());
         result.add(CryptoCurrency.DASHD.getCode());
-        result.add(CryptoCurrency.BNB.getCode());
+        result.add(CryptoCurrency.BNBBSC.getCode());
         result.add(CryptoCurrency.SOL.getCode());
         return result;
     }

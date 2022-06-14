@@ -36,7 +36,7 @@ public class LocalnodeWallet implements IWallet, IGeneratesNewDepositCryptoAddre
         cryptoCurrencies.add(CryptoCurrency.DOGE.getCode());
         cryptoCurrencies.add(CryptoCurrency.SHIB.getCode());
         cryptoCurrencies.add(CryptoCurrency.SOL.getCode());
-        cryptoCurrencies.add(CryptoCurrency.BNB.getCode());
+        cryptoCurrencies.add(CryptoCurrency.BNBBSC.getCode());
         cryptoCurrencies.add(CryptoCurrency.USDC.getCode());
         return cryptoCurrencies;
     }
@@ -52,9 +52,16 @@ public class LocalnodeWallet implements IWallet, IGeneratesNewDepositCryptoAddre
             log.error("wallet error: unknown cryptocurrency.");
             return null;
         }
+        String rcryptoCurrency = cryptoCurrency;
+        if (CryptoCurrency.BNBBSC.getCode().equalsIgnoreCase(cryptoCurrency)) {
+            rcryptoCurrency = "BNB";
+        }
+        if (CryptoCurrency.DASHD.getCode().equalsIgnoreCase(cryptoCurrency)) {
+            rcryptoCurrency = "DASH";
+        }
         StatusRequest amount = new StatusRequest();
         amount.setAmount(new BigDecimal(1));
-        final AddressData address = api.getAddress(cryptoCurrency, amount);
+        final AddressData address = api.getAddress(rcryptoCurrency, amount);
         return address.getAddress();
     }
 
@@ -63,7 +70,14 @@ public class LocalnodeWallet implements IWallet, IGeneratesNewDepositCryptoAddre
             log.error("wallet error: unknown cryptocurrency.");
             return null;
         }
-        final BalanceData balance = api.getBalanse(cryptoCurrency, address);
+        String rcryptoCurrency = cryptoCurrency;
+        if (CryptoCurrency.BNBBSC.getCode().equalsIgnoreCase(cryptoCurrency)) {
+            rcryptoCurrency = "BNB";
+        }
+        if (CryptoCurrency.DASHD.getCode().equalsIgnoreCase(cryptoCurrency)) {
+            rcryptoCurrency = "DASH";
+        }
+        final BalanceData balance = api.getBalanse(rcryptoCurrency, address);
         return balance;
     }
 
@@ -74,7 +88,14 @@ public class LocalnodeWallet implements IWallet, IGeneratesNewDepositCryptoAddre
         }
         StatusRequest amount = new StatusRequest();
         amount.setAmount(new BigDecimal(1));
-        final AddressData address = api.getAddress(cryptoCurrency, amount);
+        String rcryptoCurrency = cryptoCurrency;
+        if (CryptoCurrency.BNBBSC.getCode().equalsIgnoreCase(cryptoCurrency)) {
+            rcryptoCurrency = "BNB";
+        }
+        if (CryptoCurrency.DASHD.getCode().equalsIgnoreCase(cryptoCurrency)) {
+            rcryptoCurrency = "DASH";
+        }
+        final AddressData address = api.getAddress(rcryptoCurrency, amount);
         return address.getAddress();
     }
 

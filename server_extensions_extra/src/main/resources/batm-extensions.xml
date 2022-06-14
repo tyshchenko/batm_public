@@ -202,7 +202,7 @@
                 <cryptocurrency>DASHD</cryptocurrency>
                 <cryptocurrency>SHIB</cryptocurrency>
                 <cryptocurrency>SOL</cryptocurrency>
-                <cryptocurrency>BNB</cryptocurrency>
+                <cryptocurrency>BNBBSC</cryptocurrency>
                 <cryptocurrency>USDC</cryptocurrency>
             </ratesource>
             <ratesource prefix="bitflyer" name="BitFlyer.jp Rate Source" >
@@ -257,7 +257,7 @@
                 <cryptocurrency>DASHD</cryptocurrency>
                 <cryptocurrency>SHIB</cryptocurrency>
                 <cryptocurrency>SOL</cryptocurrency>
-                <cryptocurrency>BNB</cryptocurrency>
+                <cryptocurrency>BNBBSC</cryptocurrency>
                 <cryptocurrency>USDC</cryptocurrency>
             </exchange>
             <exchange prefix="bitfinex" name="Bitfinex.com Exchange">
@@ -514,8 +514,8 @@
             <cryptocurrency>XRP</cryptocurrency>
         </ratesource>
         <cryptologo cryptocurrency="SOL" file="sol.png"/>
-        <cryptologo cryptocurrency="BNB" file="bnb.png"/>
-        <cryptologo cryptocurrency="BNB" file="bnb.svg"/>
+        <cryptologo cryptocurrency="BNBBSC" file="bnb.png"/>
+        <cryptologo cryptocurrency="BNBBSC" file="bnb.svg"/>
 
     </extension>
     <extension class="com.generalbytes.batm.server.extensions.extra.bitcoincash.BitcoinCashExtension">
@@ -1531,7 +1531,7 @@
             <cryptocurrency>DOGE</cryptocurrency>
             <cryptocurrency>SHIB</cryptocurrency>
             <cryptocurrency>SOL</cryptocurrency>
-            <cryptocurrency>BNB</cryptocurrency>
+            <cryptocurrency>BNBBSC</cryptocurrency>
             <cryptocurrency>USDC</cryptocurrency>
         </wallet>
         <cryptologo cryptocurrency="DAI" file="dai.png"/>

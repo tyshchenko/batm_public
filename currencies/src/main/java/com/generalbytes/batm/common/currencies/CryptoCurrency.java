@@ -42,6 +42,7 @@ public enum CryptoCurrency {
     BAT("Basic Attention Token"),
     BCH("Bitcoin Cash"),
     BNB("BinanceCoin"),
+    BNBBSC("Binance Coin"),
     BSD("BitSend"),
     BTC("Bitcoin"),
     BTCP("Bitcoin Private"),

@@ -50,7 +50,7 @@ public class ValrRateSource implements IRateSourceAdvanced {
         result.add(CryptoCurrency.DASHD.getCode());
         result.add(CryptoCurrency.SHIB.getCode());
         result.add(CryptoCurrency.SOL.getCode());
-        result.add(CryptoCurrency.BNB.getCode());
+        result.add(CryptoCurrency.BNBBSC.getCode());
         result.add(CryptoCurrency.USDC.getCode());
         return result;
     }
@@ -73,6 +73,9 @@ public class ValrRateSource implements IRateSourceAdvanced {
             return null;
         }
         String pair = cryptoCurrency.toUpperCase() + "ZAR";
+        if (CryptoCurrency.BNBBSC.getCode().equalsIgnoreCase(cryptoCurrency)) {
+            pair = "BNBZAR";
+        }
         if (CryptoCurrency.DASHD.getCode().equalsIgnoreCase(cryptoCurrency)) {
             final ValrTickerData btcZar = api.getTicker("BTCZAR");
             BigDecimal lastBtcPriceInZar = btcZar.getAskPrice();
@@ -98,6 +101,9 @@ public class ValrRateSource implements IRateSourceAdvanced {
             return null;
         }
         String pair = cryptoCurrency.toUpperCase() + "ZAR";
+        if (CryptoCurrency.BNBBSC.getCode().equalsIgnoreCase(cryptoCurrency)) {
+            pair = "BNBZAR";
+        }
 
         if (CryptoCurrency.DASHD.getCode().equalsIgnoreCase(cryptoCurrency)) {
             final ValrTickerData btcZar = api.getTicker("BTCZAR");
