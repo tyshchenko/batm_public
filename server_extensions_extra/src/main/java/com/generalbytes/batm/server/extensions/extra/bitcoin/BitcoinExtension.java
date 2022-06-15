@@ -59,6 +59,8 @@ import static com.generalbytes.batm.server.extensions.extra.bitcoin.exchanges.bi
 
 public class BitcoinExtension extends AbstractExtension{
     private IExtensionContext ctx;
+    private static final CryptoCurrencyDefinition SOL_CRYPTOCURRENCY_DEFINITION = new SolDefinition();
+    private static final CryptoCurrencyDefinition BNB_CRYPTOCURRENCY_DEFINITION = new BnbDefinition();
 
     @Override
     public void init(IExtensionContext ctx) {
@@ -426,6 +428,9 @@ public class BitcoinExtension extends AbstractExtension{
 
     @Override
     public Set<ICryptoCurrencyDefinition> getCryptoCurrencyDefinitions() {
-        return null;
+        Set<ICryptoCurrencyDefinition> result = new HashSet<>();
+        result.add(SOL_CRYPTOCURRENCY_DEFINITION);
+        result.add(BNB_CRYPTOCURRENCY_DEFINITION);
+        return result;
     }
 }
