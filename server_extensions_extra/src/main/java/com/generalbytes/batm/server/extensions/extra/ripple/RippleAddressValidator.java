@@ -39,7 +39,13 @@ public class RippleAddressValidator implements ICryptoAddressValidator {
                 }
                 return true;
             } else {
-                return false;
+                try {
+                    Base58.decodeToBigInteger(address);
+                } catch (AddressFormatException e) {
+                    log.error("Error", e);
+                    return false;
+                }
+                return true;
             }
         } else {
             return false;

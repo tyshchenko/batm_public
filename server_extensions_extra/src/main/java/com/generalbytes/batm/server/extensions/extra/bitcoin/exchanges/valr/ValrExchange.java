@@ -183,16 +183,22 @@ public class ValrExchange implements IExchange {
             if (CryptoCurrency.XRP.getCode().equalsIgnoreCase(cryptoCurrency)) {
                 String[] addressParts = destinationAddress.split(":");
                 if (addressParts.length != 2) {
-                    log.error("Error Destination TAG required");
-                    return null;
+                    log.debug("Destination TAG not found");
+                    String signature = signRequest(clientSecret, timestamp, "POST", "/v1/wallet/crypto/"+rightcryptoCurrency+"/withdraw", "{\"address\":\""+destinationAddress+"\",\"amount\":\""+amount.toString()+"\"}");
+                    ValrSend senddata = new ValrSend();
+                    senddata.setAddress(destinationAddress);
+                    senddata.setAmount(amount.toString());
+                    final ValrRequestData result = api.sendMoney(senddata, rightcryptoCurrency, clientKey, signature, timestamp);
+                    return result.getResult();
+                } else {
+                  String signature = signRequest(clientSecret, timestamp, "POST", "/v1/wallet/crypto/"+rightcryptoCurrency+"/withdraw", "{\"address\":\""+addressParts[0]+"\",\"paymentReference\":\""+addressParts[1]+"\",\"amount\":\""+amount.toString()+"\"}");
+                  ValrSendXRP senddata = new ValrSendXRP();
+                  senddata.setAddress(addressParts[0]);
+                  senddata.setPaymentReference(addressParts[1]);
+                  senddata.setAmount(amount.toString());
+                  final ValrRequestData result = api.sendMoneyXRP(senddata, rightcryptoCurrency, clientKey, signature, timestamp);
+                  return result.getResult();
                 }
-                String signature = signRequest(clientSecret, timestamp, "POST", "/v1/wallet/crypto/"+rightcryptoCurrency+"/withdraw", "{\"address\":\""+addressParts[0]+"\",\"paymentReference\":\""+addressParts[1]+"\",\"amount\":\""+amount.toString()+"\"}");
-                ValrSendXRP senddata = new ValrSendXRP();
-                senddata.setAddress(addressParts[0]);
-                senddata.setPaymentReference(addressParts[1]);
-                senddata.setAmount(amount.toString());
-                final ValrRequestData result = api.sendMoneyXRP(senddata, rightcryptoCurrency, clientKey, signature, timestamp);
-                return result.getResult();
             } else if (CryptoCurrency.USDC.getCode().equalsIgnoreCase(cryptoCurrency)) {
                 amount = amount.setScale(2, BigDecimal.ROUND_CEILING);
                 String signature = signRequest(clientSecret, timestamp, "POST", "/v1/wallet/crypto/"+rightcryptoCurrency+"/withdraw", "{\"address\":\""+destinationAddress+"\",\"amount\":\""+amount.toString()+"\"}");
