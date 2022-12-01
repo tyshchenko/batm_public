@@ -123,7 +123,7 @@ public class ValrRateSource implements IRateSourceAdvanced {
         final BigDecimal rate = getExchangeRateForBuy(cryptoCurrency, fiatCurrency);
         if (rate != null) {
             if (CryptoCurrency.USDC.getCode().equalsIgnoreCase(cryptoCurrency)) {
-                return rate.multiply(cryptoAmount).setScale(2, BigDecimal.ROUND_CEILING);
+                return rate.multiply(cryptoAmount).setScale(2, BigDecimal.HALF_UP);
             } else {
                 return rate.multiply(cryptoAmount);
             }
@@ -136,7 +136,7 @@ public class ValrRateSource implements IRateSourceAdvanced {
         final BigDecimal rate = getExchangeRateForSell(cryptoCurrency, fiatCurrency);
         if (rate != null) {
             if (CryptoCurrency.USDC.getCode().equalsIgnoreCase(cryptoCurrency)) {
-                return rate.multiply(cryptoAmount).setScale(2, BigDecimal.ROUND_CEILING);
+                return rate.multiply(cryptoAmount).setScale(2, BigDecimal.HALF_UP);
             } else {
                 return rate.multiply(cryptoAmount);
             }
