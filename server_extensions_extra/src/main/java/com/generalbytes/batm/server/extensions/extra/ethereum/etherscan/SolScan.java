@@ -11,6 +11,7 @@ public class SolScan extends EtherScan {
 
     protected IEtherscanAPI etherScanApi = RestProxyFactory.createProxy(IEtherscanAPI.class, "https://public-api.solscan.io");
 
+    @Override
     public AddressBalance getAddressBalance(String address, String cryptoCurrency) {
 
         GetTokenTransactionsResponse tokenTransactions = etherScanApi.getTokenTransactions("account", "tokentx", address);
@@ -28,6 +29,7 @@ public class SolScan extends EtherScan {
         return new AddressBalance(receivedAmount, confirmations);
     }
 
+    @Override
     public AddressBalance getEthAddressBalance(String address, String cryptoCurrency) {
 
         GetEthTxListResponse ethTxLists = etherScanApi.getEthTxList("account", "txlist", address);
