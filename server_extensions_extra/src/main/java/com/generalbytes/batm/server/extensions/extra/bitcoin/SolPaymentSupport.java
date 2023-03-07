@@ -4,6 +4,7 @@ import com.generalbytes.batm.common.currencies.CryptoCurrency;
 import com.generalbytes.batm.server.extensions.IExtensionContext;
 import com.generalbytes.batm.server.extensions.IWallet;
 import com.generalbytes.batm.server.extensions.extra.ethereum.etherscan.SolScan;
+import com.generalbytes.batm.server.extensions.extra.ethereum.etherscan.EtherScan;
 import com.generalbytes.batm.server.extensions.payment.IPaymentRequestListener;
 import com.generalbytes.batm.server.extensions.payment.IPaymentRequestSpecification;
 import com.generalbytes.batm.server.extensions.payment.IPaymentSupport;
