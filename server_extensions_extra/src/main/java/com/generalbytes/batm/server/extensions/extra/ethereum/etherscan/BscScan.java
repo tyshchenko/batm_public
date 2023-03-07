@@ -7,10 +7,11 @@ import si.mazi.rescu.RestProxyFactory;
 
 import java.math.BigDecimal;
 
-public class BscScan{
+public class BscScan extends EtherScan{
 
     protected IEtherscanAPI etherScanApi = RestProxyFactory.createProxy(IEtherscanAPI.class, "https://api.bscscan.com");
 
+    @Override
     public AddressBalance getAddressBalance(String address, String cryptoCurrency) {
 
         GetTokenTransactionsResponse tokenTransactions = etherScanApi.getTokenTransactions("account", "tokentx", address);
@@ -28,6 +29,7 @@ public class BscScan{
         return new AddressBalance(receivedAmount, confirmations);
     }
 
+    @Override
     public AddressBalance getEthAddressBalance(String address, String cryptoCurrency) {
 
         GetEthTxListResponse ethTxLists = etherScanApi.getEthTxList("account", "txlist", address);
