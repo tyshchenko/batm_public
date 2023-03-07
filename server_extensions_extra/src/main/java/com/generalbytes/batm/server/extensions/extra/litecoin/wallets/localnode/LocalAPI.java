@@ -10,6 +10,11 @@ public interface LocalAPI {
     @Consumes(MediaType.APPLICATION_JSON)
     AddressData getAddress(@PathParam("cryptoCurrency") String cryptoCurrency, StatusRequest amount);
 
+    @POST
+    @Path("/sendfiattocrypto/{cryptoCurrency}")
+    @Consumes(MediaType.APPLICATION_JSON)
+    AddressData getAddressWithLabel(@PathParam("cryptoCurrency") String cryptoCurrency, PotwalletSendRequest request);
+
     @GET
     @Path("/getstatus/{cryptoCurrency}")
     BalanceData getBalanse(@PathParam("cryptoCurrency") String cryptoCurrency, @QueryParam("address") String address);

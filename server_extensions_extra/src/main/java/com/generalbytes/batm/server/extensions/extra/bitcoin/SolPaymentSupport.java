@@ -3,7 +3,7 @@ package com.generalbytes.batm.server.extensions.extra.bitcoin;
 import com.generalbytes.batm.common.currencies.CryptoCurrency;
 import com.generalbytes.batm.server.extensions.IExtensionContext;
 import com.generalbytes.batm.server.extensions.IWallet;
-import com.generalbytes.batm.server.extensions.extra.ethereum.etherscan.EtherScan;
+import com.generalbytes.batm.server.extensions.extra.ethereum.etherscan.SolScan;
 import com.generalbytes.batm.server.extensions.payment.IPaymentRequestListener;
 import com.generalbytes.batm.server.extensions.payment.IPaymentRequestSpecification;
 import com.generalbytes.batm.server.extensions.payment.IPaymentSupport;
@@ -26,7 +26,7 @@ public class SolPaymentSupport implements IPaymentSupport {
 
     private final ScheduledExecutorService executorService = Executors.newSingleThreadScheduledExecutor();
 
-    protected EtherScan etherScan = new EtherScan();
+    protected SolScan etherScan = new SolScan();
 
     @Override
     public boolean init(IExtensionContext context) {
@@ -43,6 +43,7 @@ public class SolPaymentSupport implements IPaymentSupport {
         String address = spec.getOutputs().get(0).getAddress();
 
         long validTillMillis = System.currentTimeMillis() + (spec.getValidInSeconds() * 1000);
+        log.info("PaymentRequest {} {} {} {}", spec.getCryptoCurrency(), spec.getDescription(), spec.getTotal(), address);
 
         PaymentRequest request = new PaymentRequest(spec.getCryptoCurrency(), spec.getDescription(), validTillMillis,
             address, spec.getTotal(), BigDecimal.ZERO, spec.getRemoveAfterNumberOfConfirmationsOfIncomingTransaction(),

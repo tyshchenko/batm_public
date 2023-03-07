@@ -67,6 +67,7 @@ public class EtherPaymentSupport implements IPaymentSupport {
         }
         final String address = outaddress;
         long validTillMillis = System.currentTimeMillis() + (spec.getValidInSeconds() * 1000);
+        log.info("PaymentRequest {} {} {} {}", spec.getCryptoCurrency(), spec.getDescription(), spec.getTotal(), address);
 
         PaymentRequest request = new PaymentRequest(spec.getCryptoCurrency(), spec.getDescription(), validTillMillis,
             address, spec.getTotal(), BigDecimal.ZERO, spec.getRemoveAfterNumberOfConfirmationsOfIncomingTransaction(),
@@ -85,7 +86,7 @@ public class EtherPaymentSupport implements IPaymentSupport {
                         } else {
                             log.info("Amounts matches {}", request);
                             setState(request, PaymentRequest.STATE_SEEN_TRANSACTION);
-                            
+
                             String forwardingState = wallet.sendCoins(destinationAddress, spec.getTotal(), spec.getCryptoCurrency(), "");
                             log.info("Transaction forwarded {}", forwardingState);
                         }

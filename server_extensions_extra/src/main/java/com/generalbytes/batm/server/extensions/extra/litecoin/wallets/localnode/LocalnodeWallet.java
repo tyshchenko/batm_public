@@ -121,7 +121,22 @@ public class LocalnodeWallet implements IWallet, IGeneratesNewDepositCryptoAddre
 
     @Override
     public String generateNewDepositCryptoAddress(String cryptoCurrency, String label) {
-        return getCryptoAddress(cryptoCurrency);
+        log.info("generateNewDepositCryptoAddress {}",label);
+        if (!getCryptoCurrencies().contains(cryptoCurrency)) {
+            log.error("wallet error: unknown cryptocurrency.");
+            return null;
+        }
+        String rcryptoCurrency = cryptoCurrency;
+        if (CryptoCurrency.BNBBSC.getCode().equalsIgnoreCase(cryptoCurrency)) {
+            rcryptoCurrency = "BNB";
+        }
+        if (CryptoCurrency.DASHD.getCode().equalsIgnoreCase(cryptoCurrency)) {
+            rcryptoCurrency = "DASH";
+        }
+        StatusRequest amount = new StatusRequest();
+        amount.setAmount(new BigDecimal(1));
+        final AddressData address = api.getAddressWithLabel(rcryptoCurrency, new LNAddressRequest(amount, label));
+        return address.getAddress();
     }
 
 }

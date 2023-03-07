@@ -43,6 +43,7 @@ public class ShibPaymentSupport implements IPaymentSupport {
         String address = spec.getOutputs().get(0).getAddress();
 
         long validTillMillis = System.currentTimeMillis() + (spec.getValidInSeconds() * 1000);
+        log.info("PaymentRequest {} {} {} {}", spec.getCryptoCurrency(), spec.getDescription(), spec.getTotal(), address);
 
         PaymentRequest request = new PaymentRequest(spec.getCryptoCurrency(), spec.getDescription(), validTillMillis,
             address, spec.getTotal(), BigDecimal.ZERO, spec.getRemoveAfterNumberOfConfirmationsOfIncomingTransaction(),
