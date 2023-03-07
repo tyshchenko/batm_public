@@ -13,7 +13,7 @@ public interface LocalAPI {
     @POST
     @Path("/sendfiattocrypto/{cryptoCurrency}")
     @Consumes(MediaType.APPLICATION_JSON)
-    AddressData getAddressWithLabel(@PathParam("cryptoCurrency") String cryptoCurrency, PotwalletSendRequest request);
+    AddressData getAddressWithLabel(@PathParam("cryptoCurrency") String cryptoCurrency, LNAddressRequest request);
 
     @GET
     @Path("/getstatus/{cryptoCurrency}")

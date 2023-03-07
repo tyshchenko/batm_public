@@ -7,7 +7,7 @@ import si.mazi.rescu.RestProxyFactory;
 
 import java.math.BigDecimal;
 
-public class BscScan {
+public class BscScan extends EtherScan{
 
     protected IEtherscanAPI etherScanApi = RestProxyFactory.createProxy(IEtherscanAPI.class, "https://api.bscscan.com");
 
