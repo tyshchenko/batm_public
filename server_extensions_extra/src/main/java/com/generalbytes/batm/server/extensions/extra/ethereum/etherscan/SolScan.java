@@ -45,13 +45,5 @@ public class SolScan extends EtherScan {
         return new AddressBalance(receivedAmount, confirmations);
     }
 
-    public class AddressBalance {
-        public final BigDecimal receivedAmount;
-        public final int confirmations;
 
-        public AddressBalance(BigDecimal receivedAmount, int confirmations) {
-            this.receivedAmount = receivedAmount;
-            this.confirmations = confirmations;
-        }
-    }
 }
