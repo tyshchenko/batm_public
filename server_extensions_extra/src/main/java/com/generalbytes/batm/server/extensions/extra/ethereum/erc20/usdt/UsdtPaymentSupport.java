@@ -1,10 +1,10 @@
-package com.generalbytes.batm.server.extensions.extra.ethereum.erc20.usdc;
+package com.generalbytes.batm.server.extensions.extra.ethereum.erc20.usdt;
 
 import com.generalbytes.batm.common.currencies.CryptoCurrency;
 import com.generalbytes.batm.server.extensions.IExtensionContext;
 import com.generalbytes.batm.server.extensions.IWallet;
-import com.generalbytes.batm.server.extensions.extra.ethereum.etherscan.EtherScan;
 import com.generalbytes.batm.server.extensions.extra.ethereum.etherscan.TokenScan;
+import com.generalbytes.batm.server.extensions.extra.ethereum.etherscan.EtherScan;
 import com.generalbytes.batm.server.extensions.payment.IPaymentRequestListener;
 import com.generalbytes.batm.server.extensions.payment.IPaymentRequestSpecification;
 import com.generalbytes.batm.server.extensions.payment.IPaymentSupport;
@@ -21,8 +21,8 @@ import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
 
-public class UsdcPaymentSupport implements IPaymentSupport {
-    private static final Logger log = LoggerFactory.getLogger(UsdcPaymentSupport.class);
+public class UsdtPaymentSupport implements IPaymentSupport {
+    private static final Logger log = LoggerFactory.getLogger(UsdtPaymentSupport.class);
     private final Map<String, PaymentRequest> requests = new ConcurrentHashMap<>();
 
     private final ScheduledExecutorService executorService = Executors.newSingleThreadScheduledExecutor();
@@ -106,7 +106,7 @@ public class UsdcPaymentSupport implements IPaymentSupport {
 
     @Override
     public PaymentReceipt getPaymentReceipt(String paymentAddress) {
-        PaymentReceipt result = new PaymentReceipt(CryptoCurrency.USDC.getCode(), paymentAddress);
+        PaymentReceipt result = new PaymentReceipt(CryptoCurrency.USDT.getCode(), paymentAddress);
         PaymentRequest paymentRequest = requests.get(paymentAddress);
         if (paymentRequest != null && paymentRequest.getState() == PaymentRequest.STATE_SEEN_IN_BLOCK_CHAIN) {
             result.setStatus(PaymentReceipt.STATUS_PAID);
