@@ -18,7 +18,7 @@ public class BalanceData {
     }
 
     public int getConfirmation() {
-        return confirmation;
+        return Integer.parseInt(confirmation);
     }
 
     public void setBalance(BigDecimal balance) {
