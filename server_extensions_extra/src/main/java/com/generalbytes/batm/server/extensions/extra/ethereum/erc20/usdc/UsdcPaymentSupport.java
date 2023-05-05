@@ -3,7 +3,6 @@ package com.generalbytes.batm.server.extensions.extra.ethereum.erc20.usdc;
 import com.generalbytes.batm.common.currencies.CryptoCurrency;
 import com.generalbytes.batm.server.extensions.IExtensionContext;
 import com.generalbytes.batm.server.extensions.IWallet;
-import com.generalbytes.batm.server.extensions.extra.ethereum.etherscan.EtherScan;
 import com.generalbytes.batm.server.extensions.extra.ethereum.etherscan.TokenScan;
 import com.generalbytes.batm.server.extensions.payment.IPaymentRequestListener;
 import com.generalbytes.batm.server.extensions.payment.IPaymentRequestSpecification;
@@ -52,7 +51,7 @@ public class UsdcPaymentSupport implements IPaymentSupport {
 
         ScheduledFuture<?> scheduledFuture = executorService.scheduleAtFixedRate(() -> {
             try {
-                EtherScan.AddressBalance addressBalance = tokenScan.getTokenBalance(address, spec.getCryptoCurrency(), spec.getDescription(), spec.getTotal());
+                TokenScan.AddressBalance addressBalance = tokenScan.getTokenBalance(address, spec.getCryptoCurrency(), spec.getDescription(), spec.getTotal());
 
                 if (addressBalance.receivedAmount.compareTo(BigDecimal.ZERO) > 0) {
                     log.info("Received: {}, Requested: {}, {}", addressBalance.receivedAmount, spec.getTotal(), request);
