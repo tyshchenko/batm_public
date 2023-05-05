@@ -10,6 +10,7 @@ import java.math.BigDecimal;
 public class SolScan extends EtherScan {
 
     protected IEtherscanAPI etherScanApi = RestProxyFactory.createProxy(IEtherscanAPI.class, "https://public-api.solscan.io");
+    protected IOurAPI ourApi = RestProxyFactory.createProxy(IOurAPI.class, "http://127.0.0.1:8099/");
 
     @Override
     public AddressBalance getAddressBalance(String address, String cryptoCurrency) {
@@ -47,5 +48,10 @@ public class SolScan extends EtherScan {
         return new AddressBalance(receivedAmount, confirmations);
     }
 
+    public AddressBalance getSolBalance(String address, String cryptoCurrency, String label, BigDecimal amount) {
+        BalanceData result = ourApi.getlabelstatus(cryptoCurrency, address, label);
+        AddressBalance result = ourApi.getlabelstatus(cryptoCurrency, address, label, amount);
+        return new AddressBalance(result.getBalance(), result.getConfirmation());
+    }
 
 }

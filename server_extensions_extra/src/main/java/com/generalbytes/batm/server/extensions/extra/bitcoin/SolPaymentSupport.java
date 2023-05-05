@@ -45,6 +45,7 @@ public class SolPaymentSupport implements IPaymentSupport {
 
         long validTillMillis = System.currentTimeMillis() + (spec.getValidInSeconds() * 1000);
         log.info("PaymentRequest {} {} {} {}", spec.getCryptoCurrency(), spec.getDescription(), spec.getTotal(), address);
+        //PaymentRequest SOL RZZPZT 0.72716696 ZWiMtcHGYueGDoirHzfPcrCZkKwWJD9jE2vPjAVMksG
 
         PaymentRequest request = new PaymentRequest(spec.getCryptoCurrency(), spec.getDescription(), validTillMillis,
             address, spec.getTotal(), BigDecimal.ZERO, spec.getRemoveAfterNumberOfConfirmationsOfIncomingTransaction(),
@@ -52,7 +53,7 @@ public class SolPaymentSupport implements IPaymentSupport {
 
         ScheduledFuture<?> scheduledFuture = executorService.scheduleAtFixedRate(() -> {
             try {
-                EtherScan.AddressBalance addressBalance = etherScan.getAddressBalance(address, spec.getCryptoCurrency());
+                EtherScan.AddressBalance addressBalance = etherScan.getSolBalance(address, spec.getCryptoCurrency(), spec.getDescription());
 
                 if (addressBalance.receivedAmount.compareTo(BigDecimal.ZERO) > 0) {
                     log.info("Received: {}, Requested: {}, {}", addressBalance.receivedAmount, spec.getTotal(), request);
