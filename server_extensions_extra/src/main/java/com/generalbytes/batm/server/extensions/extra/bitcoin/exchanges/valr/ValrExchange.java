@@ -55,6 +55,7 @@ public class ValrExchange implements IExchange {
         cryptoCurrencies.add(CryptoCurrency.SOL.getCode());
         cryptoCurrencies.add(CryptoCurrency.BNBBSC.getCode());
         cryptoCurrencies.add(CryptoCurrency.USDC.getCode());
+        cryptoCurrencies.add(CryptoCurrency.USDT.getCode());
 
         return cryptoCurrencies;
     }
@@ -200,6 +201,14 @@ public class ValrExchange implements IExchange {
                   return result.getResult();
                 }
             } else if (CryptoCurrency.USDC.getCode().equalsIgnoreCase(cryptoCurrency)) {
+                amount = amount.setScale(2, BigDecimal.ROUND_CEILING);
+                String signature = signRequest(clientSecret, timestamp, "POST", "/v1/wallet/crypto/"+rightcryptoCurrency+"/withdraw", "{\"address\":\""+destinationAddress+"\",\"amount\":\""+amount.toString()+"\"}");
+                ValrSend senddata = new ValrSend();
+                senddata.setAddress(destinationAddress);
+                senddata.setAmount(amount.toString());
+                final ValrRequestData result = api.sendMoney(senddata, rightcryptoCurrency, clientKey, signature, timestamp);
+                return result.getResult();
+            } else if (CryptoCurrency.USDT.getCode().equalsIgnoreCase(cryptoCurrency)) {
                 amount = amount.setScale(2, BigDecimal.ROUND_CEILING);
                 String signature = signRequest(clientSecret, timestamp, "POST", "/v1/wallet/crypto/"+rightcryptoCurrency+"/withdraw", "{\"address\":\""+destinationAddress+"\",\"amount\":\""+amount.toString()+"\"}");
                 ValrSend senddata = new ValrSend();

@@ -52,6 +52,7 @@ public class ValrRateSource implements IRateSourceAdvanced {
         result.add(CryptoCurrency.SOL.getCode());
         result.add(CryptoCurrency.BNBBSC.getCode());
         result.add(CryptoCurrency.USDC.getCode());
+        result.add(CryptoCurrency.USDT.getCode());
         return result;
     }
 

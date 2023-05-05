@@ -204,6 +204,7 @@
                 <cryptocurrency>SOL</cryptocurrency>
                 <cryptocurrency>BNBBSC</cryptocurrency>
                 <cryptocurrency>USDC</cryptocurrency>
+                <cryptocurrency>USDT</cryptocurrency>
             </ratesource>
             <ratesource prefix="bitflyer" name="BitFlyer.jp Rate Source" >
                 <param name="fiatcurrency" />
@@ -259,6 +260,7 @@
                 <cryptocurrency>SOL</cryptocurrency>
                 <cryptocurrency>BNBBSC</cryptocurrency>
                 <cryptocurrency>USDC</cryptocurrency>
+                <cryptocurrency>USDT</cryptocurrency>
             </exchange>
             <exchange prefix="bitfinex" name="Bitfinex.com Exchange">
                 <param name="apikey" />
@@ -1533,6 +1535,7 @@
             <cryptocurrency>SOL</cryptocurrency>
             <cryptocurrency>BNBBSC</cryptocurrency>
             <cryptocurrency>USDC</cryptocurrency>
+            <cryptocurrency>USDT</cryptocurrency>
         </wallet>
         <cryptologo cryptocurrency="DAI" file="dai.png"/>
         <cryptologo cryptocurrency="DAI" file="dai.svg"/>
