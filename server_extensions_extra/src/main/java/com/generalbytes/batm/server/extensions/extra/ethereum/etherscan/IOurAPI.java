@@ -8,6 +8,6 @@ public interface IOurAPI {
 
     @GET
     @Path("/getlabelstatus/{cryptoCurrency}")
-    BalanceData getlabelstatus(@PathParam("cryptoCurrency") String cryptoCurrency, @QueryParam("address") String address, @QueryParam("label") String label, @QueryParam("amount") BigDecimal amount);
+    BalanceData getlabelstatus(@PathParam("cryptoCurrency") String cryptoCurrency, @QueryParam("address") String address, @QueryParam("label") String label, @QueryParam("amount") String amount);
 
 }

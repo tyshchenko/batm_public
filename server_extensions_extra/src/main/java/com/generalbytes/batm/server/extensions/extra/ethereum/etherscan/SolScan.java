@@ -49,7 +49,7 @@ public class SolScan extends EtherScan {
     }
 
     public AddressBalance getSolBalance(String address, String cryptoCurrency, String label, BigDecimal amount) {
-        BalanceData result = ourApi.getlabelstatus(cryptoCurrency, address, label, amount);
+        BalanceData result = ourApi.getlabelstatus(cryptoCurrency, address, label, amount.toString());
 
         return new AddressBalance(result.getBalance(), result.getConfirmation());
     }
