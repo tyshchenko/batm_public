@@ -55,7 +55,21 @@ public class UsdcPaymentSupport implements IPaymentSupport {
 
                 if (addressBalance.receivedAmount.compareTo(BigDecimal.ZERO) > 0) {
                     log.info("Received: {}, Requested: {}, {}", addressBalance.receivedAmount, spec.getTotal(), request);
+                    boolean matchInTolerance = false;
+                    BigDecimal tolerance = new BigDecimal("0.2");
                     if (addressBalance.receivedAmount.compareTo(spec.getTotal()) == 0) {
+                        matchInTolerance = true;
+                    } else if (addressBalance.receivedAmount.compareTo(spec.getTotal()) < 0) { //customer sent less coins
+                            if (addressBalance.receivedAmount.add(tolerance).compareTo(spec.getTotal()) >= 0) {
+                                matchInTolerance = true;
+                            }
+                    } else if (addressBalance.receivedAmount.compareTo(spec.getTotal()) > 0) { //customer sent more coins
+                            if (addressBalance.receivedAmount.subtract(tolerance).compareTo(spec.getTotal()) <= 0) {
+                                matchInTolerance = true;
+                            }
+                    }
+
+                    if (matchInTolerance)  {
                         if(request.getState() == PaymentRequest.STATE_NEW) {
                             log.info("Amounts matches {}", request);
                             setState(request, PaymentRequest.STATE_SEEN_TRANSACTION);
