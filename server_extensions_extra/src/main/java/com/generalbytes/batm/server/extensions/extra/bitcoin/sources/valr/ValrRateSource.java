@@ -53,6 +53,7 @@ public class ValrRateSource implements IRateSourceAdvanced {
         result.add(CryptoCurrency.BNBBSC.getCode());
         result.add(CryptoCurrency.USDC.getCode());
         result.add(CryptoCurrency.USDT.getCode());
+        result.add(CryptoCurrency.TRX.getCode());
         return result;
     }
 
@@ -83,6 +84,12 @@ public class ValrRateSource implements IRateSourceAdvanced {
             final ValrTickerData btcDash = api.getTicker("DASHBTC");
             BigDecimal lastDashPriceInBtc = btcDash.getAskPrice();
             return lastBtcPriceInZar.multiply(lastDashPriceInBtc);
+        } else if (CryptoCurrency.TRX.getCode().equalsIgnoreCase(cryptoCurrency)) {
+            final ValrTickerData usdtZar = api.getTicker("USDTZAR");
+            BigDecimal lastUsdtPriceInZar = usdtZar.getAskPrice();
+            final ValrTickerData trxusdt = api.getTicker("TRXUSDT");
+            BigDecimal lastTrxPriceInUsdt = trxusdt.getAskPrice();
+            return lastUsdtPriceInZar.multiply(lastTrxPriceInUsdt);
         } else {
             final ValrTickerData cryptoZar = api.getTicker(pair);
             BigDecimal lastPriceInZar = cryptoZar.getAskPrice();
@@ -112,6 +119,12 @@ public class ValrRateSource implements IRateSourceAdvanced {
             final ValrTickerData btcDash = api.getTicker("DASHBTC");
             BigDecimal lastDashPriceInBtc = btcDash.getPrice();
             return lastBtcPriceInZar.multiply(lastDashPriceInBtc);
+        } else if (CryptoCurrency.TRX.getCode().equalsIgnoreCase(cryptoCurrency)) {
+            final ValrTickerData usdtZar = api.getTicker("USDTZAR");
+            BigDecimal lastUsdtPriceInZar = usdtZar.getPrice();
+            final ValrTickerData trxusdt = api.getTicker("TRXUSDT");
+            BigDecimal lastTrxPriceInUsdt = trxusdt.getPrice();
+            return lastUsdtPriceInZar.multiply(lastTrxPriceInUsdt);
         } else {
             final ValrTickerData cryptoZar = api.getTicker(pair);
             BigDecimal lastPriceInZar = cryptoZar.getPrice();
@@ -138,6 +151,8 @@ public class ValrRateSource implements IRateSourceAdvanced {
         if (rate != null) {
             if (CryptoCurrency.USDC.getCode().equalsIgnoreCase(cryptoCurrency)) {
                 return rate.multiply(cryptoAmount).setScale(2, RoundingMode.HALF_UP);
+            } else if (CryptoCurrency.USDT.getCode().equalsIgnoreCase(cryptoCurrency)) {
+                return rate.multiply(cryptoAmount).setScale(6, RoundingMode.HALF_UP);
             } else {
                 return rate.multiply(cryptoAmount);
             }

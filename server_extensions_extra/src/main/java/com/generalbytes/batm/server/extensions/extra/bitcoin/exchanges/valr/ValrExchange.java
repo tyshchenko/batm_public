@@ -56,6 +56,7 @@ public class ValrExchange implements IExchange {
         cryptoCurrencies.add(CryptoCurrency.BNBBSC.getCode());
         cryptoCurrencies.add(CryptoCurrency.USDC.getCode());
         cryptoCurrencies.add(CryptoCurrency.USDT.getCode());
+        cryptoCurrencies.add(CryptoCurrency.TRX.getCode());
 
         return cryptoCurrencies;
     }
@@ -249,7 +250,39 @@ public class ValrExchange implements IExchange {
         BigDecimal cryptofee    = new BigDecimal(0.00033);
         try {
 
-            if (CryptoCurrency.DASHD.getCode().equalsIgnoreCase(cryptoCurrency)) {
+            if (CryptoCurrency.TRX.getCode().equalsIgnoreCase(cryptoCurrency)) {
+                final ValrTickerData trxTousdt = api.getTicker("TRXUSDT");
+                BigDecimal trxusdtpricebid  = trxTousdt.getAsk();
+                final ValrTickerData usdtToZar = api.getTicker("USDTZAR");
+                BigDecimal usdtToZarpricebid  = usdtToZar.getAsk();
+                BigDecimal trxcryptofee    = new BigDecimal(0.002);
+                BigDecimal trxprocent      = new BigDecimal(1.005);
+                //amount in dash
+                BigDecimal trxamount  = amount.multiply(trxprocent);
+                trxamount  = trxamount.add(trxcryptofee).setScale(6, BigDecimal.ROUND_CEILING);
+                BigDecimal usdtamount   = trxusdtpricebid.multiply(trxamount).setScale(6, BigDecimal.ROUND_CEILING);
+                BigDecimal zaramount   = usdtToZarpricebid.multiply(usdtamount).add(one).setScale(2, BigDecimal.ROUND_CEILING);
+
+                String timestamp = String.valueOf(System.currentTimeMillis());
+                String signature = signRequest(clientSecret, timestamp, "POST", "/v1/orders/market", "{\"side\":\""+type+"\",\"quoteAmount\":\""+zaramount.toString()+"\",\"pair\":\"USDTZAR\"}");
+
+                ValrBuyOrder buyUSDTOrder = new ValrBuyOrder();
+                buyUSDTOrder.setPair("USDTZAR");
+                buyUSDTOrder.setSide(type);
+                buyUSDTOrder.setAmount(zaramount.toString());
+                final ValrOrderData resultusdt = api.createBuyOrder(buyUSDTOrder, clientKey, signature, timestamp);
+                log.debug("market pair {} type {} amount   {}  result {}", "USDTZAR", type, zaramount.toString(), resultusdt.getResult());
+
+                timestamp = String.valueOf(System.currentTimeMillis());
+                signature = signRequest(clientSecret, timestamp, "POST", "/v1/orders/market", "{\"side\":\""+type+"\",\"quoteAmount\":\""+usdtamount.toString()+"\",\"pair\":\"TRXUSDT\"}");
+                ValrBuyOrder buyTrxOrder = new ValrBuyOrder();
+                buyTrxOrder.setPair("TRXUSDT");
+                buyTrxOrder.setSide(type);
+                buyTrxOrder.setAmount(usdtamount.toString());
+                final ValrOrderData result = api.createBuyOrder(buyTrxOrder, clientKey, signature, timestamp);
+                log.debug("market pair {} type {} amount   {}   result {}", "TRXUSDT", type, usdtamount.toString(), result.getResult());
+                return result.getResult();
+            } else if (CryptoCurrency.DASHD.getCode().equalsIgnoreCase(cryptoCurrency)) {
                 final ValrTickerData dashToBtc = api.getTicker("DASHBTC");
                 BigDecimal dashbtcpricebid  = dashToBtc.getAsk();
                 final ValrTickerData btcToZar = api.getTicker("BTCZAR");
@@ -378,7 +411,33 @@ public class ValrExchange implements IExchange {
         pair = cryptoCurrency.toUpperCase() + "ZAR";
         String timestamp = String.valueOf(System.currentTimeMillis());
 
-        if (CryptoCurrency.DASHD.getCode().equalsIgnoreCase(cryptoCurrency)) {
+        if (CryptoCurrency.TRX.getCode().equalsIgnoreCase(cryptoCurrency)) {
+            // cryptoAmount in dash
+            final ValrTickerData trxTousdt = api.getTicker("TRXUSDT");
+            BigDecimal trxTousdtprice  = trxTousdt.getBid();
+            BigDecimal usdtamount = trxTousdtprice.multiply(cryptoAmount).setScale(6, BigDecimal.ROUND_CEILING);
+
+            String signature = signRequest(clientSecret, timestamp, "POST", "/v1/orders/market", "{\"side\":\""+type+"\",\"baseAmount\":\""+cryptoAmount.toString()+"\",\"pair\":\"TRXUSDT\"}");
+            ValrSellOrder sellOrder = new ValrSellOrder();
+            sellOrder.setPair("TRXUSDT");
+            sellOrder.setSide(type);
+            sellOrder.setAmount(cryptoAmount.toString());
+
+            final ValrOrderData resultusdt = api.createSellOrder(sellOrder, clientKey, signature, timestamp);
+            log.debug("market pair {} type {} amount   {}   result {}", "TRXUSDT", type, cryptoAmount.toString(), resultusdt.getResult());
+
+            timestamp = String.valueOf(System.currentTimeMillis());
+            signature = signRequest(clientSecret, timestamp, "POST", "/v1/orders/market", "{\"side\":\""+type+"\",\"baseAmount\":\""+usdtamount.toString()+"\",\"pair\":\"BTCZAR\"}");
+            ValrSellOrder sellbtcOrder = new ValrSellOrder();
+            sellbtcOrder.setPair("USDTZAR");
+            sellbtcOrder.setSide(type);
+            sellbtcOrder.setAmount(usdtamount.toString());
+
+            final ValrOrderData result = api.createSellOrder(sellbtcOrder, clientKey, signature, timestamp);
+            log.debug("market pair {} type {} amount   {}   result {}", "USDTZAR", type, usdtamount.toString(), result.getResult());
+
+            return result.getResult();
+        } if (CryptoCurrency.DASHD.getCode().equalsIgnoreCase(cryptoCurrency)) {
             // cryptoAmount in dash
             final ValrTickerData dashToBtc = api.getTicker("DASHBTC");
             BigDecimal dashbtcprice  = dashToBtc.getBid();

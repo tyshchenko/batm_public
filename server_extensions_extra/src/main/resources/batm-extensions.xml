@@ -205,6 +205,7 @@
                 <cryptocurrency>BNBBSC</cryptocurrency>
                 <cryptocurrency>USDC</cryptocurrency>
                 <cryptocurrency>USDT</cryptocurrency>
+                <cryptocurrency>TRX</cryptocurrency>
             </ratesource>
             <ratesource prefix="bitflyer" name="BitFlyer.jp Rate Source" >
                 <param name="fiatcurrency" />
@@ -261,6 +262,7 @@
                 <cryptocurrency>BNBBSC</cryptocurrency>
                 <cryptocurrency>USDC</cryptocurrency>
                 <cryptocurrency>USDT</cryptocurrency>
+                <cryptocurrency>TRX</cryptocurrency>
             </exchange>
             <exchange prefix="bitfinex" name="Bitfinex.com Exchange">
                 <param name="apikey" />
@@ -1536,6 +1538,7 @@
             <cryptocurrency>BNBBSC</cryptocurrency>
             <cryptocurrency>USDC</cryptocurrency>
             <cryptocurrency>USDT</cryptocurrency>
+            <cryptocurrency>TRX</cryptocurrency>
         </wallet>
         <cryptologo cryptocurrency="DAI" file="dai.png"/>
         <cryptologo cryptocurrency="DAI" file="dai.svg"/>
