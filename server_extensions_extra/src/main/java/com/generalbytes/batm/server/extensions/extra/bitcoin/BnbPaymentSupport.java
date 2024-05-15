@@ -52,7 +52,7 @@ public class BnbPaymentSupport implements IPaymentSupport {
 
         ScheduledFuture<?> scheduledFuture = executorService.scheduleAtFixedRate(() -> {
             try {
-                EtherScan.AddressBalance addressBalance = etherScan.getAddressBalance(address, spec.getCryptoCurrency());
+                EtherScan.AddressBalance addressBalance = etherScan.getBNBBalance(address, spec.getCryptoCurrency(), spec.getDescription(), spec.getTotal());
 
                 if (addressBalance.receivedAmount.compareTo(BigDecimal.ZERO) > 0) {
                     log.info("Received: {}, Requested: {}, {}", addressBalance.receivedAmount, spec.getTotal(), request);
