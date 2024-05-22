@@ -30,6 +30,7 @@ import com.generalbytes.batm.server.extensions.extra.ethereum.erc20.dai.DaiDefin
 import com.generalbytes.batm.server.extensions.extra.ethereum.erc20.shib.ShibDefinition;
 import com.generalbytes.batm.server.extensions.extra.ethereum.erc20.usdc.UsdcDefinition;
 import com.generalbytes.batm.server.extensions.extra.ethereum.erc20.usdt.UsdtDefinition;
+import com.generalbytes.batm.server.extensions.extra.ethereum.trc20.usdt.Usdttrc20Definition;
 import com.generalbytes.batm.server.extensions.extra.ethereum.sources.stasis.StasisTickerRateSource;
 import com.generalbytes.batm.server.extensions.extra.ethereum.stream365.Stream365;
 import com.generalbytes.batm.server.extensions.extra.bitcoin.exchanges.luno.LunoExchange;
@@ -48,6 +49,7 @@ public class EthereumExtension extends AbstractExtension{
     private static final CryptoCurrencyDefinition SHIB_CRYPTOCURRENCY_DEFINITION = new ShibDefinition();
     private static final CryptoCurrencyDefinition USDC_CRYPTOCURRENCY_DEFINITION = new UsdcDefinition();
     private static final CryptoCurrencyDefinition USDT_CRYPTOCURRENCY_DEFINITION = new UsdtDefinition();
+    private static final CryptoCurrencyDefinition USDTTRC20_CRYPTOCURRENCY_DEFINITION = new Usdttrc20Definition();
     private static final CryptoCurrencyDefinition DEFINITION = new EtherDefinition();
 
     @Override
@@ -71,6 +73,7 @@ public class EthereumExtension extends AbstractExtension{
         result.add(CryptoCurrency.EURS.getCode());
         result.add(CryptoCurrency.USDC.getCode());
         result.add(CryptoCurrency.USDT.getCode());
+        result.add(CryptoCurrency.USDTTRC20.getCode());
         result.add(CryptoCurrency.SHIB.getCode());
 
         return result;
@@ -141,24 +144,50 @@ public class EthereumExtension extends AbstractExtension{
             return null;
         }
 
-        return new ICryptoAddressValidator() {
+        if (CryptoCurrency.USDTTRC20.getCode().equalsIgnoreCase(cryptoCurrency)) {
+            return new ICryptoAddressValidator() {
 
-            @Override
-            public boolean isAddressValid(String address) {
-                return EtherUtils.isEtherAddressValid(address);
-            }
+                @Override
+                public boolean isAddressValid(String address) {
+                    if ((address.length() > 30) && (47 > address.length())) {
+                        return true;
+                    } else {
+                        return false;
+                    }
+                }
 
-            @Override
-            public boolean isPaperWalletSupported() {
-                return false;
-            }
+                @Override
+                public boolean isPaperWalletSupported() {
+                    return false;
+                }
 
-            @Override
-            public boolean mustBeBase58Address() {
-                return false;
-            }
+                @Override
+                public boolean mustBeBase58Address() {
+                    return false;
+                }
 
-        };
+            };
+        } else {
+
+            return new ICryptoAddressValidator() {
+
+                @Override
+                public boolean isAddressValid(String address) {
+                    return EtherUtils.isEtherAddressValid(address);
+                }
+
+                @Override
+                public boolean isPaperWalletSupported() {
+                    return false;
+                }
+
+                @Override
+                public boolean mustBeBase58Address() {
+                    return false;
+                }
+
+            };
+        }
     }
 
 
@@ -169,6 +198,7 @@ public class EthereumExtension extends AbstractExtension{
         result.add(SHIB_CRYPTOCURRENCY_DEFINITION);
         result.add(USDC_CRYPTOCURRENCY_DEFINITION);
         result.add(USDT_CRYPTOCURRENCY_DEFINITION);
+        result.add(USDTTRC20_CRYPTOCURRENCY_DEFINITION);
         result.add(DEFINITION);
         return result;
     }

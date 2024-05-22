@@ -121,6 +121,7 @@ public class BnbPaymentSupport implements IPaymentSupport {
         IPaymentRequestListener listener = request.getListener();
         if (listener != null) {
             listener.numberOfConfirmationsChanged(request, numberOfConfirmations, IPaymentRequestListener.Direction.INCOMING);
+            listener.numberOfConfirmationsChanged(request, numberOfConfirmations, IPaymentRequestListener.Direction.OUTGOING);
         }
     }
 

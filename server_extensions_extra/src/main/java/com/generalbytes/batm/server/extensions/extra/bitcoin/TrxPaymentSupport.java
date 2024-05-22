@@ -1,4 +1,4 @@
-package com.generalbytes.batm.server.extensions.extra.ethereum.erc20.usdt;
+package com.generalbytes.batm.server.extensions.extra.bitcoin;
 
 import com.generalbytes.batm.common.currencies.CryptoCurrency;
 import com.generalbytes.batm.server.extensions.IExtensionContext;
@@ -20,8 +20,8 @@ import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
 
-public class UsdtPaymentSupport implements IPaymentSupport {
-    private static final Logger log = LoggerFactory.getLogger(UsdtPaymentSupport.class);
+public class TrxPaymentSupport implements IPaymentSupport {
+    private static final Logger log = LoggerFactory.getLogger(TrxPaymentSupport.class);
     private final Map<String, PaymentRequest> requests = new ConcurrentHashMap<>();
 
     private final ScheduledExecutorService executorService = Executors.newSingleThreadScheduledExecutor();
@@ -55,9 +55,8 @@ public class UsdtPaymentSupport implements IPaymentSupport {
 
                 if (addressBalance.receivedAmount.compareTo(BigDecimal.ZERO) > 0) {
                     log.info("Received: {}, Requested: {}, {}", addressBalance.receivedAmount, spec.getTotal(), request);
-
                     boolean matchInTolerance = false;
-                    BigDecimal tolerance = new BigDecimal("0.2");
+                    BigDecimal tolerance = new BigDecimal("1");
                     if (addressBalance.receivedAmount.compareTo(spec.getTotal()) == 0) {
                         matchInTolerance = true;
                     } else if (addressBalance.receivedAmount.compareTo(spec.getTotal()) < 0) { //customer sent less coins
@@ -120,7 +119,7 @@ public class UsdtPaymentSupport implements IPaymentSupport {
 
     @Override
     public PaymentReceipt getPaymentReceipt(String paymentAddress) {
-        PaymentReceipt result = new PaymentReceipt(CryptoCurrency.USDT.getCode(), paymentAddress);
+        PaymentReceipt result = new PaymentReceipt(CryptoCurrency.TRX.getCode(), paymentAddress);
         PaymentRequest paymentRequest = requests.get(paymentAddress);
         if (paymentRequest != null && paymentRequest.getState() == PaymentRequest.STATE_SEEN_IN_BLOCK_CHAIN) {
             result.setStatus(PaymentReceipt.STATUS_PAID);

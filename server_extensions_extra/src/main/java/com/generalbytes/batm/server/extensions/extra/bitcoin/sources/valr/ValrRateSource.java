@@ -53,6 +53,7 @@ public class ValrRateSource implements IRateSourceAdvanced {
         result.add(CryptoCurrency.BNBBSC.getCode());
         result.add(CryptoCurrency.USDC.getCode());
         result.add(CryptoCurrency.USDT.getCode());
+        result.add(CryptoCurrency.USDTTRC20.getCode());
         result.add(CryptoCurrency.TRX.getCode());
         return result;
     }
@@ -77,6 +78,9 @@ public class ValrRateSource implements IRateSourceAdvanced {
         String pair = cryptoCurrency.toUpperCase() + "ZAR";
         if (CryptoCurrency.BNBBSC.getCode().equalsIgnoreCase(cryptoCurrency)) {
             pair = "BNBZAR";
+        }
+        else if (CryptoCurrency.USDTTRC20.getCode().equalsIgnoreCase(cryptoCurrency)) {
+            pair = "USDTZAR";
         }
         if (CryptoCurrency.DASHD.getCode().equalsIgnoreCase(cryptoCurrency)) {
             final ValrTickerData btcZar = api.getTicker("BTCZAR");
@@ -111,6 +115,9 @@ public class ValrRateSource implements IRateSourceAdvanced {
         String pair = cryptoCurrency.toUpperCase() + "ZAR";
         if (CryptoCurrency.BNBBSC.getCode().equalsIgnoreCase(cryptoCurrency)) {
             pair = "BNBZAR";
+        }
+        else if (CryptoCurrency.USDTTRC20.getCode().equalsIgnoreCase(cryptoCurrency)) {
+            pair = "USDTZAR";
         }
 
         if (CryptoCurrency.DASHD.getCode().equalsIgnoreCase(cryptoCurrency)) {
@@ -152,6 +159,8 @@ public class ValrRateSource implements IRateSourceAdvanced {
             if (CryptoCurrency.USDC.getCode().equalsIgnoreCase(cryptoCurrency)) {
                 return rate.multiply(cryptoAmount).setScale(2, RoundingMode.HALF_UP);
             } else if (CryptoCurrency.USDT.getCode().equalsIgnoreCase(cryptoCurrency)) {
+                return rate.multiply(cryptoAmount).setScale(6, RoundingMode.HALF_UP);
+            } else if (CryptoCurrency.USDTTRC20.getCode().equalsIgnoreCase(cryptoCurrency)) {
                 return rate.multiply(cryptoAmount).setScale(6, RoundingMode.HALF_UP);
             } else {
                 return rate.multiply(cryptoAmount);

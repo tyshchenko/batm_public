@@ -61,6 +61,7 @@ public class BitcoinExtension extends AbstractExtension{
     private IExtensionContext ctx;
     private static final CryptoCurrencyDefinition SOL_CRYPTOCURRENCY_DEFINITION = new SolDefinition();
     private static final CryptoCurrencyDefinition BNB_CRYPTOCURRENCY_DEFINITION = new BnbDefinition();
+    private static final CryptoCurrencyDefinition TRX_CRYPTOCURRENCY_DEFINITION = new TrxDefinition();
 
     @Override
     public void init(IExtensionContext ctx) {
@@ -412,6 +413,7 @@ public class BitcoinExtension extends AbstractExtension{
         result.add(CryptoCurrency.NANO.getCode());
         result.add(CryptoCurrency.DASHD.getCode());
         result.add(CryptoCurrency.BNBBSC.getCode());
+        result.add(CryptoCurrency.TRX.getCode());
         result.add(CryptoCurrency.SOL.getCode());
         return result;
     }
@@ -431,6 +433,7 @@ public class BitcoinExtension extends AbstractExtension{
         Set<ICryptoCurrencyDefinition> result = new HashSet<>();
         result.add(SOL_CRYPTOCURRENCY_DEFINITION);
         result.add(BNB_CRYPTOCURRENCY_DEFINITION);
+        result.add(TRX_CRYPTOCURRENCY_DEFINITION);
         return result;
     }
 }

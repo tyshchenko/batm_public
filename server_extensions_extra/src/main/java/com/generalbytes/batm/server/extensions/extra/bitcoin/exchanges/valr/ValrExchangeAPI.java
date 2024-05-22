@@ -41,9 +41,17 @@ public interface ValrExchangeAPI {
     @Path("/wallet/crypto/{symbol}/deposit/address")
     ValrAddressData getAddress(@PathParam("symbol") String symbol, @HeaderParam("X-VALR-API-KEY") String apiKey, @HeaderParam("X-VALR-SIGNATURE") String signature, @HeaderParam("X-VALR-TIMESTAMP") String timestamp) throws HttpStatusIOException;
 
+    @GET
+    @Path("/wallet/crypto/{symbol}/deposit/address?networkType=TRON")
+    ValrAddressData getTronAddress(@PathParam("symbol") String symbol, @HeaderParam("X-VALR-API-KEY") String apiKey, @HeaderParam("X-VALR-SIGNATURE") String signature, @HeaderParam("X-VALR-TIMESTAMP") String timestamp) throws HttpStatusIOException;
+
     @POST
     @Path("/wallet/crypto/{symbol}/withdraw")
     ValrRequestData sendMoney(ValrSend senddata, @PathParam("symbol") String cryptoCurrency, @HeaderParam("X-VALR-API-KEY") String apiKey, @HeaderParam("X-VALR-SIGNATURE") String signature, @HeaderParam("X-VALR-TIMESTAMP") String timestamp) throws HttpStatusIOException;
+
+    @POST
+    @Path("/wallet/crypto/{symbol}/withdraw")
+    ValrRequestData sendMoneyTron(ValrSendTron senddata, @PathParam("symbol") String cryptoCurrency, @HeaderParam("X-VALR-API-KEY") String apiKey, @HeaderParam("X-VALR-SIGNATURE") String signature, @HeaderParam("X-VALR-TIMESTAMP") String timestamp) throws HttpStatusIOException;
 
     @POST
     @Path("/wallet/crypto/{symbol}/withdraw")
