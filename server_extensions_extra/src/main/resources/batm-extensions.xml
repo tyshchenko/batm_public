@@ -180,6 +180,7 @@
                 <cryptocurrency>SYS</cryptocurrency>
                 <cryptocurrency>TKN</cryptocurrency>
                 <cryptocurrency>USDT</cryptocurrency>
+                <cryptocurrency>USDTTRC20</cryptocurrency>
                 <cryptocurrency>VIA</cryptocurrency>
                 <cryptocurrency>WDC</cryptocurrency>
                 <cryptocurrency>XMR</cryptocurrency>
@@ -205,6 +206,7 @@
                 <cryptocurrency>BNBBSC</cryptocurrency>
                 <cryptocurrency>USDC</cryptocurrency>
                 <cryptocurrency>USDT</cryptocurrency>
+                <cryptocurrency>USDTTRC20</cryptocurrency>
                 <cryptocurrency>TRX</cryptocurrency>
             </ratesource>
             <ratesource prefix="bitflyer" name="BitFlyer.jp Rate Source" >
@@ -262,6 +264,7 @@
                 <cryptocurrency>BNBBSC</cryptocurrency>
                 <cryptocurrency>USDC</cryptocurrency>
                 <cryptocurrency>USDT</cryptocurrency>
+                <cryptocurrency>USDTTRC20</cryptocurrency>
                 <cryptocurrency>TRX</cryptocurrency>
             </exchange>
             <exchange prefix="bitfinex" name="Bitfinex.com Exchange">
@@ -398,6 +401,7 @@
             <cryptocurrency>TRX</cryptocurrency>
             <cryptocurrency>USDS</cryptocurrency>
             <cryptocurrency>USDT</cryptocurrency>
+            <cryptocurrency>USDTTRC20</cryptocurrency>
             <cryptocurrency>VIA</cryptocurrency>
             <cryptocurrency>VOLTZ</cryptocurrency>
             <cryptocurrency>WDC</cryptocurrency>
@@ -457,6 +461,7 @@
             <cryptocurrency>TRTL</cryptocurrency>
             <cryptocurrency>TRX</cryptocurrency>
             <cryptocurrency>USDT</cryptocurrency>
+            <cryptocurrency>USDTTRC20</cryptocurrency>
             <cryptocurrency>VIA</cryptocurrency>
             <cryptocurrency>VOLTZ</cryptocurrency>
             <cryptocurrency>WDC</cryptocurrency>
@@ -487,6 +492,7 @@
             <cryptocurrency>TRX</cryptocurrency>
             <cryptocurrency>USDS</cryptocurrency>
             <cryptocurrency>USDT</cryptocurrency>
+            <cryptocurrency>USDTTRC20</cryptocurrency>
             <cryptocurrency>VIA</cryptocurrency>
             <cryptocurrency>XMR</cryptocurrency>
             <cryptocurrency>XZC</cryptocurrency>
@@ -1538,6 +1544,7 @@
             <cryptocurrency>BNBBSC</cryptocurrency>
             <cryptocurrency>USDC</cryptocurrency>
             <cryptocurrency>USDT</cryptocurrency>
+            <cryptocurrency>USDTTRC20</cryptocurrency>
             <cryptocurrency>TRX</cryptocurrency>
         </wallet>
         <cryptologo cryptocurrency="DAI" file="dai.png"/>
@@ -1633,6 +1640,7 @@
         <cryptologo cryptocurrency="USDS" file="usds.svg"/>
         <cryptologo cryptocurrency="USDC" file="usdc.png"/>
         <cryptologo cryptocurrency="USDT" file="usdt.png"/>
+        <cryptologo cryptocurrency="USDTTRC20" file="usdt.png"/>
         <cryptologo cryptocurrency="TRX" file="trx.png"/>
 
         <cryptologo cryptocurrency="SHIB" file="shib.png"/>

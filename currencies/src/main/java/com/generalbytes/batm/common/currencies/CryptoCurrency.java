@@ -95,6 +95,7 @@ public enum CryptoCurrency {
     USDC("USD Coin ERC20"),
     USDS("StableUSD"),
     USDT("Tether"),
+    USDTTRC20("Tether TRC20"),
     VIA("Viacoin"),
     VOLTZ("VOLTZ"),
     WDC("WorldCoin"),
