@@ -20,8 +20,8 @@ import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
 
-public class UsdcPaymentSupport implements IPaymentSupport {
-    private static final Logger log = LoggerFactory.getLogger(UsdcPaymentSupport.class);
+public class Usdttrc20PaymentSupport implements IPaymentSupport {
+    private static final Logger log = LoggerFactory.getLogger(Usdttrc20PaymentSupport.class);
     private final Map<String, PaymentRequest> requests = new ConcurrentHashMap<>();
 
     private final ScheduledExecutorService executorService = Executors.newSingleThreadScheduledExecutor();
