@@ -116,7 +116,7 @@ public class ValrExchange implements IExchange {
             String timestamp = String.valueOf(System.currentTimeMillis());
             String signature = signRequest(clientSecret, timestamp, "GET", "/v1/wallet/crypto/USDT/deposit/address?networkType=TRON", "");
             try {
-                final ValrAddressData address = api.getTronAddress(cryptoCurrency, clientKey, signature, timestamp);
+                final ValrAddressData address = api.getTronAddress("USDT", clientKey, signature, timestamp);
                 return address.getAddress();
             } catch (HttpStatusIOException e) {
                 log.error("Error {} crypto {}", e.getHttpBody(), cryptoCurrency );
