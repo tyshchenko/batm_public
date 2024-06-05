@@ -7,11 +7,11 @@ import java.math.BigDecimal;
 
 public class ValrSendTron {
 
-    @JsonProperty("amount")
-    private String amount;
-
     @JsonProperty("address")
     private String address;
+
+    @JsonProperty("amount")
+    private String amount;
 
     @JsonProperty("networkType")
     private String networkType;
@@ -21,12 +21,12 @@ public class ValrSendTron {
         this.address = address;
     }
 
-    public void setNetworkType(String networkType) {
-        this.networkType = networkType;
-    }
-
     public void setAmount(String amount) {
         this.amount = amount;
+    }
+
+    public void setNetworkType(String networkType) {
+        this.networkType = networkType;
     }
 
 }

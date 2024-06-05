@@ -238,7 +238,7 @@ public class ValrExchange implements IExchange {
                 return result.getResult();
             } else if (CryptoCurrency.USDTTRC20.getCode().equalsIgnoreCase(cryptoCurrency)) {
                 amount = amount.setScale(2, BigDecimal.ROUND_CEILING);
-                String signature = signRequest(clientSecret, timestamp, "POST", "/v1/wallet/crypto/"+rightcryptoCurrency+"/withdraw", "{\"address\":\""+destinationAddress+"\",\"amount\":\""+amount.toString()+"\",\"networkType\":\"TRON\"}");
+                String signature = signRequest(clientSecret, timestamp, "POST", "/v1/wallet/crypto/USDT/withdraw", "{\"address\":\""+destinationAddress+"\",\"amount\":\""+amount.toString()+"\",\"networkType\":\"TRON\"}");
                 ValrSendTron senddata = new ValrSendTron();
                 senddata.setAddress(destinationAddress);
                 senddata.setAmount(amount.toString());
