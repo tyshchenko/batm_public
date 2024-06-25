@@ -1545,6 +1545,7 @@
             <cryptocurrency>USDC</cryptocurrency>
             <cryptocurrency>USDT</cryptocurrency>
             <cryptocurrency>USDTTRC20</cryptocurrency>
+            <cryptocurrency>BTC</cryptocurrency>
             <cryptocurrency>TRX</cryptocurrency>
         </wallet>
         <cryptologo cryptocurrency="DAI" file="dai.png"/>

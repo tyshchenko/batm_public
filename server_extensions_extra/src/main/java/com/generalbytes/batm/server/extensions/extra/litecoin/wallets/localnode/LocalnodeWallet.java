@@ -41,6 +41,7 @@ public class LocalnodeWallet implements IWallet, IGeneratesNewDepositCryptoAddre
         cryptoCurrencies.add(CryptoCurrency.USDT.getCode());
         cryptoCurrencies.add(CryptoCurrency.USDTTRC20.getCode());
         cryptoCurrencies.add(CryptoCurrency.TRX.getCode());
+        cryptoCurrencies.add(CryptoCurrency.BTC.getCode());
         return cryptoCurrencies;
     }
 
