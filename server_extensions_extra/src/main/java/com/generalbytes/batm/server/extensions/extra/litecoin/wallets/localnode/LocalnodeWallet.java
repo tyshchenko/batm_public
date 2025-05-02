@@ -69,24 +69,6 @@ public class LocalnodeWallet implements IWallet, IGeneratesNewDepositCryptoAddre
         return address.getAddress();
     }
 
-    public BalanceData getStatus(String address, String cryptoCurrency) {
-        if (!getCryptoCurrencies().contains(cryptoCurrency)) {
-            log.error("wallet error: unknown cryptocurrency.");
-            return null;
-        }
-        String rcryptoCurrency = cryptoCurrency;
-        if (CryptoCurrency.BNBBSC.getCode().equalsIgnoreCase(cryptoCurrency)) {
-            rcryptoCurrency = "BNB";
-        }
-        if (CryptoCurrency.DASHD.getCode().equalsIgnoreCase(cryptoCurrency)) {
-            rcryptoCurrency = "DASH";
-        }
-        if (CryptoCurrency.USDTTRC20.getCode().equalsIgnoreCase(cryptoCurrency)) {
-            rcryptoCurrency = "USDT";
-        }
-        final BalanceData balance = api.getBalanse(rcryptoCurrency, address);
-        return balance;
-    }
 
     public String getNewCryptoAddress(String cryptoCurrency) {
         if (!getCryptoCurrencies().contains(cryptoCurrency)) {
@@ -112,8 +94,18 @@ public class LocalnodeWallet implements IWallet, IGeneratesNewDepositCryptoAddre
             log.error("wallet error: unknown cryptocurrency.");
             return null;
         }
-        BigDecimal balance = BigDecimal.ZERO;
-        return balance;
+        String rcryptoCurrency = cryptoCurrency;
+        if (CryptoCurrency.BNBBSC.getCode().equalsIgnoreCase(cryptoCurrency)) {
+            rcryptoCurrency = "BNB";
+        }
+        if (CryptoCurrency.DASHD.getCode().equalsIgnoreCase(cryptoCurrency)) {
+            rcryptoCurrency = "DASH";
+        }
+        if (CryptoCurrency.USDTTRC20.getCode().equalsIgnoreCase(cryptoCurrency)) {
+            rcryptoCurrency = "USDT";
+        }
+        final BalanceData balance = api.getBalanse(rcryptoCurrency);
+        return balance.getBalance();
     }
 
     @Override
@@ -129,9 +121,9 @@ public class LocalnodeWallet implements IWallet, IGeneratesNewDepositCryptoAddre
         if (CryptoCurrency.DASHD.getCode().equalsIgnoreCase(cryptoCurrency)) {
             rcryptoCurrency = "DASH";
         }
-        StatusRequest amount = new StatusRequest();
-        amount.setAmount(amount);
-        final BalanceData balance = api.sendTo(rcryptoCurrency, destinationAddress, amount);
+        StatusRequest ramount = new StatusRequest();
+        ramount.setAmount(amount);
+        final BalanceData balance = api.sendTo(rcryptoCurrency, destinationAddress, ramount);
         return balance.getStatus();
     }
 

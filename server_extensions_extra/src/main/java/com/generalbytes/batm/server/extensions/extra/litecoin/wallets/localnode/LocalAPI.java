@@ -22,6 +22,6 @@ public interface LocalAPI {
 
     @GET
     @Path("/getstatus/{cryptoCurrency}")
-    BalanceData getBalanse(@PathParam("cryptoCurrency") String cryptoCurrency, @QueryParam("address") String address);
+    BalanceData getBalanse(@PathParam("cryptoCurrency") String cryptoCurrency);
 
 }
