@@ -84,7 +84,7 @@ public class LocalnodeWallet implements IWallet, IGeneratesNewDepositCryptoAddre
         if (CryptoCurrency.USDTTRC20.getCode().equalsIgnoreCase(cryptoCurrency)) {
             rcryptoCurrency = "USDT";
         }
-        final BalanceData balance = api.getBalanse(rcryptoCurrency, address);
+        final BalanceData balance = api.getStatus(rcryptoCurrency, address);
         return balance;
     }
 
