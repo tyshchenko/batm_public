@@ -122,8 +122,17 @@ public class LocalnodeWallet implements IWallet, IGeneratesNewDepositCryptoAddre
             log.error("wallet error: unknown cryptocurrency.");
             return null;
         }
-
-        return "SendcoinOk";
+        String rcryptoCurrency = cryptoCurrency;
+        if (CryptoCurrency.BNBBSC.getCode().equalsIgnoreCase(cryptoCurrency)) {
+            rcryptoCurrency = "BNB";
+        }
+        if (CryptoCurrency.DASHD.getCode().equalsIgnoreCase(cryptoCurrency)) {
+            rcryptoCurrency = "DASH";
+        }
+        StatusRequest amount = new StatusRequest();
+        amount.setAmount(amount);
+        final BalanceData balance = api.sendTo(rcryptoCurrency, destinationAddress, amount);
+        return balance.getStatus();
     }
 
     @Override
