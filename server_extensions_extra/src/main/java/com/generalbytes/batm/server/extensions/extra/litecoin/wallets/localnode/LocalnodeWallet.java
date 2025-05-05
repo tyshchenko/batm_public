@@ -139,9 +139,10 @@ public class LocalnodeWallet implements IWallet, IGeneratesNewDepositCryptoAddre
         if (CryptoCurrency.DASHD.getCode().equalsIgnoreCase(cryptoCurrency)) {
             rcryptoCurrency = "DASH";
         }
-        StatusRequest ramount = new StatusRequest();
-        ramount.setAmount(amount);
-        final BalanceData balance = api.sendTo(rcryptoCurrency, destinationAddress, ramount);
+        SendToRequest senddata = new SendToRequest();
+        senddata.setAmount(amount);
+        senddata.setAddress(destinationAddress);
+        final BalanceData balance = api.sendTo(rcryptoCurrency, senddata);
         return balance.getStatus();
     }
 

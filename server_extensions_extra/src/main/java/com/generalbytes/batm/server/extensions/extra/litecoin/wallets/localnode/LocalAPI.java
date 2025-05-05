@@ -18,7 +18,7 @@ public interface LocalAPI {
     @POST
     @Path("/sendamounttofiat/{cryptoCurrency}")
     @Consumes(MediaType.APPLICATION_JSON)
-    BalanceData sendTo(@PathParam("cryptoCurrency") String cryptoCurrency, String address, StatusRequest amount);
+    BalanceData sendTo(@PathParam("cryptoCurrency") String cryptoCurrency, SendToRequest senddata);
 
     @GET
     @Path("/getstatus/{cryptoCurrency}")
